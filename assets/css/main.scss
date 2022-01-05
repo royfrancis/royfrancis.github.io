@@ -21,10 +21,15 @@ $type-size-6 : 0.833rem;
 $type-size-7 : 0.694rem;
 $type-size-8 : 0.579rem;
 
+$font-color: #3d4144;
 $link-color: #4b6584;
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
+
+body, p {
+    color: $font-color;
+}
 
 .masthead__menu-item {
     font-size: 0.75rem;
@@ -362,7 +367,7 @@ pre {
 
 .toc .active a {
     background-color: #F8F8F8;
-    color: #3d4144;
+    color: $font-color;
     border-left: 3px solid lightgray;
     font-weight: bold;
 }
