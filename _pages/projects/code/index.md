@@ -73,7 +73,7 @@ cardify:
    tags:
     - R
     - Shiny
- - title: shinyapp_calendar_plot
+ - title: shiny-planner
    description: An R Shiny App to create a calendar.
    url: https://github.com/royfrancis/shiny-planner
    img:
