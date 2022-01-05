@@ -24,27 +24,29 @@
 
 <div class="{{ include.type | default: 'list' }}__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    <div class="feed-item">
     {% if include.type == "grid" and teaser %}
       <div class="archive__item-teaser">
         <img src="{{ teaser | relative_url }}" alt="">
       </div>
     {% endif %}
     
-    <div class="archive-featured-small">
-      <img src={{ featured_url }} alt="featured-image-small" class="archive-featured-image feed-image">
-     </div>
+      <div class="archive-featured-small feed-image">
+        <img src={{ featured_url }} alt="featured-image-small" class="archive-featured-image">
+      </div>
 
-     <div class="archive-text">
-       {% include archive-meta.html %}
-    <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
-      {% if post.link %}
-        <a href="{{ post.link }}">{{ title }}</a> <a href="{{ post.url | relative_url }}" rel="permalink"><i class="fas fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
-      {% else %}
-        <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
-      {% endif %}
-    </h2>
-    {% include page__meta.html type=include.type %}
-    {% if post.excerpt %}<p class="archive__item-excerpt feed-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
-  </div>
+      <div class="archive-text">
+        {% include archive-meta.html %}
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        {% if post.link %}
+          <a href="{{ post.link }}">{{ title }}</a> <a href="{{ post.url | relative_url }}" rel="permalink"><i class="fas fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
+        {% else %}
+          <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
+        {% endif %}
+        </h2>
+        {% include page__meta.html type=include.type %}
+        {% if post.excerpt %}<p class="archive__item-excerpt feed-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
+      </div>
+    </div>
   </article>
 </div>
