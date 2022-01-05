@@ -1,0 +1,8 @@
+{% comment %}
+    Adds favicon to a page.
+    Takes site.favicon and renders link tag for each item in it.
+{% endcomment %}
+
+{% for favicon in site.favicon %}
+    <link rel="{{ favicon.rel }}" {% if favicon.type %} type="{{ favicon.type }}" {% endif %} {% if favicon.size %} sizes="{{ favicon.size }}" {% endif %} {% if favicon.color %} color="{{ favicon.color }}" {% endif %} href="{{ favicon.href | relative_url }}">
+{% endfor %}

@@ -1,0 +1,33 @@
+---
+date: 2021-12-26 12:57:09
+title: test
+slug: test
+excerpt: Liquid cheatsheet and demo
+category:
+ - Code
+ - Craft
+ - Design
+ - General
+ - Photography
+ - Research
+ - Travel
+ - Web
+tags:
+ - Jekyll
+ - Blogging
+ - R
+toc: true
+toc_sticky: true
+images: "/assets/images/posts/2021/2021-12-26-test/"
+---
+
+```{r,include=FALSE}
+library(knitr)
+knitr::opts_knit$set(base.dir="~/github/test-mm/assets/images/posts/2021/2021-12-26-test")
+#knitr::opts_chunk$set(fig.path="~/github/test-mm/assets/images/posts/2021/2021-12-26-test/figure/")
+```
+  
+```{r}
+plot(iris$Sepal.Length,iris$Petal.Length)
+```
+

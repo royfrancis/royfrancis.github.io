@@ -1,0 +1,17 @@
+
+{% if post.images %}
+  {% assign base-image-path = post.images %}
+{% else %}
+  {% assign base-image-path = "" %}
+{% endif %}
+
+{% if post.featured %}
+  {% assign featured_url = base-image-path | append: post.featured | relative_url %}
+{% else %}
+  {% assign featured_url = site.featured | relative_url %}
+{% endif %}
+
+<div class="recent-featured">
+ <img src={{ featured_url }} alt="featured-image" class="recent-featured-image">
+</div>
+

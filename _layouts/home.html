@@ -1,0 +1,25 @@
+---
+layout: archive
+classes: wide
+---
+
+{{ content }}
+
+{% if paginator %}
+  {% assign posts = paginator.posts %}
+{% else %}
+  {% assign posts = site.posts %}
+{% endif %}
+
+{% assign entries_layout = page.entries_layout | default: 'list' %}
+<div class="home-{{ entries_layout }}">
+  {% for post in posts limit:5 %}
+  <div class="recent-card">
+    {% include recent-meta.html %}
+    {% include recent-featured.html %}
+    {% include recent-single.html type = entries_layout %}
+  </div>
+  {% endfor %}
+</div>
+
+{% include paginator.html %}

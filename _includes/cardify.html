@@ -1,0 +1,42 @@
+
+{% comment %}
+{% include cardify.html %}
+{% endcomment %}
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+{% assign max = 200000 %}
+{% assign min = 10 %}
+{% assign diff = max | minus: min %}
+{% assign random = "now" | date: "%N" | modulo: diff | plus: min %}
+{% assign dt = site.time | date: "%Y%m%d%H%M%S%N" %}
+{% assign random_id = dt | append: random %}
+
+<div class="cardify">
+{% if page.cardify %}
+  {% for card in page.cardify %}
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="{{ card.url }}">
+            <h2>{{ card.title }}</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            {{ card.description }}
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].tags_label | default: "" }} </strong>
+            <span itemprop="keywords">
+            {% for tag_word in card.tags %}
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">{{ tag_word }}</span>
+            {% endfor %}
+            </span>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}
+</div>
+

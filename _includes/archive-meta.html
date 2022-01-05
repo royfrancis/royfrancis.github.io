@@ -1,0 +1,46 @@
+<div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    {% assign date_format = site.date_format | default: "%d %b %Y" %}
+    {% if post.last_modified_at %}
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].date_label | default: "" }}</strong> <time class="dt-published" datetime="{{ post.last_modified_at | date: "%Y-%m-%d" }}">{{ post.last_modified_at | date: date_format }}</time></span>
+    {% elsif post.date %}
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].date_label | default: "" }}</strong> <time class="dt-published" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: date_format }}</time></span>
+    {% endif %}
+
+    <!-- separator-->
+    {% if post.date and site.category_archive.type and post.categories[0] %}
+    <span class="separator">
+      {{ site.title_separator }}
+    </span>
+    {% endif %}
+
+    <!-- categories -->
+      {% if site.category_archive.type and post.categories[0] %}
+      
+      {% case site.category_archive.type %}
+      {% when "liquid" %}
+        {% assign path_type = "#" %}
+      {% when "jekyll-archives" %}
+        {% assign path_type = nil %}
+    {% endcase %}
+    
+    {% if site.category_archive.path %}
+      {% assign categories_sorted = post.categories | sort_natural %}
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].categories_label | default: "" }} </strong>
+        <span itemprop="keywords" class="category-keywords">
+        {% for category_word in categories_sorted %}
+          <a href="{{ category_word | slugify | prepend: path_type | prepend: site.category_archive.path | relative_url }}" class="page__taxonomy-item p-category taxonomy-category" rel="tag">{{ category_word }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
+        {% endfor %}
+        </span>
+      </span>
+    {% endif %}
+
+
+      {% endif %}
+      
+  </div>
+</div>

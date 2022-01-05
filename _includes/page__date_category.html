@@ -1,0 +1,9 @@
+<div class="meta-content-sub">
+  {% include page__date.html %}
+  {% if page.date and site.category_archive.type and page.categories[0] %}
+  <span class="separator">
+    {{ site.title_separator }}
+  </span>
+  {% endif %}
+  {% include page__category.html %}
+</div>

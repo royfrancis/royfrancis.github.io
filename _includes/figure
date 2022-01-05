@@ -1,0 +1,31 @@
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+{% assign max = 200000 %}
+{% assign min = 10 %}
+{% assign diff = max | minus: min %}
+{% assign random = "now" | date: "%N" | modulo: diff | plus: min %}
+{% assign dt = site.time | date: "%Y%m%d%H%M%S%N" %}
+{% assign lightbox_id = dt | append: random %}
+
+{% assign img = page.images | append: include.image_path | relative_url %}
+
+<figure class="fig" id="slb-{{ lightbox_id }}">
+
+  {%- if include.caption -%}
+    <a href="{{ img }}" title="{{ include.caption }}">
+      <img src="{{ img }}" alt="{% if include.alt %}{{ include.alt }}{% endif %}">
+
+      <figcaption>
+      {{ include.caption | markdownify | remove: "<p>" | remove: "</p>" }}
+      </figcaption>
+
+  {% else %}
+    <a href="{{ img }}">
+      <img src="{{ img }}" alt="{% if include.alt %}{{ include.alt }}{% endif %}">
+  {% endif %}
+  </a>
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-{{ lightbox_id }} a'});
+</script>
