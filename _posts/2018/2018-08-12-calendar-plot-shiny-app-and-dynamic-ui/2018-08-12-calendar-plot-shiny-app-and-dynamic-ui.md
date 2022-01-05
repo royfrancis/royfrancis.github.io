@@ -87,4 +87,4 @@ for(i in 1:num_tracks)
 }
 ```
 
-I have only focused on the exciting bit of code that is new to me. The full code is available at this [GitHub repo](https://github.com/royfrancis/shinyapp_calendar_plot). A demo of this app is available at this [shinyapps.io link](https://roymf.shinyapps.io/calendar_planner/). This link may not always be active.
+I have only focused on the exciting bit of code that is new to me. The full code is available at this [GitHub repo](https://github.com/royfrancis/shiny-planner). A demo of this app is available at this [shinyapps.io link](https://roymf.shinyapps.io/calendar_planner/). This link may not always be active.
