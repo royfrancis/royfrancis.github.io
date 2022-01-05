@@ -22,9 +22,8 @@
   {% assign title = post.title %}
 {% endif %}
 
-<div class="{{ include.type | default: 'list' }}__item">
+<div class="{{ include.type | default: 'list' }}__item feed-item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    <div class="feed-item">
     {% if include.type == "grid" and teaser %}
       <div class="archive__item-teaser">
         <img src="{{ teaser | relative_url }}" alt="">
@@ -47,6 +46,5 @@
         {% include page__meta.html type=include.type %}
         {% if post.excerpt %}<p class="archive__item-excerpt feed-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
       </div>
-    </div>
   </article>
 </div>
