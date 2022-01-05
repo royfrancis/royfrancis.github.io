@@ -482,8 +482,9 @@ pre.highlight > button:focus {
 }
    
 .cardify-child {
- flex-grow: 0;
+ flex-grow: 1;
  flex-shrink: 1;
+ flex-basis: 300px;
  height: auto;
  width: auto;
  padding: 0em 1em 1em 1em;
@@ -492,7 +493,7 @@ pre.highlight > button:focus {
 }
 
 .cardify-description {
- width: 40ch;
+ /* width: 40ch; */
 }
 
 .cardify h2 {
