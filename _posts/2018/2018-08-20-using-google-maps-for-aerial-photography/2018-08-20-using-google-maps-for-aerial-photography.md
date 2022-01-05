@@ -3,7 +3,6 @@ date: 2018-08-20 19:40:09
 title: Using google maps for aerial photography
 slug: using-google-maps-for-aerial-photography
 excerpt: Using google maps 3D for drone photography composition. Google maps 3D can be a useful tool to help you find the right composition in advance when planning a drone shoot.
-featured: featured.jpg
 category:
 - Photography
 - Travel
@@ -12,7 +11,8 @@ tags:
 - Uppsala
 - Sweden
 classes: wide
-images: assets/images/posts/2018/2018-08-20-using-google-maps-for-aerial-photography/
+image: "assets/images/posts/2018/2018-08-20-using-google-maps-for-aerial-photography/featured.jpg"
+images: "assets/images/posts/2018/2018-08-20-using-google-maps-for-aerial-photography/"
 ---
 
 If you are into aerial photography, especially using a drone, then you know that it's not easy to imagine how the world looks like from above. Composition from the air adds an extra dimension to usual level of photo composition difficulty. The most obvious choice would be to find a high point (hill, building etc) to get a sense of the landscape. When that is not good enough, we have Google Earth. Now for those of you who were paying attention to google maps, you might have noticed that google maps is now available in 3D. At least in [some](https://medium.com/google-earth/see-a-map-of-3d-coverage-in-google-earth-bb9f22e204c4) areas and major cities. For those areas, that are available, the level of detail is stunning. The views are far superior than the blocky 3D seen previously in Google Earth. I mean, just look at this:

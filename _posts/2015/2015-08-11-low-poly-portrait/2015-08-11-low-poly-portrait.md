@@ -3,13 +3,13 @@ date: 2015-08-11 20:05:52
 title: Low-Polygon Portrait
 slug: low-poly-portrait
 excerpt: A short guide to creating a low-polygon portrait using Adobe Illustrator and Adobe Photoshop.
-featured: featured.png
 categories:
 - Design
 tags:
 - Adobe Illustrator
 - Adobe Photoshop
 - Portrait Design
+image: "/assets/images/posts/2015/2015-08-11-low-poly-portrait/featured.png"
 images: "/assets/images/posts/2015/2015-08-11-low-poly-portrait/"
 ---
 

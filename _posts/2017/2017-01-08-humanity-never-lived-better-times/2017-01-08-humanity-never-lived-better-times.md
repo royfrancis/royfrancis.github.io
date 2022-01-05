@@ -3,7 +3,6 @@ date: 2017-01-08 12:56:15
 title: Humanity has never lived in better times
 slug: humanity-never-lived-better-times
 excerpt: It is easy to be disillusioned and pessimistic about the world we live in. Bad news seems to be followed by worse news. But humanity has come a long way from the disease-ridden, impoverished, war-torn lives of our fore-fathers. Here we look at a few data-driven graphs to convince ourselves of the progress we have made over time in various aspects of life. Slow progress never makes headlines.
-featured: featured.png
 category:
 - Code
 - Research
@@ -12,7 +11,8 @@ tags:
 - Data Visualisation
 - R
 classes: wide
-images: assets/images/posts/2017/2017-01-08-humanity-never-lived-better-times/
+image: "assets/images/posts/2017/2017-01-08-humanity-never-lived-better-times/featured.png"
+images: "assets/images/posts/2017/2017-01-08-humanity-never-lived-better-times/"
 ---
 
 It may seem like the world is descending into total chaos, violence, and destruction. War in Syria, Ukraine, Yemen, Islamic state, migrant crisis, Ebola, plane crashes, earthquakes, tsunamis and what-not. The more news you watch, the more worried you will be. This is because the news outlets tend to focus on spectacularly negative instances. Violence, atrocities, and hatred are thrown into the spotlight and into the lives of common people. With the ever increasing digital connectivity, it is easy to disseminate information and to absorb information at an unprecedented level. Relatively smaller incidents have a larger voice. As said by Ray Kurzwil, "The world isn't getting worse, our information is getting better". To appreciate the world we live in, we have to put things into a wider context.

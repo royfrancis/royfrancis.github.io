@@ -3,7 +3,6 @@ date: 2015-08-10 11:14:07
 title: Exploring South Sweden
 slug: exploring-south-sweden
 excerpt: A short road trip from Copenhagen, Denmark to Uppsala, Sweden travelling through several locations in Southern Sweden.
-featured: featured.jpg
 categories:
 - Photography
 - Travel
@@ -15,6 +14,7 @@ tags:
 - Road Trip
 - Sweden
 - Wildlife
+image: "/assets/images/posts/2015/2015-08-10-exploring-south-sweden/featured.jpg"
 images: "/assets/images/posts/2015/2015-08-10-exploring-south-sweden/"
 ---
 

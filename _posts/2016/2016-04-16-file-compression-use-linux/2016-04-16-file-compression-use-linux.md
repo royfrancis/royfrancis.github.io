@@ -3,7 +3,6 @@ date: 2016-04-16 18:24:42
 title: Which file compression to use on Linux?
 slug: file-compression-use-linux
 excerpt: This is a quick comparison of some of the data compression and decompression formats on Linux. The idea is to compare compression/decompression time and compression size difference using seven compression formats on five different file types.
-featured: featured.jpg
 category:
 - Research
 tags:
@@ -11,7 +10,8 @@ tags:
 - Image Analysis
 - NGS
 classes: wide
-images: assets/images/posts/2016/2016-04-16-file-compression-use-linux/
+image: "assets/images/posts/2016/2016-04-16-file-compression-use-linux/featured.jpg"
+images: "assets/images/posts/2016/2016-04-16-file-compression-use-linux/"
 ---
 
 Seven different compression formats (7z, bzip2, gzip, lrzip, lz4, xz and zip) are tested using ten different compression commands (7za, bzip2, lbzip2, lrzip, lz4, pbzip2, gzip, pigz, xz and zip) on five different file types (fastq, mp3 tar archive, mp4 movie file, random text file and a tiff stack) for compression ratio and time. bzip2 compression using the command lbzip2 and pbzip2 comes out as the winner due to high compression ratio, speed and multi-threading capabilities.

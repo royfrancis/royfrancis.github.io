@@ -3,7 +3,6 @@ date: 2016-10-13 20:51:54
 title: Autumn in Fulufjället
 slug: autumn-in-fulufjallet
 excerpt: Autumn pictures from Fulufjällets national park.
-featured: featured.jpg
 category:
 - Photography
 - Travel
@@ -15,7 +14,8 @@ tags:
 - Road Trip
 - Sweden
 classes: wide
-images: assets/images/posts/2016/2016-10-13-autumn-in-fulufjallet/
+image: "assets/images/posts/2016/2016-10-13-autumn-in-fulufjallet/featured.jpg"
+images: "assets/images/posts/2016/2016-10-13-autumn-in-fulufjallet/"
 ---
 
 {% include pixture.html folder="gallery" dim=150 %}

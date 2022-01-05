@@ -3,7 +3,6 @@ date: 2019-09-17
 title: Scatterplot annotation
 slug: scatterplot-annotation
 excerpt: Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
-featured: featured.png
 category:
 - Code
 - Research
@@ -14,7 +13,8 @@ tags:
 - Scientific Graphs
 toc: true
 classes: wide
-images: assets/images/posts/2019/2019-09-17-scatterplot-annotation/
+image: "assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.png"
+images: "assets/images/posts/2019/2019-09-17-scatterplot-annotation/"
 ---
 
 In this post, we are exploring ideas to mark clusters of points on a scatterplot for labelling purposes. Or in other words, how to draw polygons around scatterplots. We use ggplot2 for plotting and few different functions to generate the markings. The required packages are shown below. A custom ggplot2 theme is used to simplify the plot.

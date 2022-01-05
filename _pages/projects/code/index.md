@@ -3,9 +3,9 @@ title: Code
 slug: code
 excerpt: R applications and code snippets useful in my research and possibly for other users as well.
 permalink: /projects/code/
-featured: featured.jpg
 classes: wide
-images: /assets/images/projects/code/
+image: "/assets/images/projects/code/featured.jpg"
+images: "/assets/images/projects/code/"
 cardify:
  - title: pophelper
    description: An R package to analyse and visualise admixture proportions from STRUCTURE, fastSTRUCTURE, TESS, ADMIXTURE etc. 

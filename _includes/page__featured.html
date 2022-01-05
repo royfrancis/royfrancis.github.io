@@ -1,14 +1,8 @@
 
-{% if page.images %}
-  {% assign base-image-path = page.images %}
+{% if page.image %}
+  {% assign featured_url = page.image | relative_url %}
 {% else %}
-  {% assign base-image-path = "" %}
-{% endif %}
-
-{% if page.featured %}
-  {% assign featured_url = base-image-path | append: page.featured | relative_url %}
-{% else %}
-  {% assign featured_url = site.featured | relative_url %}
+  {% assign featured_url = site.image | relative_url %}
 {% endif %}
 
 <div class="featured">

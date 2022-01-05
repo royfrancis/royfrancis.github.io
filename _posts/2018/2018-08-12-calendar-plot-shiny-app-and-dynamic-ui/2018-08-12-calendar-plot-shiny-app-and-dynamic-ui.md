@@ -3,7 +3,6 @@ date: 2018-08-12 20:10:52
 title: Calendar plot shiny app and dynamic UI
 slug: calendar-plot-shiny-app-and-dynamic-ui
 excerpt: Create an interactive calendar plot in R using Shiny.
-featured: featured.png
 category:
 - Code
 tags:
@@ -13,7 +12,8 @@ tags:
 - R
 - Shiny App
 classes: wide
-images: assets/images/posts/2018/2018-08-12-calendar-plot-shiny-app-and-dynamic-ui/
+image: "assets/images/posts/2018/2018-08-12-calendar-plot-shiny-app-and-dynamic-ui/featured.png"
+images: "assets/images/posts/2018/2018-08-12-calendar-plot-shiny-app-and-dynamic-ui/"
 ---
 
 In my [previous post](http://www.roymfrancis.com/calendar-plot-with-ggplot2/), I created a calendar planner plot using ggplot2. I wanted to take it further and create a shiny app for it. This was more of a shiny learning exercise rather than a purpose-driven app. Specifically, creating dynamic user inputs and retrieving data from these inputs.

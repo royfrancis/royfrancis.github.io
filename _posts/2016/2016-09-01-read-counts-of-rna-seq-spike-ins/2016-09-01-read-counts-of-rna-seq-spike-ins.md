@@ -3,7 +3,6 @@ date: 2016-09-01 19:04:50
 title: Read counts of RNA-Seq Spike-ins using STAR and QoRTs
 slug: read-counts-of-rna-seq-spike-ins
 excerpt: A short tutorial on quantifying spike-ins used in an RNA-Seq experiment.
-featured: featured.png
 category:
 - Code
 - Research
@@ -12,7 +11,8 @@ tags:
 - RNA-Seq
 toc: true
 toc_sticky: true
-images: assets/images/posts/2016/2016-09-01-read-counts-of-rna-seq-spike-ins/
+image: "assets/images/posts/2016/2016-09-01-read-counts-of-rna-seq-spike-ins/featured.png"
+images: "assets/images/posts/2016/2016-09-01-read-counts-of-rna-seq-spike-ins/"
 ---
 
 In RNA-Seq analyses, adding pre-determined quantity of synthetic RNA sequences (spike-ins) to samples is a popular way to verify the experimental pipeline, determine quantification accuracy and for normalisation of differential expression. The most commonly used spike-ins are the ERCC spike-ins.

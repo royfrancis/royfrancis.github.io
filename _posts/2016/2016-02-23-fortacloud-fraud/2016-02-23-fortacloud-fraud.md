@@ -3,14 +3,14 @@ date: 2016-02-23 09:35:04
 title: The FortaCloud fraud
 slug: fortacloud-fraud
 excerpt: My horrible experience with cloud computing service fortacloud.co and why you should stay clear of this service too.
-featured: featured.jpg
 category:
 - Web
 tags:
 - Cloud Computing
 - Web Hosting
 classes: wide
-images: assets/images/posts/2016/2016-02-23-fortacloud-fraud/
+image: "assets/images/posts/2016/2016-02-23-fortacloud-fraud/featured.jpg"
+images: "assets/images/posts/2016/2016-02-23-fortacloud-fraud/"
 ---
 
 Cloud computing is fun, flexible and relatively cheap. If you are a hobbyist like me, who likes to fiddle around with web apps, experiment with web hosting and such, standard established cloud services like Amazon AWS, Linode, Digital Ocean etc might a bit too pricey. So, in the search for cheaper alternatives, one comes across options such as [Vultr](https://www.vultr.com/), [CloudSigma](https://www.cloudsigma.com/) or [FortaCloud](http://fortacloud.co/). It is a gamble when one has to authenticate using credit cards and sometimes it can go wrong.

@@ -3,7 +3,6 @@ date: 2016-01-02 23:23:32
 title: A Trip to Swedish Lapland
 slug: swedish-lapland-trip
 excerpt: A week long winter roadtrip from Uppsala, Sweden to Narvik, Norway through the pristine taiga landscapes of Swedish Lapland in search of snow, auroras and wildlife.
-featured: featured.jpg
 categories:
 - Photography
 - Travel
@@ -16,7 +15,8 @@ tags:
 - Wildlife
 classes: wide
 toc: true
-images: assets/images/posts/2016/2016-01-02-swedish-lapland-trip/
+image: "assets/images/posts/2016/2016-01-02-swedish-lapland-trip/featured.jpg"
+images: "assets/images/posts/2016/2016-01-02-swedish-lapland-trip/"
 ---
 
 {% include pixture.html folder="gallery" %}

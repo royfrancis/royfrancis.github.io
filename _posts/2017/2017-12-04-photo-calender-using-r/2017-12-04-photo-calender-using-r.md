@@ -3,7 +3,6 @@ date: 2017-12-04 01:25:14
 title: Photo calender using R
 slug: photo-calender-using-r
 excerpt: Create an elegant photo calendar completely using R.
-featured: featured.jpg
 category:
 - Code
 - Craft
@@ -15,7 +14,8 @@ tags:
 - Design
 - R
 classes: wide
-images: assets/images/posts/2017/2017-12-04-photo-calender-using-r/
+image: "assets/images/posts/2017/2017-12-04-photo-calender-using-r/featured.jpg"
+images: "assets/images/posts/2017/2017-12-04-photo-calender-using-r/"
 ---
 
 I had this idea of using some of my travel photos to create a photo calendar. I would normally go about it using Adobe Photoshop or Adobe Illustrator. But, that would involve a lot of manual work placing dates and days for each month. I would also like to mark some public holidays and friend's birthdays. So, I wondered if it might be possible to do it with R. After fiddling about with it over the weekend, I managed to make it work. It went better than I expected. And here I am recreating the calendar using some stock photos. All stock photos are royalty-free from [Pexels](https://www.pexels.com/royalty-free-images/). For the impatient ones, the whole code and images are available at [this Github](https://github.com/royfrancis/r-calendar) repository. For detailed guide, keep reading.

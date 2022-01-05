@@ -3,7 +3,6 @@ date: 2015-09-02 17:54:25
 title: Hamra National Park
 slug: hamra-national-park
 excerpt: A short trip to Hamra national park in central Sweden.
-featured: featured.jpg
 categories:
 - Photography
 - Travel
@@ -15,6 +14,7 @@ tags:
 - Road Trip
 - Sweden
 - Wildlife
+image: "assets/images/posts/2015/2015-09-02-hamra-national-park/featured.jpg"
 images: "assets/images/posts/2015/2015-09-02-hamra-national-park/"
 ---
 

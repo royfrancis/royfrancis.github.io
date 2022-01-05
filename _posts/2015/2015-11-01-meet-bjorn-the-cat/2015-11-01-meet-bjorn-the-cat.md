@@ -3,13 +3,13 @@ date: 2015-11-01 22:13:23
 title: Meet Björn
 slug: meet-bjorn-the-cat
 excerpt: Photographs of a friend's cat named Björn. Björn is a fluffy Norwegian forest cat.
-featured: featured.jpg
 category:
 - Photography
 tags:
 - Cat
 - Forest
 classes: wide
+image: "/assets/images/posts/2015/2015-11-01-meet-bjorn-the-cat/featured.jpg"
 images: "/assets/images/posts/2015/2015-11-01-meet-bjorn-the-cat/"
 ---
 

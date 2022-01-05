@@ -3,7 +3,6 @@ date: 2015-11-01 12:15:20
 title: A guide to elegant tiled heatmaps in R
 slug: a-guide-to-elegant-tiled-heatmaps-in-r
 excerpt: A step-by-step guide to data preparation and plotting of simple, neat and elegant heatmaps in R using base graphics and ggplot2.
-featured: featured.png
 categories:
 - Code
 - Research
@@ -14,6 +13,7 @@ tags:
 - Scientific Graphs
 classes: wide
 toc: true
+image: "/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/featured.png"
 images: "/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/"
 ---
 

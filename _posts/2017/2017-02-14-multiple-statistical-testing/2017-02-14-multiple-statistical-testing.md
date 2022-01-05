@@ -3,7 +3,6 @@ date: 2017-02-14 19:49:30
 title: Multiple Statistical Testing
 slug: multiple-statistical-testing
 excerpt: In the advent of big data such as genomics, running numerous statistical tests is unavoidable. But long comes strange statistical problems. This post investigates issues with multiple statistical testing and its solutions along with simulated data.
-featured: featured.jpg
 category:
 - Code
 - Research
@@ -12,7 +11,8 @@ tags:
 - Statistics
 toc: true
 classes: wide
-images: assets/images/posts/2017/2017-02-14-multiple-statistical-testing/
+image: "assets/images/posts/2017/2017-02-14-multiple-statistical-testing/featured.jpg"
+images: "assets/images/posts/2017/2017-02-14-multiple-statistical-testing/"
 ---
 
 In a standard statistical test, one assumes a null hypothesis, performs a statistical test and computes a p-value. The estimated p-value is compared to a predetermined threshold (usually 0.05). If the estimated p-value is greater than 0.05 (say 0.2), it means that there is a 20% chance of obtaining the current result if the null hypothesis is true. Since we decided our threshold as 5%, the 20% is too high to reject the null hypothesis and we accept the null hypothesis. Now, if the estimated p-value was less than 0.05 (say 0.02), there is a 2% probability of obtaining the observed result if the null hypothesis is true. Since 2% is a very low probability and it is below our threshold of 5%, we reject the null hypothesis and accept an alternative hypothesis.

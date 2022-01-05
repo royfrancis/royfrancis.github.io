@@ -2,9 +2,9 @@
 title: Projects
 slug: projects
 excerpt: Projects and tinkerings.
-featured: featured.jpg
 permalink: /projects/
-images: /assets/images/projects/
+image: "/assets/images/projects/featured.jpg"
+images: "/assets/images/projects/"
 sitemap: false
 ---
 

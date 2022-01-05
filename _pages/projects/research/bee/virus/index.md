@@ -4,8 +4,8 @@ title: Honey Bees and Viruses
 slug: virus
 excerpt: Diagnosis, quantification and estimation of honey bee viruses in worker bees and queen bees using improved methodology.
 permalink: /projects/research/bee/virus/
-featured: featured.jpg
-images: /assets/images/projects/research/bee/virus/
+image: "/assets/images/projects/research/bee/virus/featured.jpg"
+images: "/assets/images/projects/research/bee/virus/"
 published: false
 ---
 

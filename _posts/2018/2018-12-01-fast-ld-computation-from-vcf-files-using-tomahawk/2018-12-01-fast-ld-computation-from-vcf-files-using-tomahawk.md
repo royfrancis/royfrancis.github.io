@@ -3,7 +3,6 @@ date: 2018-12-01 12:45:07
 title: Fast LD computation from VCF files using Tomahawk
 slug: fast-ld-computation-from-vcf-files-using-tomahawk
 excerpt: Fast LD computation from a VCF file using **vcftools**, **bcftools** and **tomahawk**. This avoids the use of PLINK or conversion to PLINK formats.
-featured: featured.png
 category:
 - Code
 - Research
@@ -17,7 +16,8 @@ tags:
 - SNP
 toc: true
 classes: wide
-images: assets/images/posts/2018/2018-12-01-fast-ld-computation-from-vcf-files-using-tomahawk/
+image: "assets/images/posts/2018/2018-12-01-fast-ld-computation-from-vcf-files-using-tomahawk/featured.png"
+images: "assets/images/posts/2018/2018-12-01-fast-ld-computation-from-vcf-files-using-tomahawk/"
 ---
 
 Install **tomahawk** from [here](https://github.com/mklarqvist/tomahawk). Following commands are run on the Linux command-line.

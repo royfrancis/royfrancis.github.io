@@ -3,13 +3,13 @@ date: 2016-03-28 13:07:58
 title: Curious about a Bee Swarm
 slug: curious-about-a-bee-swarm
 excerpt: A little video about a honey bee swarm in the apple trees.
-featured: featured.jpg
 category:
 - Photography
 tags:
 - Bee
 classes: wide
-images: assets/images/posts/2016/2016-03-28-curious-about-a-bee-swarm/
+image: "assets/images/posts/2016/2016-03-28-curious-about-a-bee-swarm/featured.jpg"
+images: "assets/images/posts/2016/2016-03-28-curious-about-a-bee-swarm/"
 ---
 
 {% include pixture.html folder="gallery" dim=300 %}

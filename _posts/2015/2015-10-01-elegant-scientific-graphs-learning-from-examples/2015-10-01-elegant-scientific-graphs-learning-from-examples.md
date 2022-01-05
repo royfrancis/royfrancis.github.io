@@ -3,7 +3,6 @@ date: 2015-10-01 20:31:49
 title: "Elegant scientific graphs: Learning from examples"
 slug: elegant-scientific-graphs-learning-from-examples
 excerpt: Scientific graphics are key to understanding complex data. In addition to graphing data, it is important that the graphics are clean, elegant and visually stunning. This post explores examples of attractive graphs from popular magazines and news websites.
-featured: featured.jpg
 categories:
 - Design
 - Research
@@ -13,6 +12,7 @@ tags:
 - Scientific Graphs
 toc: true
 toc_sticky: true
+image: "/assets/images/posts/2015/2015-10-01-elegant-scientific-graphs-learning-from-examples/featured.jpg"
 images: "/assets/images/posts/2015/2015-10-01-elegant-scientific-graphs-learning-from-examples/"
 ---
 

@@ -1,14 +1,8 @@
 
-{% if post.images %}
-  {% assign base-image-path = post.images %}
+{% if post.image %}
+  {% assign featured_url = post.image | relative_url %}
 {% else %}
-  {% assign base-image-path = "" %}
-{% endif %}
-
-{% if post.featured %}
-  {% assign featured_url = base-image-path | append: post.featured | relative_url %}
-{% else %}
-  {% assign featured_url = site.featured | relative_url %}
+  {% assign featured_url = site.image | relative_url %}
 {% endif %}
 
 <div class="recent-featured">

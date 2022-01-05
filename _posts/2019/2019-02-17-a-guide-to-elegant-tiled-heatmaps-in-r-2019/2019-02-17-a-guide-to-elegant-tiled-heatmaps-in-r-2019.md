@@ -3,7 +3,6 @@ date: 2019-02-17 22:07:48
 title: A guide to elegant tiled heatmaps in R [2019]
 slug: a-guide-to-elegant-tiled-heatmaps-in-r-2019
 excerpt: A step-by-step guide to data preparation and plotting of simple, neat and elegant heatmaps in R using base graphics and ggplot2.
-featured: featured.png
 category:
 - Code
 - Research
@@ -18,7 +17,8 @@ toc_sticky: true
 toc_label: ""
 toc_icon: ""
 classes: wide
-images: assets/images/posts/2019/2019-02-17-a-guide-to-elegant-tiled-heatmaps-in-r-2019/
+image: "assets/images/posts/2019/2019-02-17-a-guide-to-elegant-tiled-heatmaps-in-r-2019/featured.png"
+images: "assets/images/posts/2019/2019-02-17-a-guide-to-elegant-tiled-heatmaps-in-r-2019/"
 ---
 
 **This is an update to an older [post from 2015]({{ site.baseurl | append: "/a-guide-to-elegant-tiled-heatmaps-in-r" }}) on the same topic. This covers the exact same thing but using the latest R packages and coding style using the pipes (`%>%` ) and tidyverse packages.**

@@ -20,6 +20,7 @@ title                    : "rmf"
 title_separator          : "•"
 subtitle                 : "Code, Photography, Design"
 name                     : "Roy Francis"
+author                   : "Roy Francis"
 description              : "Code, Photography, Design"
 url                      : "https://royfrancis.com" # http://127.0.0.1:4000
 baseurl                  : #"/royfrancis.github.io"
@@ -27,7 +28,7 @@ repository               : #"royfrancis/royfrancis.github.io"
 teaser                   : # "/assets/images/featured.jpg"
 assets                   : "/assets/"
 images                   : "/assets/images/"
-featured                 : "/assets/images/featured.jpg"
+image                    : "/assets/images/featured.jpg"
 logo                     : "assets/images/android-chrome-192x192.png"
 favicon:
   - rel: "apple-touch-icon"
@@ -162,7 +163,7 @@ author:
     - label: "500px"
       icon: "fab fa-fw fa-500px"
       url: "https://500px.com/p/RMFP"
-    - label: RSS Feed
+    - label: Feed
       icon: "fas fa-rss"
       url: "http://www.royfrancis.com/feed.xml"
 

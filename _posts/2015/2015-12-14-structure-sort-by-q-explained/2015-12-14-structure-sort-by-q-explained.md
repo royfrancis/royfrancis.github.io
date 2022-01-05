@@ -3,7 +3,6 @@ date: 2015-12-14 07:43:30
 title: Structure 'Sort by Q' explained
 slug: structure-sort-by-q-explained
 excerpt: STRUCTURE is a popular software used by biologists to infer the population structure of organisms using genetic markers. Barplots in STRUCTURE have an option to sort individuals by Q. We explore the 'Sort by Q' option using R and Excel to figure out what it does.
-featured: featured.png
 category:
 - Code
 - Research
@@ -12,6 +11,7 @@ tags:
 - R
 - Scientific Graphs
 classes: wide
+image: "/assets/images/posts/2015/2015-12-14-structure-sort-by-q-explained/featured.png"
 images: "/assets/images/posts/2015/2015-12-14-structure-sort-by-q-explained/"
 ---
 

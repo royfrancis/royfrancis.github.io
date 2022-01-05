@@ -3,7 +3,6 @@ date: 2018-01-05 16:34:05
 title: Mini terrariums
 slug: mini-terrariums
 excerpt: Mini terrariums in glass bowls.
-featured: featured.jpg
 category:
 - Craft
 - Design
@@ -11,7 +10,8 @@ tags:
 - Gardening
 - Plants
 classes: wide
-images: assets/images/posts/2018/2018-01-05-mini-terrariums/
+image: "assets/images/posts/2018/2018-01-05-mini-terrariums/featured.jpg"
+images: "assets/images/posts/2018/2018-01-05-mini-terrariums/"
 ---
 
 {% include pixture.html folder="gallery" dim=150 %}

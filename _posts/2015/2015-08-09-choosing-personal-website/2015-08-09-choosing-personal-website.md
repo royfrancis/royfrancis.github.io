@@ -3,7 +3,6 @@ date: 2015-08-09 14:45:58
 title: Choosing a platform for a personal website
 slug: choosing-personal-website
 excerpt: A general introduction and comparison of platforms for hosting a personal website. This is just a primer to the different options available and not a detailed and thorough comparison.
-featured: "featured.jpg"
 category:
 - Web
 tags:
@@ -12,6 +11,7 @@ tags:
 - Web Hosting
 toc: true
 toc_sticky: true
+image: "/assets/images/posts/2015/2015-08-09-choosing-personal-website/featured.jpg"
 images: "/assets/images/posts/2015/2015-08-09-choosing-personal-website/"
 ---
 

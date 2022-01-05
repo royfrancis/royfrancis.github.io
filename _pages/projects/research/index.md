@@ -3,8 +3,8 @@ title: Research
 slug: research
 excerpt: Descriptions of life science research projects that I have been involved with.
 permalink: /projects/research/
-featured: featured.jpg
-images: /assets/images/projects/research/
+image: "/assets/images/projects/research/featured.jpg"
+images: "/assets/images/projects/research/"
 ---
 
 ## Bioinformatics Data Analysis

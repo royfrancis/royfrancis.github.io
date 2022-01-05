@@ -3,7 +3,6 @@ date: 2018-08-04 07:28:30
 title: Calendar plot with ggplot2
 slug: calendar-plot-with-ggplot2
 excerpt: Creating an availability calendar plot using ggplot2 in R.
-featured: featured.png
 category:
 - Code
 tags:
@@ -12,7 +11,8 @@ tags:
 - ggplot2
 - R
 classes: wide
-images: assets/images/posts/2018/2018-08-04-calendar-plot-with-ggplot2/
+image: "assets/images/posts/2018/2018-08-04-calendar-plot-with-ggplot2/featured.png"
+images: "assets/images/posts/2018/2018-08-04-calendar-plot-with-ggplot2/"
 ---
 
 So, someone asked me about my summer time availability at work. I realized that my availability was a bit complex and perhaps it was easier to sent a figure/diagram rather than explaining it in 200 words. That's where I thought of the idea of creating an availability calendar using ggplot2. The idea is to show basically three categories: available, not available and a limited period (where I am not available in person, but can read emails).

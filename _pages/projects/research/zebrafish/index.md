@@ -1,18 +1,13 @@
 ---
+date: 2019-01-01
 layout: single
 title: Germline transcriptomics in Zebrafish
 slug: research-zebrafish-germline
 excerpt: Natural selection during the germline stage in animals is poorly understood, but there is accumulating evidence that this may play an important role.
 permalink: /projects/research/zebrafish/
-featured: /assets/images/projects/research/zebrafish/featured.jpg
-custom-javascript-list:
-  - "/assets/js/jquery.min.js"
-  - "/assets/js/freewall.js"
-  - "/assets/js/lightbox.js"
-custom-css-list:
-  - "/assets/css/freewall.css"
-  - "/assets/css/lightbox.css"
 classes: wide
+image: "/assets/images/projects/research/zebrafish/featured.jpg"
+images: "/assets/images/projects/research/zebrafish/"
 published: false
 ---
 

@@ -3,7 +3,6 @@ date: 2018-05-10 10:29:38
 title: Customising ggplot2
 slug: customising-ggplot2
 excerpt: Customising a ggplot2 plot using the theme function. In this post, we are going to explore how to adjust various ggplot plot elements. What can be adjusted, what they are called and how they can be adjusted.
-featured: featured.png
 category:
 - Code
 - Research
@@ -13,7 +12,8 @@ tags:
 - R
 toc: true
 classes: wide
-images: assets/images/posts/2018/2018-05-10-customising-ggplot2/
+image: "assets/images/posts/2018/2018-05-10-customising-ggplot2/featured.png"
+images: "assets/images/posts/2018/2018-05-10-customising-ggplot2/"
 ---
 
 Customising a ggplot2 plot using the theme function. In this post, we are going to explore how to adjust various ggplot plot elements. What can be adjusted, what they are called and how they can be adjusted.

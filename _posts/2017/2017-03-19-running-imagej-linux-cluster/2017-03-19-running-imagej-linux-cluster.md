@@ -3,7 +3,6 @@ date: 2017-03-19 21:05:26
 title: Running ImageJ on a Linux cluster
 slug: running-imagej-linux-cluster
 excerpt: A quick tutorial on running ImageJ on a Linux cluster.
-featured: featured.jpg
 category:
 - Code
 - Research
@@ -11,7 +10,8 @@ tags:
 - Image Analysis
 - ImageJ
 classes: wide
-images: assets/images/posts/2017/2017-03-19-running-imagej-linux-cluster/
+image: "assets/images/posts/2017/2017-03-19-running-imagej-linux-cluster/featured.jpg"
+images: "assets/images/posts/2017/2017-03-19-running-imagej-linux-cluster/"
 ---
 
 I use [ImageJ](https://imagej.nih.gov/ij/) for many of my image analysis needs. My desktop computer runs Windows 7 and it has pretty solid specs with Core i7 processor and 16GB RAM. I recently had to handle some large tiff stacks (4-5gb) and it simply wouldn't work on my desktop as I constantly ran into 'out of memory' errors. So I decided to run them on a computing cluster instead since I have access to one. Running on a cluster might be useful when handling data with large memory requirements or to perform computations on numerous files in parallel by distributing load to multiple cores. It took me a while to figure out how to get things to work, so I thought I would make a record of it. And this might hopefully be useful to others.

@@ -3,7 +3,6 @@ date: 2017-12-26 12:41:42
 title: Snowy Landscapes
 slug: snowy-landscapes
 excerpt: A short winter getaway and snow landscape photography.
-featured: featured.jpg
 category:
 - Photography
 - Travel
@@ -14,7 +13,8 @@ tags:
 - Sweden
 - Winter
 classes: wide
-images: assets/images/posts/2017/2017-12-26-snowy-landscapes/
+image: "assets/images/posts/2017/2017-12-26-snowy-landscapes/featured.jpg"
+images: "assets/images/posts/2017/2017-12-26-snowy-landscapes/"
 ---
 
 {% include pixture.html folder="gallery" %}

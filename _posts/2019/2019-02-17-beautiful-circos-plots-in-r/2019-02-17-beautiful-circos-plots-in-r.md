@@ -3,7 +3,6 @@ date: 2019-02-17 15:15:23
 title: Beautiful circos plots in R
 slug: beautiful-circos-plots-in-r
 excerpt: Circos plots are popular for displaying huge amounts of data in a relatively small visual space. This is especially relevant for genomic data. This post explores creating Circos-style genomic data plots in R using R package circlize.
-featured: featured.png
 category:
 - Code
 - Research
@@ -15,7 +14,8 @@ tags:
 toc: true
 toc_sticky: true
 classes: wide
-images: assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/
+image: "assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/featured.png"
+images: "assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/"
 ---
 
 [Circos](http://circos.ca/) plots are popular for displaying huge amounts of data in a relatively small visual space. This is especially relevant for genomic data. This post explores creating Circos-style genomic data plots in R using R package [circlize](https://github.com/jokergoo/circlize).

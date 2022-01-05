@@ -3,7 +3,6 @@ date: 2017-09-17 11:54:24
 title: Scraping Instagram and choosing hashtags
 slug: scraping-instagram-choosing-hashtags
 excerpt: Scraping Instagram for basic public data using R to help us pick "optimal" hastags.
-featured: featured.png
 category:
 - Code
 - Research
@@ -15,7 +14,8 @@ tags:
 - Scientific Graphs
 - Web Scraping
 classes: wide
-images: assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/
+image: "assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/featured.png"
+images: "assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/"
 ---
 
 If you are an Instagram user, at some point, you care going to be interested in the various metrics such as followers, number of posts by a certain user etc. You might want to compare these metrics between different users or to find out the number of posts with a certain hashtag etc. The casual way to do it is to go the relevant Instagram page and look at the metric and write it down somewhere, and go to next and so on. Clearly this is not ideal strategy if you want to look at a few hundred pages. It would be neat to get this data in an automated manner.

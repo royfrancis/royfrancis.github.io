@@ -1,11 +1,12 @@
 ---
+date: 2019-01-01
 title: Honey Bees
 slug: bee
 excerpt: Projects undertaken as part of honey bee research including bee biology, pathology, virology, population genetics and monitoring.
 permalink: /projects/research/bee/
-featured: featured.jpg
 classes: wide
-images: /assets/images/projects/research/bee/
+image: "/assets/images/projects/research/bee/featured.jpg"
+images: "/assets/images/projects/research/bee/"
 ---
 
 {% include pixture.html folder="gallery" dim="140" %}
