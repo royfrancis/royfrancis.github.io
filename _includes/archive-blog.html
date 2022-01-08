@@ -1,0 +1,54 @@
+{% if post.header.teaser %}
+  {% capture teaser %}{{ post.header.teaser }}{% endcapture %}
+{% else %}
+  {% assign teaser = site.teaser %}
+{% endif %}
+
+{% if post.image %}
+  {% assign featured_url = post.image | relative_url %}
+{% else %}
+  {% assign featured_url = site.image | relative_url %}
+{% endif %}
+
+{% if post.id %}
+  {% assign title = post.title | markdownify | remove: "<p>" | remove: "</p>" %}
+{% else %}
+  {% assign title = post.title %}
+{% endif %}
+
+<div class="blog-container">
+  <div class="{{ include.type | default: 'list' }}__item feed-item">
+    <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+      <div class="blog-item-parent">
+      {% if include.type == "grid" and teaser %}
+        <div class="archive__item-teaser">
+          <img src="{{ teaser | relative_url }}" alt="">
+        </div>
+      {% endif %}
+      
+        <div class="blog-item blog-item-featured">
+          <div class="archive-featured-small feed-image" style="background-image:url('{{ featured_url }}')">
+          <!-- <div class="archive-featured-small feed-image">
+            <img src={{ featured_url }} alt="featured-image-small" class="archive-featured-image"> -->
+          </div>
+        </div>
+        
+        <div class="blog-item blog-item-text">
+          <div class="archive-text">
+            {% include archive-meta.html %}
+            <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+            {% if post.link %}
+              <a href="{{ post.link }}">{{ title }}</a> <a href="{{ post.url | relative_url }}" rel="permalink"><i class="fas fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
+            {% else %}
+              <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
+            {% endif %}
+            </h2>
+            {% include page__meta.html type=include.type %}
+            {% if post.excerpt %}<p class="archive__item-excerpt feed-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
+          </div>
+        </div>
+
+      </div>
+    </article>
+  </div>
+</div>
