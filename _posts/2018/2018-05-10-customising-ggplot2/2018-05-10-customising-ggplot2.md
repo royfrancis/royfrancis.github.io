@@ -12,7 +12,7 @@ tags:
 - R
 toc: true
 classes: wide
-image: "assets/images/posts/2018/2018-05-10-customising-ggplot2/featured.png"
+image: "assets/images/posts/2018/2018-05-10-customising-ggplot2/featured.jpg"
 images: "assets/images/posts/2018/2018-05-10-customising-ggplot2/"
 ---
 

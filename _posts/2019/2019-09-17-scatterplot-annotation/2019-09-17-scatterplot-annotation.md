@@ -13,7 +13,7 @@ tags:
 - Scientific Graphs
 toc: true
 classes: wide
-image: "assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.png"
+image: "assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg"
 images: "assets/images/posts/2019/2019-09-17-scatterplot-annotation/"
 ---
 
