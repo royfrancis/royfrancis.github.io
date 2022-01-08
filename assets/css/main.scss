@@ -294,7 +294,7 @@ figure img {
 }
 
 figcaption,
-.gg-gallery figcaption {
+.pixture-parent figcaption {
     font-family: $sans-serif;
     font-size: $type-size-6 !important;
     font-style: italic;
@@ -438,11 +438,11 @@ pre.highlight > button:focus {
 
 /* grid gallery */
 
-.gg-gallery {
+.pixture-parent {
  margin: 1em 0;
 }
 
-.gg-images {
+.pixture-gallery {
  display: flex;
  flex-direction: row;
  flex-wrap: wrap;
@@ -453,24 +453,24 @@ pre.highlight > button:focus {
  margin-bottom: 0.5em;
 }
 
-.gg-child {
+.pixture-child {
  flex-grow: 0;
  flex-shrink: 0;
 }
 
-.gg-item {
+.pixture-image {
  background-size: cover;
  background-position: center;
  cursor: pointer;
  transition: transform ease-in-out 300ms;
 }
 
-.gg-images .gg-item:hover {
+.pixture-gallery .pixture-image:hover {
  opacity: 0.9;
  transition: 0.4s ease;
 }
 
-.gg-images .gg-item:hover {
+.pixture-gallery .pixture-image:hover {
  box-shadow: 0 .08rem .25rem rgba(0,0,0,.15);
 }
 
