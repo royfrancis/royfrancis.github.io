@@ -176,8 +176,19 @@ a {
 }
 
 .recent-featured {
+    width: 100%;
+    height: 550px;
+    background-size: cover;
+    background-position: center;    
+    transition: transform ease-in-out 300ms;
     margin-bottom: 1.25em;
 }
+
+@media (max-width: 550px) {
+    .recent-featured {
+        height: 100vw;
+    }
+  }
 
 .recent-card {
     margin-bottom: 1.5em;
