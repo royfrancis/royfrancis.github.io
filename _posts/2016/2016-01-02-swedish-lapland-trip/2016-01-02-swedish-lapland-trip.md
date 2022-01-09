@@ -1,6 +1,6 @@
 ---
 date: 2016-01-02 23:23:32
-title: A Trip to Swedish Lapland
+title: Polar adventures through Swedish Lapland
 slug: swedish-lapland-trip
 excerpt: A week long winter roadtrip from Uppsala, Sweden to Narvik, Norway through the pristine taiga landscapes of Swedish Lapland in search of snow, auroras and wildlife.
 categories:
