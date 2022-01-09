@@ -1,4 +1,3 @@
-
 {% if page.image %}
   {% assign featured_url = page.image | relative_url %}
 {% else %}
@@ -6,5 +5,5 @@
 {% endif %}
 
 <div class="featured">
-<img src={{ featured_url }} alt="featured-image" class="featured-image">
+  <img src={{ featured_url }} alt="featured-image" class="featured-image">
 </div>
