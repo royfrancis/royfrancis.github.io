@@ -63,10 +63,10 @@ a {
 }
 
 .recent-card .archive__item-title {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin-top: 0.3em;
+    margin-bottom: 0.2em;
     font-family: $serif;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 .archive__item-title a {
@@ -152,11 +152,11 @@ a {
 .recent-card .meta-content {
     font-size: 0.8rem;
     margin-bottom: 0;
-    color: white;
+    color: #f3f6f4;
 }
 
 .recent-card .archive__item-excerpt {
-    color: white;
+    color: #f3f6f4;
 }
 
 .page__meta .meta-content-sub {
@@ -302,7 +302,7 @@ a {
 .recent-featured-image {
     width: 100%;
     height: 100vw;
-    max-height: 600px;
+    max-height: 550px;
     -o-object-fit: cover;
     object-fit: cover;
     border-radius: 6px 6px 0 0;
@@ -322,7 +322,7 @@ a {
 .archive-meta-content-sub a:hover,
 .archive-meta-content-sub a:focus,
 .archive-meta-content-sub a:visited {
-    color: #a4a4a4;
+    color: #f3f6f4;
 }
 
 .recent-card .meta-content,
@@ -335,7 +335,7 @@ a {
 .recent-card .archive__item-title a:hover,
 .recent-card .archive__item-title a:focus,
 .recent-card .archive__item-title a:visited {
-    color: white;
+    color: #f3f6f4;
 }
 
 .archive-meta-content-sub a:hover,

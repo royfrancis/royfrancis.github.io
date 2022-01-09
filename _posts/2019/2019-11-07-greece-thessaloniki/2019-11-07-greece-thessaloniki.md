@@ -1,6 +1,6 @@
 ---
 date: 2019-11-07
-title: History and culture in Thessaloniki
+title: Exploring history and culture in Thessaloniki
 slug: greece-thessaloniki
 excerpt: A short weekend away in Thessaloniki, Greece.
 category:

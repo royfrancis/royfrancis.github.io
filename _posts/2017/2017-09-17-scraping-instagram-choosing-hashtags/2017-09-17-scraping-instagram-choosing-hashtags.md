@@ -14,7 +14,7 @@ tags:
 - Scientific Graphs
 - Web Scraping
 classes: wide
-image: "assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/featured.png"
+image: "assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/featured.jpg"
 images: "assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/"
 ---
 
