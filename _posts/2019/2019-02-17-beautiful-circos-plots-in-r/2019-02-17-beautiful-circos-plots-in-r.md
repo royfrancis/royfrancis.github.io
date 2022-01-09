@@ -14,7 +14,7 @@ tags:
 toc: true
 toc_sticky: true
 classes: wide
-image: "assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/featured.png"
+image: "assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/featured.jpg"
 images: "assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/"
 ---
 
@@ -142,7 +142,7 @@ Now we can compare how our raw and custom plots look like.
 
 {%
   include figure
-  image_path="circos-backbone.png"
+  image_path="circos-backbone.jpg"
   alt="circos-backbone"
   caption="Genome backbone seen using default setting (left) and customised settings (right)."
 %}
@@ -169,7 +169,7 @@ col=col_text, labels.col=col_text, lwd=0.7, labels.facing="clockwise")
 
 {%
   include figure
-  image_path="circos-xaxis.png"
+  image_path="circos-xaxis.jpg"
   alt="circos-xaxis"
   caption="Genome backbone with x-axis seen using default setting (left) and customised settings (right)."
 %}
@@ -202,7 +202,7 @@ circos.yaxis(at=c(100, 300), labels.cex=0.25, lwd=0, tick.length=0, labels.col=c
 
 {%
   include figure
-  image_path="circos-coverage.png"
+  image_path="circos-coverage.jpg"
   alt="circos-coverage"
   caption="Circlize plot showing coverage using default setting (left) and customised settings (right)."
 %}
@@ -236,7 +236,7 @@ circos.yaxis(at=c(0.3, 0.5, 0.7), labels.cex=0.25, lwd=0, tick.length=0, labels.
 
 {%
   include figure
-  image_path="circos-gc.png"
+  image_path="circos-gc.jpg"
   alt="circos-gc"
   caption="Circlize plot showing GC content graph using default setting (left) and customised settings (right)."
 %}
@@ -260,7 +260,7 @@ side="inside", connection_height=0.05, labels_height=0.04)
 
 {%
   include figure
-  image_path="circos-genes.png"
+  image_path="circos-genes.jpg"
   alt="circos-genes"
   caption="Circlize plot showing gene positions and gene labels using default setting (left) and customised settings (right)."
 %}
@@ -286,7 +286,7 @@ And here we have the complete plot. Track heights for every track has been reduc
 
 {%
   include figure
-  image_path="circos-full.png"
+  image_path="circos-full.jpg"
   alt="circos-full"
   caption="Circlize plot using default setting (left) and customised settings (right)."
 %}
@@ -295,7 +295,7 @@ For the purpose of captioning, I have further added some numbers in an image edi
 
 {%
   include figure
-  image_path="circos.png"
+  image_path="circos.jpg"
   alt="featured"
   caption="Circos plot with custom labels added for captions."
 %}
