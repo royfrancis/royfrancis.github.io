@@ -14,7 +14,7 @@ image: "assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg"
 images: "assets/images/posts/2019/2019-08-22-sweden-west-coast/"
 ---
 
-{% include pixture.html folder="gallery" caption="Views of the west coast of Sweden." %}
+{% include pixture.html folder="gallery" caption="Views from the west coast of Sweden." %}
 
 The west coast of Sweden is well known for it's [rocky archipelago](https://visitsweden.com/where-to-go/southern-sweden/vastsverige/west-coast-archipelago/) and scenic beauty. Also known for seafood, sea kayaking and floating saunas. I took a trip through Lidköping and Trollhättan to Lysekil, Fjällbacka and Grebbestad.
 

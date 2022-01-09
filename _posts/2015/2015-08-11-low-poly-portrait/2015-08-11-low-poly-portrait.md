@@ -18,12 +18,13 @@ I ran into [this video](https://www.youtube.com/watch?v=Gj3MSWaqbyc) and was in
 <p>
 <ol>
 <li>
-  1. The first step is to find a good portrait with a clear face. Search on the web for _low-poly face_ to get an idea of what sort of portraits work. It doesn't have to be a portrait, but a low-complexity image works best. Since I didn’t have the patience to take a portrait for this purpose alone, I went through my phone and found a picture that I thought might work.
+  The first step is to find a good portrait with a clear face. Search on the web for _low-poly face_ to get an idea of what sort of portraits work. It doesn't have to be a portrait, but a low-complexity image works best. Since I didn’t have the patience to take a portrait for this purpose alone, I went through my phone and found a picture that I thought might work.
 </li>
 
 <li>
-  2. Import the image into _Adobe Illustrator_ or any vector handling application, add a new layer above the image and start creating polygons (2). This is the most time-consuming part. Here are some suggestions for creating polygons:
+  Import the image into _Adobe Illustrator_ or any vector handling application, add a new layer above the image and start creating polygons (2). This is the most time-consuming part. Here are some suggestions for creating polygons:
 
+<p>
 <ul>
 
 <li>
@@ -51,6 +52,7 @@ Take your time to do the polygons as this makes all the difference.
 </li>
 
 </ul>
+</p>
 </li>
 
 <li>
