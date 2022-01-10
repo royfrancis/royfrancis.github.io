@@ -163,14 +163,6 @@ a {
     margin-bottom: 1em;
 }
 
-.archive-meta-content {
-    margin-bottom: 0.25em;
-}
-
-.archive-meta-content-sub {
-    font-size: 0.7rem;
-}
-
 .taxonomy__section .archive__item-title {
     margin-top: 0;
     margin-bottom: 0.15em;
@@ -317,14 +309,6 @@ a {
     border-radius: 0 0 6px 6px
 }
 
-.archive-meta-content-sub,
-.archive-meta-content-sub a,
-.archive-meta-content-sub a:hover,
-.archive-meta-content-sub a:focus,
-.archive-meta-content-sub a:visited {
-    color: #f3f6f4;
-}
-
 .recent-card .meta-content,
 .recent-card .meta-content a,
 .recent-card .meta-content a:hover,
@@ -336,6 +320,22 @@ a {
 .recent-card .archive__item-title a:focus,
 .recent-card .archive__item-title a:visited {
     color: #f3f6f4;
+}
+
+.archive-meta-content-sub,
+.archive-meta-content-sub a,
+.archive-meta-content-sub a:hover,
+.archive-meta-content-sub a:focus,
+.archive-meta-content-sub a:visited {
+    color: #b2b2b2;
+}
+
+.archive-meta-content {
+    margin-bottom: 0.25em;
+}
+
+.archive-meta-content-sub {
+    font-size: 0.7rem;
 }
 
 .archive-meta-content-sub a:hover,
