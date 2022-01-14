@@ -679,34 +679,22 @@ pre.highlight > button:focus {
 }
 
 .pixture-child {
-    -webkit-box-flex: 0;
-    -ms-flex-positive: 0;
-    flex-grow: 0;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
 }
 
-.pixture-image {
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    -webkit-transition: -webkit-transform ease-in-out 300ms;
-    transition: -webkit-transform ease-in-out 300ms;
-    -o-transition: transform ease-in-out 300ms;
-    transition: transform ease-in-out 300ms;
-    transition: transform ease-in-out 300ms, -webkit-transform ease-in-out 300ms;
+.pixture-child a:hover,
+.pixture-child a:focus,
+.pixture-child a:active {
+    filter: brightness(0.8);
 }
 
-.pixture-gallery .pixture-image:hover {
-    opacity: 0.9;
-    -webkit-transition: 0.4s ease;
-    -o-transition: 0.4s ease;
-    transition: 0.4s ease;
-}
-
-.pixture-gallery .pixture-image:hover {
-    -webkit-box-shadow: 0 0.08rem 0.25rem rgba(0, 0, 0, 0.15);
-    box-shadow: 0 0.08rem 0.25rem rgba(0, 0, 0, 0.15);
+.pixture-img {
+    object-fit: cover;
+    width: 100%;
 }
 
 .slbCaption {
