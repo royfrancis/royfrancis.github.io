@@ -16,9 +16,7 @@ classes: wide
   {% for post in posts limit:5 %}
   <div class="recent-card">
     {% include recent-featured.html %}
-    <div class="filler">
-      {% include recent-single.html type = entries_layout %}
-    </div>
+    {% include recent-single.html type = entries_layout %}
   </div>
   {% endfor %}
 </div>
