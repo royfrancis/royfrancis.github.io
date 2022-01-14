@@ -13,16 +13,16 @@
   {%- if include.caption -%}
     <a href="{{ img }}" title="{{ include.caption }}">
       <img src="{{ img }}" alt="{% if include.alt %}{{ include.alt }}{% endif %}">
-
-      <figcaption>
-      {{ include.caption | markdownify | remove: "<p>" | remove: "</p>" }}
-      </figcaption>
+    </a>
+    <figcaption>
+    {{ include.caption | markdownify | remove: "<p>" | remove: "</p>" }}
+    </figcaption>
 
   {% else %}
     <a href="{{ img }}">
       <img src="{{ img }}" alt="{% if include.alt %}{{ include.alt }}{% endif %}">
+    </a>
   {% endif %}
-  </a>
 
 </figure>
 
