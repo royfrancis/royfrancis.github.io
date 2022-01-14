@@ -37,11 +37,9 @@
         {% assign filenameparts = file.path | split: "/" %}
         {% assign filename = filenameparts | last | replace: file.extname,"" %}
         
-        <div class="pixture-child" id="slb-{{ lightbox_id }}"> 
+        <div class="pixture-child" style="flex-basis:{{ dim }}px;" id="slb-{{ lightbox_id }}"> 
           <a href="{{ file.path | relative_url }}">
-            <div class="pixture-image" style="height:{{ dim }}px; width:{{ dim }}px; background-image: url('{{ file.path | relative_url }}')">
-            <!-- <img src="{{ file.path | relative_url }}" alt="{% if include.alt %}{{ include.alt }}{% endif %}"> -->
-            </div>
+            <img class="pixture-img" style="height:{{ dim }}px;" src="{{ file.path | relative_url }}" alt="{% if include.alt %}{{ include.alt }}{% endif %}">
           </a>
         </div>
         
