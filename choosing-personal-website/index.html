@@ -1,0 +1,877 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Choosing a platform for a personal website • rmf</title>
+<meta name="description" content="A general introduction and comparison of platforms for hosting a personal website. This is just a primer to the different options available and not a detailed and thorough comparison.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+  <meta property="article:author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="Choosing a platform for a personal website">
+<meta property="og:url" content="https://royfrancis.com/choosing-personal-website/">
+
+
+  <meta property="og:description" content="A general introduction and comparison of platforms for hosting a personal website. This is just a primer to the different options available and not a detailed and thorough comparison.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2015-08-09T16:45:58+02:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/choosing-personal-website/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/posts/2015/2015-08-09-choosing-personal-website/featured.jpg alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="Choosing a platform for a personal website">
+    
+    <meta itemprop="description" content="A general introduction and comparison of platforms for hosting a personal website. This is just a primer to the different options available and not a detailed and thorough comparison.">
+    
+    <meta itemprop="datePublished" content="2015-08-09T16:45:58+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/choosing-personal-website/" class="u-url" itemprop="url">Choosing a platform for a personal website
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published" datetime="2015-08-09T16:45:58+02:00">09 Aug 2015</time></span>
+
+  
+  <span class="separator">
+    •
+  </span>
+  
+  
+  
+
+
+  
+
+  <span>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords" class="category-keywords">
+    
+      <a href="/categories/#web" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Web</a>
+    
+    </span>
+  </span>
+
+
+</div>  
+  
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#blogging" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Blogging</a><span class="sep">, </span>
+    
+      <a href="/tags/#personal-website" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Personal Website</a><span class="sep">, </span>
+    
+      <a href="/tags/#web-hosting" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Web Hosting</a>
+    
+    </span>
+  </p>
+
+
+</div>
+        </footer>
+
+        
+        <div class="toc-content">
+          <div class="toc-content-child-left">
+            <div class="article-content">
+              <p>Hello Internet! I finally have a website. I’ve been thinking about having a website for several years now but never actually got around to making one. It was mostly due to lack of focussed time rather than lack of ideas. I probably won’t have and don’t plan on having regular popular content. So my idea was to have a personal website showcasing my work, a bit about myself, contact,  various social links and an occasional blog post. I spent quite a bit of time researching on potential set-up for the website from various hosting services to themes and templates. I thought I would go through some of the web hosting options out there especially for a personal website.</p>
+
+<h2 id="dynamic-websites">Dynamic Websites</h2>
+
+<h3 id="unhosted-websites">Unhosted websites</h3>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297266871"><a href="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-1.jpg" title="Unhosted websites.">
+      <img src="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-1.jpg" alt="unhosted-websites" />
+    </a>
+    <figcaption>
+    Unhosted websites.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297266871 a'});
+</script>
+
+<p>If you do not want to bother with web hosting and management, the best choice is to go for a system that is ready and managed. These come as restricted free services or full-fledged paid services. Drag and drop builders are provided. No coding or server management is required. One of the most popular and beautiful looking options is <a href="http://www.squarespace.com/">Squarespace</a>. Others include <a href="http://www.wix.com/">Wix</a>, <a href="http://virb.com/">Virb</a>, <a href="http://www.weebly.com/">Weebly</a>, <a href="https://www.strikingly.com/">Strikingly</a> and lots more. Another good example is <a href="http://www.wordpress.com">wordpress.com</a> for example, which is heavily restricted in terms of domain name, theme modification etc. Some other options in similar category with limited customisation include <a href="https://www.blogger.com">Blogger</a> and <a href="http://www.google.com/sites/overview.html">Google sites</a>. Google sites is probably from the 1990s and still feels and looks the same. I won’t include things like Facebook or Tumblr since I don’t see them as personal websites, but rather social media.</p>
+
+<h3 id="free-hosted-websites">Free hosted websites</h3>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297263522"><a href="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-2.jpg" title="Free hosted websites.">
+      <img src="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-2.jpg" alt="free-hosted-websites" />
+    </a>
+    <figcaption>
+    Free hosted websites.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297263522 a'});
+</script>
+
+<p>There are several options for free hosted websites where you just have to create a user account and put in some details and you are set to go. These sort of web services have a range of features from custom domain names to site building tools. The best feature is of course that they are free. They might also provide free domain names like <em>yoursite.provider.com</em>. Most of them offer support for php, mysql databases etc with a graphical user interface without diving into code. The drawbacks with such services are that they are almost always shared which affects performance. The storage space and traffic bandwidth is limited. But, for a small personal website, this really shouldn’t be a problem. Some of such providers include <a href="http://www.000webhost.com">000webshost</a>, <a href="http://www.awardspace.com/">awardspace</a>, <a href="http://www.freewebhostingarea.com">freewebhostingarea</a> etc. Here is a small list on <a href="http://www.prchecker.info/web-hosting/top-10-free-web-hosting-sites/">prchecker</a>.</p>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972107536">
+    <a href="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-3.jpg">
+      <img src="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-3.jpg" alt="figure" />
+    </a>
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972107536 a'});
+</script>
+
+<h3 id="shared-hosted-websites">Shared hosted websites</h3>
+
+<p>Most basic paid web hosting are so called ‘shared hosting’. The previously mentioned providers and almost all free providers also provide this sort of paid hosting. Free domain names are provided and the possibility of a custom domain is also possible. Storage and traffic bandwidth is increased. A wide range of pricing to fit your needs makes this an attractive option. Nevertheless, your website will still be shared on a physical location which means the cores and memory are shared between all other users/websites on the same computer. This might cause a drop in performance especially if another demanding website runs on the same computer. You also do not have root access to system administration. But, this option should suffice for most general users, private bloggers, small scale websites etc. <a href="http://www.pcmag.com/article2/0,2817,2424725,00.asp">PCMag</a> has a nice list of such providers for 2015.</p>
+
+<h3 id="virtual-private-server">Virtual Private Server</h3>
+
+<p>These are the upgraded version of shared hosting. You have your own private area that you have full control over as if you own it. You can configure anything any way you like. Handles traffic better. You need to load your own LAMP stack (Linux, Apache, MySQL, PHP or Perl) and set up your own server management. This means more technical work and demanding system administration and self regulated security. If done properly, has more security than shared hosting. You can install your own resource-hungry softwares. There are lots of resources on the web to compare differences between shared and VPS hosting. All major web hosting providers such as <a href="http://www.bluehost.com/">bluehost</a>, <a href="http://www.hostgator.com/">hostgator</a>, <a href="https://www.dreamhost.com/">dreamhost</a> etc. have the VPS option.</p>
+
+<h3 id="dedicated-server">Dedicated server</h3>
+
+<p>A dedicated server means that you are not getting a slice of the server, instead you get the whole server to your self. You can choose the cores and RAM and storage etc. System management and administration is demanding and usually command line. Some services may provide control panels and auto-installer scripts for commonly used applications. You can install any server OS, any web-server from Apache to Nginx. While there is effectively no sharing on computing resources, there might be bandwidth sharing. <a href="http://www.pcmag.com/article2/0,2817,2430030,00.asp">PCMag</a> has yet another list for dedicated servers.</p>
+
+<h3 id="cloud-computing">Cloud computing</h3>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972159762"><a href="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-4.jpg" title="Cloud computing.">
+      <img src="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-4.jpg" alt="cloud-computing" />
+    </a>
+    <figcaption>
+    Cloud computing.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972159762 a'});
+</script>
+
+<p>Cloud computing is the newest trend. Cloud computing provides users with something called instances. These are virtual machines with any configuration as you would like. Any number of cores, whatever RAM, storage etc. Instances can be created and installed with any OS on the fly in a couple of minutes. You can install, configure, management anything anyway you like. Billing is usually time based. Hourly billing is usually used for intensive high-computing instances while a monthly billing is used for lower configurations. Websites implemented through cloud computing have their content on multiple servers at multiple locations at the same time which means that they less prone to downtime if a single physical server crashes somewhere. This may not always be the case depending on the set-up. There are countless articles debating the pros and cons of cloud computing. As a bottom line, cloud computing might be overkill for hosting a small website. The most prominent players are <a href="https://aws.amazon.com/">Amazon EC2</a> and <a href="https://www.digitalocean.com/">Digital Ocean</a>. Others include <a href="https://www.vultr.com/">Vultr</a>, <a href="https://www.linode.com/">Linode</a>, <a href="https://cloud.google.com/">Google Cloud</a> and <a href="https://azure.microsoft.com/">Microsoft Azure</a>. Amazon AWS has a <a href="https://aws.amazon.com/free/">free tier option</a> for new customers for the first one year.</p>
+
+<h2 id="static-websites">Static Websites</h2>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297253923"><a href="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-5.jpg" title="Static websites.">
+      <img src="/assets/images/posts/2015/2015-08-09-choosing-personal-website/pw-5.jpg" alt="static-websites" />
+    </a>
+    <figcaption>
+    Static websites.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297253923 a'});
+</script>
+
+<p>Static websites contain fixed static content. They do not use server-side scripting like PHP or databases like SQL. They are simple and easy to develop and maintain. They are used for small websites where content do not change very often. Static websites use only HTML, javascript and CSS. They do not have any fancy features or functionalities. They are the cheapest to host as they do not need any sort of live server. They can be hosted off <a href="https://pages.github.com/">Github</a> or even <a href="https://www.dropbox.com/">Dropbox</a>. Beautiful looking web pages can be created and updated simply using Markdown. Some of the popular platforms for generating static sites include <a href="http://jekyllrb.com/">Jekyll</a>, <a href="https://gohugo.io/">Hugo</a>, <a href="https://www.gitbook.com/">GitBook</a> etc. Here is <a href="http://deanattali.com/">Dean Attali’s website</a> which is a good example of a static website.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Ultimately, after all that brain racking, I decided (for now) to go with the cloud computing option of Vultr. I am running a wordpress site. I decided to go for the cloud computing option since I also wanted a live server to run an R shiny server for R shiny applications. Or else, I would’ve opted the static website option on Github pages.</p>
+
+            </div>
+          </div>
+          <div class="toc-content-child-right">
+            <nav class="toc">
+              <ul class="toc__menu"><li><a href="#dynamic-websites">Dynamic Websites</a><ul><li><a href="#unhosted-websites">Unhosted websites</a></li><li><a href="#free-hosted-websites">Free hosted websites</a></li><li><a href="#shared-hosted-websites">Shared hosted websites</a></li><li><a href="#virtual-private-server">Virtual Private Server</a></li><li><a href="#dedicated-server">Dedicated server</a></li><li><a href="#cloud-computing">Cloud computing</a></li></ul></li><li><a href="#static-websites">Static Websites</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
+
+            </nav>
+          </div>
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">Previous</a>
+    
+    
+      <a href="/exploring-south-sweden/" class="pagination--pager" title="Exploring South Sweden
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+    <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+  <div class="page-related-mx">
+    <h2 class="page__related-title">You may also enjoy</h2>
+    <div class="grid__wrapper">
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-11-07-greece-thessaloniki/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-11-07T00:00:00+01:00">07 Nov 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/greece-thessaloniki/" rel="permalink">Exploring history and culture in Thessaloniki
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A short weekend away in Thessaloniki, Greece.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-09-17T00:00:00+02:00">17 Sep 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+        
+          <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/scatterplot-annotation/" rel="permalink">Scatterplot annotation
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-08-22T00:00:00+02:00">22 Aug 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/sweden-west-coast/" rel="permalink">Exploring the Swedish west coast
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A road trip exploring the west coast of Sweden.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-06-30-portugal/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-06-30T00:00:00+02:00">30 Jun 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/portugal/" rel="permalink">Road trip through Portugal
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A conference and road trip through Portugal.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://royfrancis.com/choosing-personal-website/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/choosing-personal-website"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://romf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

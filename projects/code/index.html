@@ -1,0 +1,665 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Code • rmf</title>
+<meta name="description" content="R applications and code snippets useful in my research and possibly for other users as well.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="Code">
+<meta property="og:url" content="https://royfrancis.com/projects/code/">
+
+
+  <meta property="og:description" content="R applications and code snippets useful in my research and possibly for other users as well.">
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/projects/code/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/projects/code/featured.jpg alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="Code">
+    
+    <meta itemprop="description" content="R applications and code snippets useful in my research and possibly for other users as well.">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/projects/code/" class="u-url" itemprop="url">Code
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  
+  
+</div>  
+  
+</div>
+        </footer>
+
+        
+        <div class="article-content">
+          
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<div class="cardify">
+
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/pophelper">
+            <h2>pophelper</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            An R package to analyse and visualise admixture proportions from STRUCTURE, fastSTRUCTURE, TESS, ADMIXTURE etc.
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R package</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/pophelperShiny">
+            <h2>pophelperShiny</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            Interactive interface for pophelper using shiny web framework.
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R package</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Shiny</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/minty">
+            <h2>minty</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            Rmarkdown templates for NBIS
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Rmarkdown</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R package</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/shiny-certificate">
+            <h2>shiny-certificate</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            An R Shiny App to create a course certificate
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Shiny</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/iscrape">
+            <h2>iscrape</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            A basic web scrapper for instagram
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R package</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/pixture">
+            <h2>pixture</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            Elegant HTML image gallery in R with responsive grid layout and lightbox.
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R package</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">htmlwidget</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/shiny-rnaseq-power">
+            <h2>shiny-rnaseq-power</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            Shiny web app to run power analysis for RNA-Seq experiments.
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Shiny</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/shiny-doorsign">
+            <h2>shiny-doorsign</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            An R shiny app to create office door sign.
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Shiny</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/shiny-nametagger">
+            <h2>shiny-nametagger</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            An R shiny app to generate nametags.
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Shiny</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/royfrancis/shiny-planner">
+            <h2>shiny-planner</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            An R Shiny App to create a calendar.
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Shiny</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cardify-child">
+      <div class="cardify-holder">
+        <div class="cardify-text cardify-title">
+          <a href="https://github.com/NBISweden/workshop-ngsintro">
+            <h2>workshop-ngsintro</h2>
+          </a>
+        </div>
+        <div class="cardify-text cardify-description">
+          <p>
+            Workshop | Introduction to Bioinformatics using NGS data
+          </p>
+        </div>
+        <div class="cardify-text cardify-tags page__taxonomy">
+          <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+            <span itemprop="keywords">
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">bash</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">NGS</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Bioinformatics</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">RNA-Seq</span>
+            
+              <span class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Variant calling</span>
+            
+            </span>
+        </div>
+      </div>
+    </div>
+  
+
+</div>
+
+
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

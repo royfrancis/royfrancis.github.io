@@ -1,0 +1,1135 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Multiple Statistical Testing • rmf</title>
+<meta name="description" content="In the advent of big data such as genomics, running numerous statistical tests is unavoidable. But long comes strange statistical problems. This post investigates issues with multiple statistical testing and its solutions along with simulated data.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+  <meta property="article:author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="Multiple Statistical Testing">
+<meta property="og:url" content="https://royfrancis.com/multiple-statistical-testing/">
+
+
+  <meta property="og:description" content="In the advent of big data such as genomics, running numerous statistical tests is unavoidable. But long comes strange statistical problems. This post investigates issues with multiple statistical testing and its solutions along with simulated data.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2017-02-14T20:49:30+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/multiple-statistical-testing/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/posts/2017/2017-02-14-multiple-statistical-testing/featured.jpg alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="Multiple Statistical Testing">
+    
+    <meta itemprop="description" content="In the advent of big data such as genomics, running numerous statistical tests is unavoidable. But long comes strange statistical problems. This post investigates issues with multiple statistical testing and its solutions along with simulated data.">
+    
+    <meta itemprop="datePublished" content="2017-02-14T20:49:30+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/multiple-statistical-testing/" class="u-url" itemprop="url">Multiple Statistical Testing
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published" datetime="2017-02-14T20:49:30+01:00">14 Feb 2017</time></span>
+
+  
+  <span class="separator">
+    •
+  </span>
+  
+  
+  
+
+
+  
+
+  <span>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords" class="category-keywords">
+    
+      <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+    
+      <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+    
+    </span>
+  </span>
+
+
+</div>  
+  
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#r" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</a><span class="sep">, </span>
+    
+      <a href="/tags/#statistics" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Statistics</a>
+    
+    </span>
+  </p>
+
+
+</div>
+        </footer>
+
+        
+        <div class="toc-content">
+          <div class="toc-content-child-left">
+            <div class="article-content">
+              <p>In a standard statistical test, one assumes a null hypothesis, performs a statistical test and computes a p-value. The estimated p-value is compared to a predetermined threshold (usually 0.05). If the estimated p-value is greater than 0.05 (say 0.2), it means that there is a 20% chance of obtaining the current result if the null hypothesis is true. Since we decided our threshold as 5%, the 20% is too high to reject the null hypothesis and we accept the null hypothesis. Now, if the estimated p-value was less than 0.05 (say 0.02), there is a 2% probability of obtaining the observed result if the null hypothesis is true. Since 2% is a very low probability and it is below our threshold of 5%, we reject the null hypothesis and accept an alternative hypothesis.</p>
+
+<p>The 5% threshold, although giving us high confidence, is an arbitrary value and does not absolutely guarantee an outcome. There is still the possibility that we are wrong 5% of the time. This is known as the probability of a Type I error. A Type I error occurs when a researcher falsely concludes that an observed difference is real, when in fact, there is no difference.</p>
+
+<p>That was the story of a single statistical test. With large data, it is common for data analysts to do multiple statistical tests on the same data. Similar to a single test, each test in a multiple test has the 5% Type 1 error rate. And this accumulates for the number of tests.</p>
+
+<p>The probability of accumulating type I (t1) errors can be shown as below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    P(making an t1 error) = a
+    P(not making a t1 error) = 1-a
+    P(not making a t1 error in m tests) = (1-a)^m
+    P(not making at least 1 t1 error in m tests) = 1-(1-a)^m
+
+    Probability of a t1 error with one test (m=1):
+    1 - (1 - 0.05)^1
+    0.05
+
+    Probability of a t1 error with 10 tests (m=10):
+    1 - (1 - 0.05)^10
+    0.40
+</code></pre></div></div>
+
+<p>So, for 10 tests, there is a 40% chance of observing at least one significant result even if there are none. If 100 genes are tested, 5% (5 genes) could be found to be significant by chance even if they are not. In datasets such as RNA-seq data where thousands of genes are tested, the type I error rate gets inflated massively. This is the reason why p-values from multiple testing needs to be corrected.</p>
+
+<p>Methods for dealing with multiple testing usually involves adjusting p-value threshold in some way, so that the probability of observing at least one significant result due to chance remains below a desired significance level.</p>
+
+<p>There are several categories of methods to controlling Type I errors:  Per Comparison Error Rate (PCER), Per Family Error Rate (PFER), Family-Wise Error Rate (FWER), False Discovery Rate (FDR), Positive False Discovery (pFDR) etc. We will only consider two categories of methods to correcting for multiple testing, namely, controlling the family-wise error rate (FWER) and controlling the false discovery rate (FDR).</p>
+
+<h2 id="control-family-wise-error-rate-fwer">Control Family-wise error rate (FWER)</h2>
+
+<h3 id="bonferroni-correction">Bonferroni correction</h3>
+
+<p>The classical single-step approach and the simplest method is the Bonferroni correction. It is also the most stringent method. All tested p-values are multiplied by the total number of tests.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Corrected p-value = p-value * num_tests
+</code></pre></div></div>
+
+<p><em>Example:</em></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Let n=1000, p-value threshold=0.05
+    Rank Gene p-value
+    1 A 0.00002
+    2 B 0.00004
+    3 C 0.00009
+
+    Correction:
+    GeneA p-value = 0.00002 * 1000 = 0.02 (significant)
+    GeneB p-value = 0.00004 * 1000 = 0.04 (significant)
+    GeneC p-value = 0.00009 * 1000 = 0.09 (not significant)
+</code></pre></div></div>
+
+<p>Using a p-value of 0.05 means there is a 5% or less chance of 1 test being a false positive. Another definition is to expect 0.05 genes to be significant by chance. Using the Bonferroni correction brings the error probability back to 5% as shown below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    1-(1-(a/m))^m
+    1 - (1 - 0.05/10)^10
+    0.05
+</code></pre></div></div>
+
+<p>The Bonferroni correction has a few drawbacks of its own. It may be suitable when we want to avoid even a single false positive in the results. But in most cases, this is too extreme such that false negatives (type II errors) may be inflated. Thus truly important differences may be deemed non-significant.</p>
+
+<h3 id="bonferroni-step-down-holm">Bonferroni step-down (Holm)</h3>
+
+<p>This is a modified Bonferroni method using sequential step-down and it is slightly less stringent than the Bonferroni method.</p>
+
+<ol>
+  <li>
+    <p>Take the p-value of each gene and rank them from the smallest to the largest.</p>
+  </li>
+  <li>
+    <p>Multiply the first p-value by the number of genes present in the gene list: if the end value is less than 0.05, the gene is significant.
+` Corrected P-value= p-value * n`</p>
+  </li>
+  <li>
+    <p>Multiply the second p-value by the number of genes less 1:
+` Corrected P-value= p-value * (n-1)`</p>
+  </li>
+  <li>
+    <p>Multiply the third p-value by the number of genes less 2:
+` Corrected P-value= p-value * (n-2)`
+Follow that sequence until no gene is found to be significant.</p>
+  </li>
+</ol>
+
+<p><em>Example:</em></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Let n=1000, p-value threshold=0.05
+    Rank Gene p-value
+    1 A 0.00002
+    2 B 0.00004
+    3 C 0.00009
+
+    Correction:
+    GeneA p-value = 0.00002 * 1000 = 0.02 (significant)
+    GeneB p-value = 0.00004 * 999 = 0.039 (significant)
+    GeneC p-value = 0.00009 * 998 = 0.0898 (not significant)
+</code></pre></div></div>
+
+<p>Controlling FWER is generally too extreme and appropriate only in situations where a researcher does not want ANY false positives at the risk of missing out few true positives. A more relevant quantity to control is the FDR.</p>
+
+<h2 id="control-false-discovery-rate-fdr">Control False discovery rate (FDR)</h2>
+
+<p>Controlling for False discovery rate (FDR) is currently the preferred approach to account for multiple testing. FDR sets the proportion of discoveries (significant results) that are actually false positives. For example, one could set the FDR to 0.05 and all tested p-values are adjusted. Of the tests that are still significant (below 0.05), 5% could be false positives. Depending on the situation, FDR could be set to 5%, 10%, 15% etc. The False Discovery Rate (FDR) control was developed by Benjamini and Hochberg in 1995.</p>
+
+<h3 id="benjamini-hochberg">Benjamini-Hochberg</h3>
+
+<p>This correction is the least stringent  and the most powerful option. Here is how it works:</p>
+
+<p>Here is how it works:</p>
+<ol>
+  <li>Rank the p-value of each gene in order from the smallest to the largest.</li>
+  <li>Multiply the largest p-value by the number of genes in the test.</li>
+  <li>Take the second largest p-value and multiply it by the total number of genes in gene list divided by its rank. If less than 0.05, it is significant.
+` Corrected p-value = p-value * (n/n-1)`</li>
+  <li>Take the third p-value and proceed as in step 3:
+` Corrected p-value = p-value * (n/n-2)`</li>
+</ol>
+
+<p><em>Example:</em></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Let n=1000, p-value threshold=0.05
+    Rank Gene p-value
+    1000 A 0.1
+    999 B 0.04
+    998 C 0.01
+
+    Correction:
+    GeneA P-value &gt; 0.05 =&gt; gene D (not significant)
+    GeneB P-value = (1000/999) * 0.04 = 0.04004 (significant)
+    GeneC P-value = (1000/998) * 0.01 = 0.01002 (significant)
+</code></pre></div></div>
+
+<h2 id="practical-example">Practical example</h2>
+
+<p>We try out some examples of p-value correction with randomly generated data in R. We use the function <a href="http://stat.ethz.ch/R-manual/R-devel/library/stats/html/p.adjust.html"><code class="language-plaintext highlighter-rouge">p.adjust()</code></a> from <code class="language-plaintext highlighter-rouge">stats</code> package and <a href="http://web.mit.edu/r/current/arch/i386_linux26/lib/R/library/multtest/html/mt.rawp2adjp.html"><code class="language-plaintext highlighter-rouge">mt.rawp2adjp()</code></a> from the <code class="language-plaintext highlighter-rouge">multtest</code> package.</p>
+
+<p>We generate 10,000 random raw p-values between 0.00001 and 0.01. We assume these are p-values generated from 10,000 statistical tests. Since all p-values are below the threshold of 0.05, we will call this set the low set. Now we correct this dataset for multiple testing in R using six different methods: Benjamini-Hochberg (BH), Hommel, Benjamini-Yekutieli (BY), Holm, SidakSD and Bonferroni (B). The tests are roughly ordered in the level of stringency from least stringent to most stringent.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">Cairo</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">multtest</span><span class="p">)</span><span class="w">
+
+</span><span class="n">textcol</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"grey30"</span><span class="w">
+
+</span><span class="c1">#create a vector of random p-values</span><span class="w">
+</span><span class="n">df1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="nf">as.character</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">10000</span><span class="p">),</span><span class="w"> 
+</span><span class="n">Raw</span><span class="o">=</span><span class="n">runif</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="o">=</span><span class="m">0.00001</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="o">=</span><span class="m">0.01</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">#create a dataframe of adjusted p-values</span><span class="w">
+</span><span class="n">df1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df1</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">Holm</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"holm"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">Hommel</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"hommel"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">Bonferroni</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"bonferroni"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">BenjaminiHochberg</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">BenjaminiYekutieli</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"BY"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">SidakSD</span><span class="o">=</span><span class="n">mt.rawp2adjp</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">proc</span><span class="o">=</span><span class="s2">"SidakSD"</span><span class="p">)</span><span class="o">$</span><span class="n">adjp</span><span class="p">[,</span><span class="w"> </span><span class="m">2</span><span class="p">])</span><span class="w">
+
+</span><span class="n">df2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df1</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">gather</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="o">=</span><span class="n">measure</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">num</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Raw"</span><span class="p">,</span><span class="w"> </span><span class="s2">"BenjaminiHochberg"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Hommel"</span><span class="p">,</span><span class="w"> </span><span class="s2">"BenjaminiYekutieli"</span><span class="p">,</span><span class="w"> 
+</span><span class="s2">"Holm"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SidakSD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Bonferroni"</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">sig</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">measure</span><span class="o">&lt;</span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="s2">"significant"</span><span class="p">,</span><span class="w"> </span><span class="s2">"not-significant"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">sig</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"significant"</span><span class="p">,</span><span class="w"> </span><span class="s2">"not-significant"</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># scatterplot</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">measure</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">sig</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="c1">#geom_point(alpha=0.8)+</span><span class="w">
+</span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.8</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="o">=</span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">outlier.size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.4</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s2">"21"</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="n">xlab</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">ylab</span><span class="p">(</span><span class="nf">expression</span><span class="p">(</span><span class="w"> </span><span class="n">italic</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="n">value</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">labs</span><span class="p">(</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Boxplots showing 10,000 random raw p-values (0.00001 - 0.01) and six methods of multiple testing correction."</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">scale_colour_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"#66c2a5"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#fc8d62"</span><span class="p">),</span><span class="w"> </span><span class="n">guide</span><span class="o">=</span><span class="n">guide_legend</span><span class="p">(</span><span class="n">nrow</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">10</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">theme</span><span class="p">(</span><span class="w">
+</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span><span class="w"> 
+</span><span class="n">legend.direction</span><span class="o">=</span><span class="s2">"horizontal"</span><span class="p">,</span><span class="w"> 
+</span><span class="n">legend.justification</span><span class="o">=</span><span class="s2">"right"</span><span class="p">,</span><span class="w"> 
+</span><span class="n">legend.title</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+</span><span class="n">legend.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">-10</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> 
+</span><span class="n">legend.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="o">=</span><span class="s2">"plain"</span><span class="p">),</span><span class="w"> 
+</span><span class="n">legend.key.size</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">),</span><span class="w"> 
+</span><span class="n">strip.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">),</span><span class="w"> 
+</span><span class="n">strip.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">),</span><span class="w"> 
+</span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">),</span><span class="w"> 
+</span><span class="n">axis.text.y</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="o">=</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">),</span><span class="w"> 
+</span><span class="n">axis.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">8.5</span><span class="p">),</span><span class="w"> 
+</span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">),</span><span class="w"> 
+</span><span class="c1">#plot.subtitle=element_text(colour=textcol, hjust=0, vjust=-1), </span><span class="w">
+</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">lineheight</span><span class="o">=</span><span class="m">-1</span><span class="p">),</span><span class="w"> 
+</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> 
+</span><span class="n">panel.grid</span><span class="o">=</span><span class="n">element_line</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"grey99"</span><span class="p">),</span><span class="w"> 
+</span><span class="n">panel.border</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"pval-scatterplot-low.png"</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="o">=</span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="n">units</span><span class="o">=</span><span class="s2">"cm"</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="o">=</span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"cairo"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297238881"><a href="/assets/images/posts/2017/2017-02-14-multiple-statistical-testing/pval-scatterplot-low.png" title="Boxplots showing 10,000 raw p-values between 0.00001 and 0.01 and corrected p-values using six methods. Data is shown as boxplots. Central vertical line indicates median and points indicate outliers. Dotted line across all data denotes the significance threshold of 0.05. Significant data is coloured in green and non-significant data is coloured in red.">
+      <img src="/assets/images/posts/2017/2017-02-14-multiple-statistical-testing/pval-scatterplot-low.png" alt="scatterplot-low" />
+    </a>
+    <figcaption>
+    Boxplots showing 10,000 raw p-values between 0.00001 and 0.01 and corrected p-values using six methods. Data is shown as boxplots. Central vertical line indicates median and points indicate outliers. Dotted line across all data denotes the significance threshold of 0.05. Significant data is coloured in green and non-significant data is coloured in red.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297238881 a'});
+</script>
+
+<p>We see that BH and Hommel correction keep all 10,000 p-values below the significance threshold of 0.05. BY is close but not significant. BY values can be made significant by raising the FDR from 5% to 12% or so. Holm, Sidak and B correct aggressively and most p-values are insignificant.</p>
+
+<p>Now we try the same idea but start with a set of p-values that are above and below the threshold of 0.05. We generate 10,000 random raw p-values between 0.00001 and 0.1. We will call this the lowhigh set.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#create a vector of random p-values</span><span class="w">
+</span><span class="n">df1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="nf">as.character</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">10000</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">Raw</span><span class="o">=</span><span class="n">runif</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="o">=</span><span class="m">0.00001</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="o">=</span><span class="m">0.1</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297244044"><a href="/assets/images/posts/2017/2017-02-14-multiple-statistical-testing/pval-scatterplot-lowhigh.png" title="Boxplots showing 10,000 raw p-values between 0.00001 and 0.1 and corrected p-values using six methods. Data is shown as boxplots. Central vertical line indicates median and points indicate outliers. Dotted line across all data denotes the significance threshold of 0.05. Significant data is coloured in green and non-significant data is coloured in red.">
+      <img src="/assets/images/posts/2017/2017-02-14-multiple-statistical-testing/pval-scatterplot-lowhigh.png" alt="scatterplot-lowhigh" />
+    </a>
+    <figcaption>
+    Boxplots showing 10,000 raw p-values between 0.00001 and 0.1 and corrected p-values using six methods. Data is shown as boxplots. Central vertical line indicates median and points indicate outliers. Dotted line across all data denotes the significance threshold of 0.05. Significant data is coloured in green and non-significant data is coloured in red.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297244044 a'});
+</script>
+
+<p>We see that the raw values are distributed below and above the 0.05 threshold. All correction methods push all values above the 0.05 threshold and none of the tests is significant.</p>
+
+<p>So the starting distribution of p-values certainly has an effect on the outcome of the corrected p-values. Another critical factor is the number of samples/number of tests. The less the number of starting p-values, the less aggressive will be the correction. To demonstrate that, we generate a low set and a lowhigh set, but for each, we will generate five different sets of starting number (n=10,100,1000,10000,100000). Corrections using 100,000 data points can take a few minutes.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dlist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="w">
+</span><span class="n">vec</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w"> </span><span class="m">100000</span><span class="p">)</span><span class="w">
+</span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="n">print</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+  </span><span class="c1">#create a dataframe of adjusted p-values</span><span class="w">
+  </span><span class="n">dlist</span><span class="p">[[</span><span class="n">i</span><span class="p">]]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="nf">as.character</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span><span class="w"> </span><span class="n">Raw</span><span class="o">=</span><span class="n">runif</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">min</span><span class="o">=</span><span class="m">0.00001</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="o">=</span><span class="m">0.01</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Holm</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"holm"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Hommel</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"hommel"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Bonferroni</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"bonferroni"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">BenjaminiHochberg</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">BenjaminiYekutieli</span><span class="o">=</span><span class="n">p.adjust</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"BY"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">SidakSD</span><span class="o">=</span><span class="n">mt.rawp2adjp</span><span class="p">(</span><span class="n">Raw</span><span class="p">,</span><span class="w"> </span><span class="n">proc</span><span class="o">=</span><span class="s2">"SidakSD"</span><span class="p">)</span><span class="o">$</span><span class="n">adjp</span><span class="p">[,</span><span class="w"> </span><span class="m">2</span><span class="p">])</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">gather</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="o">=</span><span class="n">measure</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">num</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Raw"</span><span class="p">,</span><span class="w"> </span><span class="s2">"BenjaminiHochberg"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Hommel"</span><span class="p">,</span><span class="w"> </span><span class="s2">"BenjaminiYekutieli"</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"Holm"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SidakSD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Bonferroni"</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">sig</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">measure</span><span class="o">&lt;</span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="s2">"significant"</span><span class="p">,</span><span class="w"> </span><span class="s2">"not-significant"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">sig</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"significant"</span><span class="p">,</span><span class="w"> </span><span class="s2">"not-significant"</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"n="</span><span class="p">,</span><span class="w"> </span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">df3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bind_rows</span><span class="p">(</span><span class="n">dlist</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># scatterplot</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">df3</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">measure</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">sig</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.8</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="o">=</span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">outlier.size</span><span class="o">=</span><span class="m">0.85</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">0.4</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.4</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s2">"21"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">ylab</span><span class="p">(</span><span class="nf">expression</span><span class="p">(</span><span class="w"> </span><span class="n">italic</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="n">value</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Boxplots showing raw p-values and six adjustment methods using five different number of tests (n)."</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_colour_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"#66c2a5"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#fc8d62"</span><span class="p">),</span><span class="w"> </span><span class="n">guide</span><span class="o">=</span><span class="n">guide_legend</span><span class="p">(</span><span class="n">nrow</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">10</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+  </span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span><span class="w"> 
+  </span><span class="n">legend.direction</span><span class="o">=</span><span class="s2">"horizontal"</span><span class="p">,</span><span class="w"> 
+  </span><span class="n">legend.justification</span><span class="o">=</span><span class="s2">"right"</span><span class="p">,</span><span class="w"> 
+  </span><span class="n">legend.title</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">legend.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">-10</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">legend.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="o">=</span><span class="s2">"plain"</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">legend.key.size</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">strip.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="s2">"grey96"</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">strip.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">lineheight</span><span class="o">=</span><span class="m">0.4</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">6.5</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">axis.text.y</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">6.5</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="o">=</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">axis.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">8</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">lineheight</span><span class="o">=</span><span class="m">-1</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">plot.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">panel.grid.major</span><span class="o">=</span><span class="n">element_line</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"grey94"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">0.25</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">panel.grid.minor</span><span class="o">=</span><span class="n">element_line</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"grey96"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">0.15</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">panel.border</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"pval-n-scatterplot-low.png"</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">units</span><span class="o">=</span><span class="s2">"cm"</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="o">=</span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"cairo"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297284507"><a href="/assets/images/posts/2017/2017-02-14-multiple-statistical-testing/pval-n-scatterplot-low.png" title="Boxplots showing 10,000 raw p-values between 0.00001 and 0.01 and corrected p-values using six methods and six different number of tests. Data is shown as boxplots. Central vertical line indicates median and points indicate outliers. Dotted line across all data denotes the significance threshold of 0.05. Significant data is colored in green and non-significant data is coloured in red.">
+      <img src="/assets/images/posts/2017/2017-02-14-multiple-statistical-testing/pval-n-scatterplot-low.png" alt="pval-n-scatterplot-low" />
+    </a>
+    <figcaption>
+    Boxplots showing 10,000 raw p-values between 0.00001 and 0.01 and corrected p-values using six methods and six different number of tests. Data is shown as boxplots. Central vertical line indicates median and points indicate outliers. Dotted line across all data denotes the significance threshold of 0.05. Significant data is colored in green and non-significant data is coloured in red.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297284507 a'});
+</script>
+
+<p>For the low set, as n increases from 10 to 100000, BH and Hommel methods keep all values below 0.05, while other methods drastically push the p-values further out towards 1. BY finds a compromise by keeping p-values low and significance can be achieved by increasing FDR.</p>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297286870"><a href="/assets/images/posts/2017/2017-02-14-multiple-statistical-testing/pval-n-scatterplot-lowhigh.png" title="Boxplots showing 10,000 raw p-values between 0.00001 and 0.1 and corrected p-values using six methods and six different number of tests. Data is shown as boxplots. Central vertical line indicates median and points indicate outliers. Dotted line across all data denotes the significance threshold of 0.05. Significant data is colored in green and non-significant data is coloured in red.">
+      <img src="/assets/images/posts/2017/2017-02-14-multiple-statistical-testing/pval-n-scatterplot-lowhigh.png" alt="pval-n-scatterplot-lowhigh" />
+    </a>
+    <figcaption>
+    Boxplots showing 10,000 raw p-values between 0.00001 and 0.1 and corrected p-values using six methods and six different number of tests. Data is shown as boxplots. Central vertical line indicates median and points indicate outliers. Dotted line across all data denotes the significance threshold of 0.05. Significant data is colored in green and non-significant data is coloured in red.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297286870 a'});
+</script>
+
+<p>For the lowhigh set, the corrections seem to be even stronger pushing the corrected p-values higher than 0.05 with all methods and all n values.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>As a general guide, multiple testing may not be necessary for exploratory analyses for hypothesis generation. FDR control may be suitable for exploratory analyses or screening to minimise false positives for further investigation. FWER control may be necessary for endpoint confirmatory analyses to absolutely eliminate any false positives.</p>
+
+<p>In conclusion, when performing multiple statistical tests on the same data, it is important to correct the resulting p-values. Controlling for FDR is the more preferred way to adjust p-values. The most popular method at least for genomics is the Benjamini-Hochberg.</p>
+
+<h2 id="references">References</h2>
+
+<ol>
+  <li>
+    <p><a href="https://stat.ethz.ch/education/semesters/ss2012/ams/slides/v8.2.pdf">ETH multiple testing </a>guide</p>
+  </li>
+  <li>
+    <p><a href="http://www.biostathandbook.com/multiplecomparisons.html">Biostathandbook</a> multiple comparison</p>
+  </li>
+  <li>
+    <p>Benjamini, Y., &amp; Hochberg, Y. (1995). <a href="https://www.jstor.org/stable/2346101">Controlling the false discovery rate: a practical and powerful approach to multiple testing</a>. Journal of the royal statistical society. Series B (Methodological), 289-300.</p>
+  </li>
+  <li>
+    <p>Pollard, K. S., Dudoit, S., &amp; van der Laan, M. J. (2005). <a href="http://link.springer.com/chapter/10.1007/0-387-29362-0_15">Multiple testing procedures: the </a>multtest package and applications to genomics. In Bioinformatics and computational biology solutions using R and bioconductor (pp. 249-271). Springer New York.</p>
+  </li>
+  <li>
+    <p>Bender, R., &amp; Lange, S. (2001). <a href="http://www.sciencedirect.com/science/article/pii/S0895435600003140">Adjusting for multiple testing—when and how</a>?. Journal of clinical epidemiology, 54(4), 343-349.</p>
+  </li>
+  <li>
+    <p>Noble, W. S. (2009). <a href="http://www.nature.com/nbt/journal/v27/n12/abs/nbt1209-1135.html">How does multiple testing </a>correction work?. Nature biotechnology, 27(12), 1135-1137.</p>
+  </li>
+  <li>
+    <p>Reiner, A., D. Yekutieli and Y. Benjamini. (2003). <a href="https://doi.org/10.1093/bioinformatics/btf877">Identifying differentially expressed genes using false discovery rate controlling procedures</a>. Bioinformatics 19: 368-375.</p>
+  </li>
+</ol>
+
+            </div>
+          </div>
+          <div class="toc-content-child-right">
+            <nav class="toc">
+              <ul class="toc__menu"><li><a href="#control-family-wise-error-rate-fwer">Control Family-wise error rate (FWER)</a><ul><li><a href="#bonferroni-correction">Bonferroni correction</a></li><li><a href="#bonferroni-step-down-holm">Bonferroni step-down (Holm)</a></li></ul></li><li><a href="#control-false-discovery-rate-fdr">Control False discovery rate (FDR)</a><ul><li><a href="#benjamini-hochberg">Benjamini-Hochberg</a></li></ul></li><li><a href="#practical-example">Practical example</a></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#references">References</a></li></ul>
+
+            </nav>
+          </div>
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/india-2017/" class="pagination--pager" title="Tropical break in India
+">Previous</a>
+    
+    
+      <a href="/running-imagej-linux-cluster/" class="pagination--pager" title="Running ImageJ on a Linux cluster
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+    <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+  <div class="page-related-mx">
+    <h2 class="page__related-title">You may also enjoy</h2>
+    <div class="grid__wrapper">
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-11-07-greece-thessaloniki/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-11-07T00:00:00+01:00">07 Nov 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/greece-thessaloniki/" rel="permalink">Exploring history and culture in Thessaloniki
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A short weekend away in Thessaloniki, Greece.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-09-17T00:00:00+02:00">17 Sep 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+        
+          <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/scatterplot-annotation/" rel="permalink">Scatterplot annotation
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-08-22T00:00:00+02:00">22 Aug 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/sweden-west-coast/" rel="permalink">Exploring the Swedish west coast
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A road trip exploring the west coast of Sweden.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-06-30-portugal/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-06-30T00:00:00+02:00">30 Jun 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/portugal/" rel="permalink">Road trip through Portugal
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A conference and road trip through Portugal.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://royfrancis.com/multiple-statistical-testing/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/multiple-statistical-testing"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://romf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

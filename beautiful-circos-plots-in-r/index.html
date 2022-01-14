@@ -1,0 +1,1113 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Beautiful circos plots in R • rmf</title>
+<meta name="description" content="Circos plots are popular for displaying huge amounts of data in a relatively small visual space. This is especially relevant for genomic data. This post explores creating Circos-style genomic data plots in R using R package circlize.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+  <meta property="article:author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="Beautiful circos plots in R">
+<meta property="og:url" content="https://royfrancis.com/beautiful-circos-plots-in-r/">
+
+
+  <meta property="og:description" content="Circos plots are popular for displaying huge amounts of data in a relatively small visual space. This is especially relevant for genomic data. This post explores creating Circos-style genomic data plots in R using R package circlize.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2019-02-17T16:15:23+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/beautiful-circos-plots-in-r/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/featured.jpg alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="Beautiful circos plots in R">
+    
+    <meta itemprop="description" content="Circos plots are popular for displaying huge amounts of data in a relatively small visual space. This is especially relevant for genomic data. This post explores creating Circos-style genomic data plots in R using R package circlize.">
+    
+    <meta itemprop="datePublished" content="2019-02-17T16:15:23+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/beautiful-circos-plots-in-r/" class="u-url" itemprop="url">Beautiful circos plots in R
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published" datetime="2019-02-17T16:15:23+01:00">17 Feb 2019</time></span>
+
+  
+  <span class="separator">
+    •
+  </span>
+  
+  
+  
+
+
+  
+
+  <span>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords" class="category-keywords">
+    
+      <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+    
+      <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+    
+    </span>
+  </span>
+
+
+</div>  
+  
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#data-visualisation" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Data Visualisation</a><span class="sep">, </span>
+    
+      <a href="/tags/#genomics" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Genomics</a><span class="sep">, </span>
+    
+      <a href="/tags/#ngs" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">NGS</a><span class="sep">, </span>
+    
+      <a href="/tags/#r" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</a>
+    
+    </span>
+  </p>
+
+
+</div>
+        </footer>
+
+        
+        <div class="toc-content">
+          <div class="toc-content-child-left">
+            <div class="article-content">
+              <p><a href="http://circos.ca/">Circos</a> plots are popular for displaying huge amounts of data in a relatively small visual space. This is especially relevant for genomic data. This post explores creating Circos-style genomic data plots in R using R package <a href="https://github.com/jokergoo/circlize">circlize</a>.</p>
+
+<p>The first step is plan your figure. How many genomes to include? Or perhaps, it’s one genome with multiple chromosomes. What sort of information do you want to include? In my case, I have three bacterial genomes for which I would like to show the sequencing depth, GC content, locations of important genes and finally rearrangements between the three genomes. You need to have all this data prepared first. Unfortunately I am unable to provide the raw files, but I can give an idea of the file formats.</p>
+
+<h2 id="data">Data</h2>
+
+<p>My three genomes are named pb_501_001, pb_501_002 and pb_501_003.</p>
+
+<p>Coverage was computed on BAM files using <code class="language-plaintext highlighter-rouge">bedtools genomecov</code>. The data looked like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pb_501_001 1 24
+pb_501_001 2 58
+pb_501_001 3 62
+...
+</code></pre></div></div>
+
+<p>with columns: sample, base and depth. This was read into R and converted to median coverage within a window size of 1000 bases creating a BED format. This is file named <strong>cov</strong> later in the code.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chr        start end  value1
+pb_501_001 1     1000 145
+pb_501_001 1001  2000 154
+pb_501_001 2001  3000 158
+...
+</code></pre></div></div>
+
+<p>The GC content was computed using <code class="language-plaintext highlighter-rouge">bedtools nuc</code>. The data is a typical BED format when read into R looks like below. This is the file named <strong>gc</strong> later in the code.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chr        start end  value1
+pb_501_001 1     1000 145.0
+pb_501_001 1001  2000 154.0
+pb_501_001 2001  3000 158.0
+...
+</code></pre></div></div>
+
+<p>The gene annotation file looks like below. This file is called <strong>ann</strong> later in the code.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chr        start  end    value1 gene
+pb_501_001 325210 326376 1      yxeP
+pb_501_001 397301 397795 1      sorB
+pb_501_001 399088 400035 1      sorC
+...
+</code></pre></div></div>
+
+<p>The value1 is a random value (to maintain bed format, the actual value is not used).</p>
+
+<p>The rearrangements can be obtained from <a href="http://darlinglab.org/mauve/mauve.html">Mauve</a> or Nucmer (<a href="http://mummer.sourceforge.net/">Mummer</a>). The data is for pairs of genomes/chromosomes and it looks like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pb_501_001 1     59986   pb_501_002 1       62503
+pb_501_001 60196 1183032 pb_501_002 4682296 3560259
+...
+</code></pre></div></div>
+
+<p>with columns: name of genome/chr 1, start position in 1, end position in 1, name of genome/chr 2, start position in 2, end position in 2.</p>
+
+<p>This is split up into two files which I call <strong>nuc1</strong> and <strong>nuc2</strong> later in the code.</p>
+
+<p><strong>nuc1</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pb_501_001 1       59986
+pb_501_001 60196   1183032
+pb_501_001 1182899 4708778
+...
+</code></pre></div></div>
+
+<p><strong>nuc2</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pb_501_002 1       62503
+pb_501_002 4682296 3560259
+pb_501_002 67566   3555254
+...
+</code></pre></div></div>
+
+<h2 id="plotting">Plotting</h2>
+
+<p>We are now ready to start plotting. We will first look at the default code for each step and then also explore the customised code . Plots are showed side by side to compare default and customised results.</p>
+
+<p>Start by loading the library and initialising the layout.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">circlize</span><span class="p">)</span><span class="w">
+</span><span class="n">circos.clear</span><span class="p">()</span><span class="w">
+</span><span class="n">circos.initialize</span><span class="p">(</span><span class="n">factors</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"pb_501_001"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pb_501_002"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pb_501_003"</span><span class="p">),</span><span class="w"> 
+</span><span class="n">xlim</span><span class="o">=</span><span class="n">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="n">ref</span><span class="o">$</span><span class="n">V2</span><span class="p">),</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">xlim</code> matrix defines the start and stop for each genome/chr. Essentially the genome or chr sizes. The matrix looks like this:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="n">ref</span><span class="o">$</span><span class="n">V2</span><span class="p">),</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
+        </span><span class="p">[,</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="p">[,</span><span class="m">2</span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="m">1</span><span class="p">,]</span><span class="w"> </span><span class="m">0</span><span class="w">    </span><span class="m">5167156</span><span class="w">
+</span><span class="p">[</span><span class="m">2</span><span class="p">,]</span><span class="w"> </span><span class="m">0</span><span class="w">    </span><span class="m">5138029</span><span class="w">
+</span><span class="p">[</span><span class="m">3</span><span class="p">,]</span><span class="w"> </span><span class="m">0</span><span class="w">    </span><span class="m">5080212</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="genome">Genome</h3>
+
+<p>At this point, the plotting window is still blank because nothing as actually been drawn. Then we create the genome backbone.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># genomes</span><span class="w">
+</span><span class="n">circos.track</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">panel.fun</span><span class="o">=</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">chr</span><span class="o">=</span><span class="n">CELL_META</span><span class="o">$</span><span class="n">sector.index</span><span class="w">
+</span><span class="n">xlim</span><span class="o">=</span><span class="n">CELL_META</span><span class="o">$</span><span class="n">xlim</span><span class="w">
+</span><span class="n">ylim</span><span class="o">=</span><span class="n">CELL_META</span><span class="o">$</span><span class="n">ylim</span><span class="w">
+</span><span class="n">circos.text</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">xlim</span><span class="p">),</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">ylim</span><span class="p">),</span><span class="w"> </span><span class="n">chr</span><span class="p">)</span><span class="w">
+</span><span class="p">})</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now, we can see the plot showing the three genomes and their relative lengths. They are labelled using the <code class="language-plaintext highlighter-rouge">circos.text()</code> command. We can customise this by first setting some custom defaults using <code class="language-plaintext highlighter-rouge">circos.par()</code>. <code class="language-plaintext highlighter-rouge">gap.degree</code> is increased to increase gap width so as to fit in our y-axis labels later. <code class="language-plaintext highlighter-rouge">cell.padding</code> is set to zero to reduce empty space around the plots. Then, we resize the panel height, adjust text size and background colour.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">circos.clear</span><span class="p">()</span><span class="w">
+</span><span class="n">col_text</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"grey40"</span><span class="w">
+</span><span class="n">circos.par</span><span class="p">(</span><span class="s2">"track.height"</span><span class="o">=</span><span class="m">0.8</span><span class="p">,</span><span class="w"> </span><span class="n">gap.degree</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">cell.padding</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="w">
+</span><span class="n">circos.initialize</span><span class="p">(</span><span class="n">factors</span><span class="o">=</span><span class="n">ref</span><span class="o">$</span><span class="n">V1</span><span class="p">,</span><span class="w"> </span><span class="n">xlim</span><span class="o">=</span><span class="n">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="n">ref</span><span class="o">$</span><span class="n">V2</span><span class="p">),</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># genomes</span><span class="w">
+</span><span class="n">circos.track</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">panel.fun</span><span class="o">=</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">chr</span><span class="o">=</span><span class="n">CELL_META</span><span class="o">$</span><span class="n">sector.index</span><span class="w">
+</span><span class="n">xlim</span><span class="o">=</span><span class="n">CELL_META</span><span class="o">$</span><span class="n">xlim</span><span class="w">
+</span><span class="n">ylim</span><span class="o">=</span><span class="n">CELL_META</span><span class="o">$</span><span class="n">ylim</span><span class="w">
+</span><span class="n">circos.text</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">xlim</span><span class="p">),</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">ylim</span><span class="p">),</span><span class="w"> </span><span class="n">chr</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="n">col_text</span><span class="p">,</span><span class="w"> 
+</span><span class="n">facing</span><span class="o">=</span><span class="s2">"bending.inside"</span><span class="p">,</span><span class="w"> </span><span class="n">niceFacing</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="p">},</span><span class="w"> </span><span class="n">bg.col</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">,</span><span class="w"> </span><span class="n">bg.border</span><span class="o">=</span><span class="nb">F</span><span class="p">,</span><span class="w"> </span><span class="n">track.height</span><span class="o">=</span><span class="m">0.06</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now we can compare how our raw and custom plots look like.</p>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972194790"><a href="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-backbone.jpg" title="Genome backbone seen using default setting (left) and customised settings (right).">
+      <img src="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-backbone.jpg" alt="circos-backbone" />
+    </a>
+    <figcaption>
+    Genome backbone seen using default setting (left) and customised settings (right).
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972194790 a'});
+</script>
+
+<p>Let’s add an x-axis to the plot:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># genomes x axis</span><span class="w">
+</span><span class="n">circos.track</span><span class="p">(</span><span class="n">track.index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get.current.track.index</span><span class="p">(),</span><span class="w"> </span><span class="n">panel.fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">circos.axis</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="s2">"top"</span><span class="p">)</span><span class="w">
+</span><span class="p">})</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We can see the x-axis added (see below). We are going to add custom breaks, change label colour, size, direction and thickness of the axis line.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># genomes x axis</span><span class="w">
+</span><span class="n">brk</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2.5</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">3.5</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">4.5</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="o">*</span><span class="m">10</span><span class="o">^</span><span class="m">6</span><span class="w">
+</span><span class="n">circos.track</span><span class="p">(</span><span class="n">track.index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get.current.track.index</span><span class="p">(),</span><span class="w"> </span><span class="n">panel.fun</span><span class="o">=</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">circos.axis</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span><span class="w"> </span><span class="n">major.at</span><span class="o">=</span><span class="n">brk</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="o">=</span><span class="nf">round</span><span class="p">(</span><span class="n">brk</span><span class="o">/</span><span class="m">10</span><span class="o">^</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">labels.cex</span><span class="o">=</span><span class="m">0.4</span><span class="p">,</span><span class="w"> 
+</span><span class="n">col</span><span class="o">=</span><span class="n">col_text</span><span class="p">,</span><span class="w"> </span><span class="n">labels.col</span><span class="o">=</span><span class="n">col_text</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0.7</span><span class="p">,</span><span class="w"> </span><span class="n">labels.facing</span><span class="o">=</span><span class="s2">"clockwise"</span><span class="p">)</span><span class="w">
+</span><span class="p">},</span><span class="w"> </span><span class="n">bg.border</span><span class="o">=</span><span class="nb">F</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297274851"><a href="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-xaxis.jpg" title="Genome backbone with x-axis seen using default setting (left) and customised settings (right).">
+      <img src="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-xaxis.jpg" alt="circos-xaxis" />
+    </a>
+    <figcaption>
+    Genome backbone with x-axis seen using default setting (left) and customised settings (right).
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297274851 a'});
+</script>
+
+<h3 id="coverage">Coverage</h3>
+
+<p>Let’s add the coverage information and a y-axis for the coverage:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># coverage</span><span class="w">
+</span><span class="n">circos.genomicTrack</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cov</span><span class="p">,</span><span class="w"> </span><span class="n">panel.fun</span><span class="o">=</span><span class="k">function</span><span class="p">(</span><span class="n">region</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">circos.genomicLines</span><span class="p">(</span><span class="n">region</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w">
+</span><span class="p">})</span><span class="w">
+</span><span class="c1"># coverage y axis</span><span class="w">
+</span><span class="n">circos.yaxis</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The coverage along the genome is displayed as a line. The y-axis is used to show a reference for the values that are plotted. We will change properties of the line such as colour and thickness. We add extra segments to act as gridlines. And we remove all y-axis elements except the text.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># coverage</span><span class="w">
+</span><span class="n">circos.genomicTrack</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cov</span><span class="p">,</span><span class="w"> </span><span class="n">panel.fun</span><span class="o">=</span><span class="k">function</span><span class="p">(</span><span class="n">region</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">circos.genomicLines</span><span class="p">(</span><span class="n">region</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"l"</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey50"</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0.6</span><span class="p">)</span><span class="w">
+</span><span class="n">circos.segments</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="n">ref</span><span class="o">$</span><span class="n">V2</span><span class="p">),</span><span class="w"> </span><span class="n">y0</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">lty</span><span class="o">=</span><span class="s2">"11"</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">)</span><span class="w">
+</span><span class="n">circos.segments</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="n">ref</span><span class="o">$</span><span class="n">V2</span><span class="p">),</span><span class="w"> </span><span class="n">y0</span><span class="o">=</span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="o">=</span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">lty</span><span class="o">=</span><span class="s2">"11"</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">)</span><span class="w">
+</span><span class="c1">#circos.segments(x0=0, x1=max(ref$V2), y0=500, y1=500, lwd=0.6, lty="11", col="grey90")</span><span class="w">
+</span><span class="p">},</span><span class="w"> </span><span class="n">track.height</span><span class="o">=</span><span class="m">0.08</span><span class="p">,</span><span class="w"> </span><span class="n">bg.border</span><span class="o">=</span><span class="nb">F</span><span class="p">)</span><span class="w">
+</span><span class="n">circos.yaxis</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">300</span><span class="p">),</span><span class="w"> </span><span class="n">labels.cex</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">tick.length</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">labels.col</span><span class="o">=</span><span class="n">col_text</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"#FFFFFF"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972166102"><a href="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-coverage.jpg" title="Circlize plot showing coverage using default setting (left) and customised settings (right).">
+      <img src="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-coverage.jpg" alt="circos-coverage" />
+    </a>
+    <figcaption>
+    Circlize plot showing coverage using default setting (left) and customised settings (right).
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972166102 a'});
+</script>
+
+<h3 id="gc-content">GC content</h3>
+
+<p>Let’s add GC content and it’s y-axis:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># gc content</span><span class="w">
+</span><span class="n">circos.track</span><span class="p">(</span><span class="n">factors</span><span class="o">=</span><span class="n">gc</span><span class="o">$</span><span class="n">chr</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">gc</span><span class="o">$</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">gc</span><span class="o">$</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">panel.fun</span><span class="o">=</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">circos.lines</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w">
+</span><span class="p">})</span><span class="w">
+</span><span class="c1"># gc y axis</span><span class="w">
+</span><span class="n">circos.yaxis</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Similar to the previous step, GC content is displayed as lines. The customisation is similar to the previous step. The gridline positions and values have obviously changed.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># gc content</span><span class="w">
+</span><span class="n">circos.track</span><span class="p">(</span><span class="n">factors</span><span class="o">=</span><span class="n">gc</span><span class="o">$</span><span class="n">chr</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">gc</span><span class="o">$</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">gc</span><span class="o">$</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">panel.fun</span><span class="o">=</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">circos.lines</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey50"</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0.6</span><span class="p">)</span><span class="w">
+</span><span class="n">circos.segments</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="n">ref</span><span class="o">$</span><span class="n">V2</span><span class="p">),</span><span class="w"> </span><span class="n">y0</span><span class="o">=</span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="o">=</span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">lty</span><span class="o">=</span><span class="s2">"11"</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">)</span><span class="w">
+</span><span class="n">circos.segments</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="n">ref</span><span class="o">$</span><span class="n">V2</span><span class="p">),</span><span class="w"> </span><span class="n">y0</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">lty</span><span class="o">=</span><span class="s2">"11"</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">)</span><span class="w">
+</span><span class="n">circos.segments</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="n">ref</span><span class="o">$</span><span class="n">V2</span><span class="p">),</span><span class="w"> </span><span class="n">y0</span><span class="o">=</span><span class="m">0.7</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="o">=</span><span class="m">0.7</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">lty</span><span class="o">=</span><span class="s2">"11"</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">)</span><span class="w">
+</span><span class="p">},</span><span class="w"> </span><span class="n">ylim</span><span class="o">=</span><span class="nf">range</span><span class="p">(</span><span class="n">gc</span><span class="o">$</span><span class="n">value</span><span class="p">),</span><span class="w"> </span><span class="n">track.height</span><span class="o">=</span><span class="m">0.08</span><span class="p">,</span><span class="w"> </span><span class="n">bg.border</span><span class="o">=</span><span class="nb">F</span><span class="p">)</span><span class="w">
+</span><span class="c1"># gc y axis</span><span class="w">
+</span><span class="n">circos.yaxis</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="m">0.7</span><span class="p">),</span><span class="w"> </span><span class="n">labels.cex</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">tick.length</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">labels.col</span><span class="o">=</span><span class="n">col_text</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"#FFFFFF"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297249063"><a href="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-gc.jpg" title="Circlize plot showing GC content graph using default setting (left) and customised settings (right).">
+      <img src="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-gc.jpg" alt="circos-gc" />
+    </a>
+    <figcaption>
+    Circlize plot showing GC content graph using default setting (left) and customised settings (right).
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297249063 a'});
+</script>
+
+<h3 id="gene-labels">Gene labels</h3>
+
+<p>Then we add gene labels:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># gene labels</span><span class="w">
+</span><span class="n">circos.genomicLabels</span><span class="p">(</span><span class="n">ann</span><span class="p">,</span><span class="w"> </span><span class="n">labels.column</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The gene labels are added along with connection lines to indicate their exact position in the genome. This is too crowded without some manual customisation. We adjust the label size, colour and the length, thickness and colour of the connection lines. The track height is set to a custom value.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># gene labels</span><span class="w">
+</span><span class="n">circos.genomicLabels</span><span class="p">(</span><span class="n">ann</span><span class="p">,</span><span class="w"> </span><span class="n">labels.column</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="n">col_text</span><span class="p">,</span><span class="w"> </span><span class="n">line_lwd</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">line_col</span><span class="o">=</span><span class="s2">"grey80"</span><span class="p">,</span><span class="w"> 
+</span><span class="n">side</span><span class="o">=</span><span class="s2">"inside"</span><span class="p">,</span><span class="w"> </span><span class="n">connection_height</span><span class="o">=</span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">labels_height</span><span class="o">=</span><span class="m">0.04</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972164515"><a href="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-genes.jpg" title="Circlize plot showing gene positions and gene labels using default setting (left) and customised settings (right).">
+      <img src="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-genes.jpg" alt="circos-genes" />
+    </a>
+    <figcaption>
+    Circlize plot showing gene positions and gene labels using default setting (left) and customised settings (right).
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972164515 a'});
+</script>
+
+<h3 id="rearrangements">Rearrangements</h3>
+
+<p>Finally, we add the rearrangements using <code class="language-plaintext highlighter-rouge">circos.genomicLink()</code> function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># rearrangements</span><span class="w">
+</span><span class="n">circos.genomicLink</span><span class="p">(</span><span class="n">nuc1</span><span class="p">,</span><span class="w"> </span><span class="n">nuc2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If you are running these steps interactively, this may not be visible as there is no space. But, if you run this inside a <code class="language-plaintext highlighter-rouge">png()</code> device, you can at least see it. Since there is no transparency, overlapping ribbons are not visible. We will assign green colour to rearrangements in the same direction and red colour to inversions. And we set 0.4 opacity for better visibility of overlapping ribbons.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># rearrangements</span><span class="w">
+</span><span class="n">rcols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">alpha</span><span class="p">(</span><span class="n">ifelse</span><span class="p">(</span><span class="nf">sign</span><span class="p">(</span><span class="n">nuc1</span><span class="o">$</span><span class="n">start</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nuc1</span><span class="o">$</span><span class="n">end</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nf">sign</span><span class="p">(</span><span class="n">nuc2</span><span class="o">$</span><span class="n">start</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nuc2</span><span class="o">$</span><span class="n">end</span><span class="p">),</span><span class="w"> </span><span class="s2">"#f46d43"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#66c2a5"</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.4</span><span class="p">)</span><span class="w">
+</span><span class="n">circos.genomicLink</span><span class="p">(</span><span class="n">nuc1</span><span class="p">,</span><span class="w"> </span><span class="n">nuc2</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="n">rcols</span><span class="p">,</span><span class="w"> </span><span class="n">border</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>And here we have the complete plot. Track heights for every track has been reduced to leave space for the rearrangement link figure in the middle.</p>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297239276"><a href="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-full.jpg" title="Circlize plot using default setting (left) and customised settings (right).">
+      <img src="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos-full.jpg" alt="circos-full" />
+    </a>
+    <figcaption>
+    Circlize plot using default setting (left) and customised settings (right).
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297239276 a'});
+</script>
+
+<p>For the purpose of captioning, I have further added some numbers in an image editing software. This will be useful to describe each part of the figure.</p>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972139628"><a href="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos.jpg" title="Circos plot with custom labels added for captions.">
+      <img src="/assets/images/posts/2019/2019-02-17-beautiful-circos-plots-in-r/circos.jpg" alt="featured" />
+    </a>
+    <figcaption>
+    Circos plot with custom labels added for captions.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972139628 a'});
+</script>
+
+
+            </div>
+          </div>
+          <div class="toc-content-child-right">
+            <nav class="toc">
+              <ul class="toc__menu"><li><a href="#data">Data</a></li><li><a href="#plotting">Plotting</a><ul><li><a href="#genome">Genome</a></li><li><a href="#coverage">Coverage</a></li><li><a href="#gc-content">GC content</a></li><li><a href="#gene-labels">Gene labels</a></li><li><a href="#rearrangements">Rearrangements</a></li></ul></li></ul>
+
+            </nav>
+          </div>
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/fast-ld-computation-from-vcf-files-using-tomahawk/" class="pagination--pager" title="Fast LD computation from VCF files using Tomahawk
+">Previous</a>
+    
+    
+      <a href="/a-guide-to-elegant-tiled-heatmaps-in-r-2019/" class="pagination--pager" title="A guide to elegant tiled heatmaps in R [2019]
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+    <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+  <div class="page-related-mx">
+    <h2 class="page__related-title">You may also enjoy</h2>
+    <div class="grid__wrapper">
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-11-07-greece-thessaloniki/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-11-07T00:00:00+01:00">07 Nov 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/greece-thessaloniki/" rel="permalink">Exploring history and culture in Thessaloniki
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A short weekend away in Thessaloniki, Greece.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-09-17T00:00:00+02:00">17 Sep 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+        
+          <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/scatterplot-annotation/" rel="permalink">Scatterplot annotation
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-08-22T00:00:00+02:00">22 Aug 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/sweden-west-coast/" rel="permalink">Exploring the Swedish west coast
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A road trip exploring the west coast of Sweden.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-06-30-portugal/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-06-30T00:00:00+02:00">30 Jun 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/portugal/" rel="permalink">Road trip through Portugal
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A conference and road trip through Portugal.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://royfrancis.com/beautiful-circos-plots-in-r/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/beautiful-circos-plots-in-r"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://romf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

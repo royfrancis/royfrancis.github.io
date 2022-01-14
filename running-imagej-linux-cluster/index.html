@@ -1,0 +1,947 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Running ImageJ on a Linux cluster • rmf</title>
+<meta name="description" content="A quick tutorial on running ImageJ on a Linux cluster.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+  <meta property="article:author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="Running ImageJ on a Linux cluster">
+<meta property="og:url" content="https://royfrancis.com/running-imagej-linux-cluster/">
+
+
+  <meta property="og:description" content="A quick tutorial on running ImageJ on a Linux cluster.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2017-03-19T22:05:26+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/running-imagej-linux-cluster/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/posts/2017/2017-03-19-running-imagej-linux-cluster/featured.jpg alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="Running ImageJ on a Linux cluster">
+    
+    <meta itemprop="description" content="A quick tutorial on running ImageJ on a Linux cluster.">
+    
+    <meta itemprop="datePublished" content="2017-03-19T22:05:26+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/running-imagej-linux-cluster/" class="u-url" itemprop="url">Running ImageJ on a Linux cluster
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published" datetime="2017-03-19T22:05:26+01:00">19 Mar 2017</time></span>
+
+  
+  <span class="separator">
+    •
+  </span>
+  
+  
+  
+
+
+  
+
+  <span>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords" class="category-keywords">
+    
+      <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+    
+      <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+    
+    </span>
+  </span>
+
+
+</div>  
+  
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#image-analysis" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Image Analysis</a><span class="sep">, </span>
+    
+      <a href="/tags/#imagej" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">ImageJ</a>
+    
+    </span>
+  </p>
+
+
+</div>
+        </footer>
+
+        
+        <div class="article-content">
+          <p>I use <a href="https://imagej.nih.gov/ij/">ImageJ</a> for many of my image analysis needs. My desktop computer runs Windows 7 and it has pretty solid specs with Core i7 processor and 16GB RAM. I recently had to handle some large tiff stacks (4-5gb) and it simply wouldn’t work on my desktop as I constantly ran into ‘out of memory’ errors. So I decided to run them on a computing cluster instead since I have access to one. Running on a cluster might be useful when handling data with large memory requirements or to perform computations on numerous files in parallel by distributing load to multiple cores. It took me a while to figure out how to get things to work, so I thought I would make a record of it. And this might hopefully be useful to others.</p>
+
+<!-- more -->
+<hr />
+
+<p>The computing cluster runs Linux OS CentOS 7. The cluster uses the <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager">SLURM</a> system for job submissions. I have set up a directory structure is as follows:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>home
++--img/
+   +--from/
+   +--to/
+   +--work/
+   +--programs/
+   +--scripts/
+</code></pre></div></div>
+
+<p>I have downloaded the ImageJ Java executable for <a href="https://imagej.nih.gov/ij/download.html">Linux</a> and copied it to the programs directory.</p>
+
+<h2 id="substacking-tiff-stacks">Substacking tiff stacks</h2>
+
+<p>In this example, the script performs a simple basic operation: Open a tiff-stack from a source directory (from), subset the stack (skip frame1, keep frames 2 to end) and write the new file to a destination directory (to). And this will be performed in batch for all files in the source directory. In this example, the file will be processed one after the other (serial) and not in parallel.</p>
+
+<p>I have two script files: a bash script file (<em>tifftosubstack.sh</em>) and an ImageJ macro file (<em>tifftosubstack.ijm</em>) in my scripts directory.</p>
+
+<p>My <em>tifftosubstack.sh</em> bash script looks like below:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="c">#SBATCH -A accountname</span>
+<span class="c">#SBATCH -p core</span>
+<span class="c">#SBATCH -n 3</span>
+<span class="c">#SBATCH -t 2:00:00</span>
+<span class="c">#SBATCH -J tifftoss</span>
+
+<span class="nb">echo</span> <span class="s2">"Tiff to Substack"</span>
+
+<span class="c">#run imagej script</span>
+<span class="nb">echo</span> <span class="s2">"Running ImageJ ..."</span>
+/home/programs/fiji-linux-64/ImageJ-linux64 <span class="nt">--headless</span> <span class="nt">-macro</span> /home/img/scripts/tifftosubstack.ijm
+
+<span class="nb">echo</span> <span class="s2">"End of Script"</span>
+</code></pre></div></div>
+
+<p>The batch script just runs the ImageJ executable along with the ImageJ macro file. The SBATCH lines are only relevant if the script is submitted as a SLURM job. It doesn’t matter where the bash script is run because there are no relative links. And my ImageJ macro script looks as below:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// ImageJ batch script to substack tiff stack
+// 2016 Roy Mathew Francis
+
+//set directories
+dirsource <span class="o">=</span> <span class="s2">"/home/img/from/"</span><span class="p">;</span>
+dirresult <span class="o">=</span> <span class="s2">"/home/img/to/"</span><span class="p">;</span>
+
+setBatchMode<span class="o">(</span><span class="nb">true</span><span class="o">)</span><span class="p">;</span>
+list <span class="o">=</span> getFileList<span class="o">(</span>dirsource<span class="o">)</span><span class="p">;</span>
+print<span class="o">(</span><span class="s2">"======================================================"</span><span class="o">)</span><span class="p">;</span>
+print<span class="o">(</span><span class="s2">"~~ ImageJ Tiff Substack ~~"</span><span class="o">)</span><span class="p">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="nv">i</span><span class="o">=</span>0<span class="p">;</span> i&lt;list.length<span class="p">;</span> i++<span class="o">)</span>
+  <span class="o">{</span>
+    print<span class="o">(</span><span class="s2">"------------------------------------------------------"</span><span class="o">)</span><span class="p">;</span>
+    print<span class="o">(</span><span class="s2">"Processing "</span>+<span class="o">(</span>i+1<span class="o">)</span>+<span class="s2">" of "</span>+list.length+<span class="s2">"..."</span><span class="o">)</span><span class="p">;</span>
+    spath <span class="o">=</span> dirsource+list[i]<span class="p">;</span>
+
+    //open tiff image
+    print<span class="o">(</span><span class="s2">"Opening "</span>+spath<span class="o">)</span><span class="p">;</span>
+    open<span class="o">(</span>spath<span class="o">)</span><span class="p">;</span>
+    title <span class="o">=</span> getTitle<span class="o">()</span><span class="p">;</span>
+    imgorig <span class="o">=</span> getImageID<span class="o">()</span><span class="p">;</span>
+
+    //substack slice 2 to end
+  selectImage<span class="o">(</span>imgorig<span class="o">)</span><span class="p">;</span>
+  print<span class="o">(</span><span class="s2">"Slices: "</span>+nSlices<span class="o">)</span><span class="p">;</span>
+  run<span class="o">(</span><span class="s2">"Make Substack..."</span>, <span class="s2">"  slices=2-"</span>+nSlices<span class="o">)</span><span class="p">;</span>
+
+  //save tiff file
+  imgsub <span class="o">=</span> getImageID<span class="o">()</span><span class="p">;</span>
+  selectImage<span class="o">(</span>imgsub<span class="o">)</span><span class="p">;</span>
+    saveAs<span class="o">(</span><span class="s2">"Tiff"</span>, dirresult+title<span class="o">)</span><span class="p">;</span>
+    print<span class="o">(</span>dirresult+title+<span class="s2">" saved."</span><span class="o">)</span><span class="p">;</span>
+
+    //close all
+    close<span class="o">(</span><span class="s2">"*.tif"</span><span class="o">)</span><span class="p">;</span>
+  <span class="o">}</span>
+
+print<span class="o">(</span><span class="s2">"======================================================"</span><span class="o">)</span><span class="p">;</span>
+<span class="nb">eval</span><span class="o">(</span><span class="s2">"script"</span>,<span class="s2">"System.exit(0);"</span><span class="o">)</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The ijm script is a loop that reads each file in the source directory, creates a substack (frame 2 to end of stack) and writes it out to the destination directory. The ijm file can be modified to perform other kinds of ImageJ processing. Once the two scripts are ready, verify that the paths are correct and set execute permissions on them.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x tifftosubstack.sh
+</code></pre></div></div>
+
+<p>Then run the bash script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tifftosubstack.sh
+</code></pre></div></div>
+
+<p>If your current directory is not scripts, then use the full path to execute the bash script. Once the execution is complete, the new tiff stack will be in the ‘to’ directory.</p>
+
+<h2 id="substacking-compressed-tiffstacks">Substacking compressed tiff stacks</h2>
+
+<p>This is an example where the loop is created in the bash script instead. The operation is same as before except that we start with compressed tiff stacks (gzipped). The steps will be as follows: the file is copied from source directory (from) to a temporary working directory (work), uncompressed, processed in ImageJ and exported to destination directory (to), and finally compressed. This will be performed in batch for all files in the source directory and the files will be processed one after the other (serial) and not in parallel.</p>
+
+<p>I have two script files: a bash script file (<em>tifftosubstackcompress.sh</em>) and an ImageJ macro file (<em>tifftosubstackcompress.ijm</em>).</p>
+
+<p>My <em>tifftosubstackcompress.sh</em> bash script looks like below:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="c">#SBATCH -A accountname</span>
+<span class="c">#SBATCH -p core</span>
+<span class="c">#SBATCH -n 3</span>
+<span class="c">#SBATCH -t 2:00:00</span>
+<span class="c">#SBATCH -J tifftoss</span>
+
+<span class="nb">echo</span> <span class="s2">"Tiff to Substack Compress"</span>
+
+<span class="nb">cd</span> /home/img/work/
+<span class="k">for </span>z <span class="k">in</span> /home/img/from/<span class="k">*</span>.gz
+  <span class="k">do</span>
+
+    <span class="c">#copy file to work directory</span>
+    <span class="nb">echo</span> <span class="s2">"Copying </span><span class="nv">$z</span><span class="s2"> ..."</span>
+  <span class="nb">cp</span> <span class="nv">$z</span> <span class="nb">.</span>
+
+  <span class="c">#get filename from path and remove .gz</span>
+  <span class="nv">b</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$z</span><span class="si">)</span>
+  <span class="nv">newfilename</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">b</span><span class="p">/.*/</span><span class="k">}</span><span class="s2">"</span>
+
+  <span class="c">#Decompress file</span>
+  <span class="nb">echo</span> <span class="s2">"Decompressing </span><span class="nv">$b</span><span class="s2"> ..."</span>
+    <span class="nb">gunzip</span> <span class="nv">$b</span>
+
+    <span class="c">#run imagej script</span>
+  <span class="nb">echo</span> <span class="s2">"Running ImageJ ..."</span>
+  /home/programs/fiji-linux-64/ImageJ-linux64 <span class="nt">--headless</span> <span class="nt">-macro</span> /home/img/scripts/tifftosubstack.ijm
+
+  <span class="c">#compress new file</span>
+  <span class="nb">cd</span> /home/img/to/
+  <span class="nb">echo</span> <span class="s2">"Compressing </span><span class="nv">$newfilename</span><span class="s2">.tiff ..."</span>
+  <span class="nb">gzip</span> <span class="s2">"</span><span class="nv">$newfilename</span><span class="s2">.tif"</span>
+
+    <span class="c">#remove temporary file</span>
+  <span class="nb">cd</span> /home/img/work/
+  <span class="nb">echo</span> <span class="s2">"Removing </span><span class="nv">$newfilename</span><span class="s2">.tiff"</span>
+  <span class="nb">rm</span> <span class="nt">-rf</span> <span class="s2">"</span><span class="nv">$newfilename</span><span class="s2">.tiff"</span>
+  <span class="k">done
+
+</span><span class="nb">echo</span> <span class="s2">"End of Script"</span>
+</code></pre></div></div>
+
+<p>The bash script loop copies each gzipped tiff from the source to work directory, decompresses it, runs ImageJ, and compresses the output tiff.</p>
+
+<p>And my ImageJ macro script looks as below:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// ImageJ batch script to substack tiff stack
+// 2016 Roy Mathew Francis
+
+//set directories
+dirsource <span class="o">=</span> <span class="s2">"/home/img/work/"</span><span class="p">;</span>
+dirresult <span class="o">=</span> <span class="s2">"/home/img/to/"</span><span class="p">;</span>
+
+setBatchMode<span class="o">(</span><span class="nb">true</span><span class="o">)</span><span class="p">;</span>
+list <span class="o">=</span> getFileList<span class="o">(</span>dirsource<span class="o">)</span><span class="p">;</span>
+print<span class="o">(</span><span class="s2">"======================================================"</span><span class="o">)</span><span class="p">;</span>
+print<span class="o">(</span><span class="s2">"~~ ImageJ Tiff Substack ~~"</span><span class="o">)</span><span class="p">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="nv">i</span><span class="o">=</span>0<span class="p">;</span> i&lt;list.length<span class="p">;</span> i++<span class="o">)</span>
+  <span class="o">{</span>
+    print<span class="o">(</span><span class="s2">"------------------------------------------------------"</span><span class="o">)</span><span class="p">;</span>
+    print<span class="o">(</span><span class="s2">"Processing "</span>+<span class="o">(</span>i+1<span class="o">)</span>+<span class="s2">" of "</span>+list.length+<span class="s2">"..."</span><span class="o">)</span><span class="p">;</span>
+    spath <span class="o">=</span> dirsource+list[i]<span class="p">;</span>
+
+    //open tiff image
+    print<span class="o">(</span><span class="s2">"Opening "</span>+spath<span class="o">)</span><span class="p">;</span>
+    open<span class="o">(</span>spath<span class="o">)</span><span class="p">;</span>
+    title <span class="o">=</span> getTitle<span class="o">()</span><span class="p">;</span>
+    imgorig <span class="o">=</span> getImageID<span class="o">()</span><span class="p">;</span>
+
+    //substack slice 2 to end
+  selectImage<span class="o">(</span>imgorig<span class="o">)</span><span class="p">;</span>
+  print<span class="o">(</span><span class="s2">"Slices: "</span>+nSlices<span class="o">)</span><span class="p">;</span>
+  run<span class="o">(</span><span class="s2">"Make Substack..."</span>, <span class="s2">"  slices=2-"</span>+nSlices<span class="o">)</span><span class="p">;</span>
+
+  //save tiff file
+  imgsub <span class="o">=</span> getImageID<span class="o">()</span><span class="p">;</span>
+  selectImage<span class="o">(</span>imgsub<span class="o">)</span><span class="p">;</span>
+    saveAs<span class="o">(</span><span class="s2">"Tiff"</span>, dirresult+title<span class="o">)</span><span class="p">;</span>
+    print<span class="o">(</span>dirresult+title+<span class="s2">" saved."</span><span class="o">)</span><span class="p">;</span>
+
+    //close all
+    close<span class="o">(</span><span class="s2">"*.tif"</span><span class="o">)</span><span class="p">;</span>
+  <span class="o">}</span>
+
+print<span class="o">(</span><span class="s2">"======================================================"</span><span class="o">)</span><span class="p">;</span>
+<span class="nb">eval</span><span class="o">(</span><span class="s2">"script"</span>,<span class="s2">"System.exit(0);"</span><span class="o">)</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The only line that has changed is the source directory path (<code class="language-plaintext highlighter-rouge">dirsource</code>). Set execute permissions and execute the bash script as before. After the script has executed, a new compressed tiff file will be present in the <code class="language-plaintext highlighter-rouge">to</code> directory.</p>
+
+<p>These are simple examples to get started. You can obviously build on this for all sorts of image analysis operations.</p>
+
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/multiple-statistical-testing/" class="pagination--pager" title="Multiple Statistical Testing
+">Previous</a>
+    
+    
+      <a href="/iceland/" class="pagination--pager" title="Exploring cosmic landscapes in Iceland
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+    <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+  <div class="page-related-mx">
+    <h2 class="page__related-title">You may also enjoy</h2>
+    <div class="grid__wrapper">
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-11-07-greece-thessaloniki/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-11-07T00:00:00+01:00">07 Nov 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/greece-thessaloniki/" rel="permalink">Exploring history and culture in Thessaloniki
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A short weekend away in Thessaloniki, Greece.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-09-17T00:00:00+02:00">17 Sep 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+        
+          <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/scatterplot-annotation/" rel="permalink">Scatterplot annotation
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-08-22T00:00:00+02:00">22 Aug 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/sweden-west-coast/" rel="permalink">Exploring the Swedish west coast
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A road trip exploring the west coast of Sweden.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-06-30-portugal/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-06-30T00:00:00+02:00">30 Jun 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/portugal/" rel="permalink">Road trip through Portugal
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A conference and road trip through Portugal.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://royfrancis.com/running-imagej-linux-cluster/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/running-imagej-linux-cluster"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://romf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

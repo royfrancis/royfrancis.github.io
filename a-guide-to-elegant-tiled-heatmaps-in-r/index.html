@@ -1,0 +1,1331 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>A guide to elegant tiled heatmaps in R • rmf</title>
+<meta name="description" content="A step-by-step guide to data preparation and plotting of simple, neat and elegant heatmaps in R using base graphics and ggplot2.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+  <meta property="article:author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="A guide to elegant tiled heatmaps in R">
+<meta property="og:url" content="https://royfrancis.com/a-guide-to-elegant-tiled-heatmaps-in-r/">
+
+
+  <meta property="og:description" content="A step-by-step guide to data preparation and plotting of simple, neat and elegant heatmaps in R using base graphics and ggplot2.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2015-11-01T13:15:20+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/a-guide-to-elegant-tiled-heatmaps-in-r/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/featured.png alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="A guide to elegant tiled heatmaps in R">
+    
+    <meta itemprop="description" content="A step-by-step guide to data preparation and plotting of simple, neat and elegant heatmaps in R using base graphics and ggplot2.">
+    
+    <meta itemprop="datePublished" content="2015-11-01T13:15:20+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/a-guide-to-elegant-tiled-heatmaps-in-r/" class="u-url" itemprop="url">A guide to elegant tiled heatmaps in R
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published" datetime="2015-11-01T13:15:20+01:00">01 Nov 2015</time></span>
+
+  
+  <span class="separator">
+    •
+  </span>
+  
+  
+  
+
+
+  
+
+  <span>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords" class="category-keywords">
+    
+      <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+    
+      <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+    
+    </span>
+  </span>
+
+
+</div>  
+  
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#data-visualisation" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Data Visualisation</a><span class="sep">, </span>
+    
+      <a href="/tags/#heatmap" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Heatmap</a><span class="sep">, </span>
+    
+      <a href="/tags/#r" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</a><span class="sep">, </span>
+    
+      <a href="/tags/#scientific-graphs" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Scientific Graphs</a>
+    
+    </span>
+  </p>
+
+
+</div>
+        </footer>
+
+        
+        <div class="toc-content">
+          <div class="toc-content-child-left">
+            <div class="article-content">
+              <p><strong>This post/code is now outdated. Please see this <a href="/a-guide-to-elegant-tiled-heatmaps-in-r-2019">new post</a> for updated code.</strong></p>
+
+<p>This was inspired by the disease incidence rate in the US featured on the <a href="http://graphics.wsj.com/infectious-diseases-and-vaccines/">Wall Street Journal</a> which I mentioned in one of the <a href="&quot;/post/2015/5-elegant-scientific-graphs&quot;">previous posts</a>. The disease incidence dataset was originally used in <a href="http://www.nejm.org/doi/full/10.1056/NEJMms1215400">this article</a> in the New England Journal of Medicine. Here, I use the measles level 1 incidence (cases per 100,000 people) dataset obtained as a .csv file from <a href="https://www.tycho.pitt.edu">Project Tycho</a>. Download the .csv file <strong><a href="./measles_lev1.csv">here</a></strong> or head over to Project Tycho for other datasets.</p>
+
+<p>In this post, we will look into creating a neat, clean and elegant heatmap in R. No clustering, no dendrograms, no trace  lines, no bullshit. We will go through some basic data cleanup, reformatting and finally plotting. We go through this step by step. For the whole code with minimal explanations, scroll to the bottom of the page.</p>
+
+<p>I am running R version 3.2.0 64-bit on Windows 8.1 64-bit. Packages in use are <code class="language-plaintext highlighter-rouge">ggplot2 (1.0.1)</code>, <code class="language-plaintext highlighter-rouge">reshape2 (1.4.1)</code>, <code class="language-plaintext highlighter-rouge">plyr (1.8.3)</code> and <code class="language-plaintext highlighter-rouge">Cairo (1.5-9)</code>. Install the necessary packages if not already installed and load them.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#install packages</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="n">pkgs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"ggplot2"</span><span class="p">,</span><span class="s2">"reshape2"</span><span class="p">,</span><span class="s2">"plyr"</span><span class="p">,</span><span class="s2">"Cairo"</span><span class="p">),</span><span class="w">
+</span><span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#load packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w"> </span><span class="c1">#ggplot() for plotting</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">reshape2</span><span class="p">)</span><span class="w"> </span><span class="c1">#melt(), dcast() for data reformatting</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">plyr</span><span class="p">)</span><span class="w"> </span><span class="c1">#ddply() for data reformatting</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">Cairo</span><span class="p">)</span><span class="w"> </span><span class="c1">#better aliasing of output images</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="data-preparation">Data preparation</h2>
+
+<p>Read in the .csv file and inspect the data. The first two rows with non-table data is skipped.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#read csv file</span><span class="w">
+</span><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"measles_lev1.csv"</span><span class="p">,</span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">,</span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#inspect data</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w">
+</span><span class="n">table</span><span class="p">(</span><span class="n">m</span><span class="o">$</span><span class="n">YEAR</span><span class="p">)</span><span class="w">
+</span><span class="n">table</span><span class="p">(</span><span class="n">m</span><span class="o">$</span><span class="n">WEEK</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">head()</code> function shows us the header names and the first 6 rows of the data. The <code class="language-plaintext highlighter-rouge">str()</code> function shows that <code class="language-plaintext highlighter-rouge">YEAR</code> and <code class="language-plaintext highlighter-rouge">WEEK</code> columns are stored as integers and the incidences as characters. The incidences although numeric have been read in as character because missing values are coded as “-“.  The <code class="language-plaintext highlighter-rouge">table()</code> function is used to check for any missing years or weeks. The data is currently stored in so called ‘wide’ format which we will convert to ‘long’ format. The <code class="language-plaintext highlighter-rouge">ggplot2</code> plotting package prefers long format. The <code class="language-plaintext highlighter-rouge">YEAR</code>and <code class="language-plaintext highlighter-rouge">WEEK</code> variables are kept as is and all incidence values are collapsed into a variable and value column.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#convert data to long format</span><span class="w">
+</span><span class="n">m2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">melt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">id.vars</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"YEAR"</span><span class="p">,</span><span class="w"> </span><span class="s2">"WEEK"</span><span class="p">))</span><span class="w">
+</span><span class="c1">#rename column names</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Week"</span><span class="p">,</span><span class="w"> </span><span class="s2">"State"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Value"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#inspect data</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972198973"><a href="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/data-format.jpg" title="(Left) shows data in wide format while (right) shows data in long format.">
+      <img src="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/data-format.jpg" alt="data-format" />
+    </a>
+    <figcaption>
+    (Left) shows data in wide format while (right) shows data in long format.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972198973 a'});
+</script>
+
+<p>The <code class="language-plaintext highlighter-rouge">State</code> variable is currently in all caps and multi-word states have dot separators. I prefer to have them in Camel case and separated by space to be shown on the plot later.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#custom function to convert to camel case</span><span class="w">
+</span><span class="n">camelCase</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="kc">NULL</span><span class="p">,</span><span class="n">separator</span><span class="o">=</span><span class="s2">"\."</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">string</span><span class="p">))</span><span class="w"> </span><span class="n">stop</span><span class="p">(</span><span class="s2">"No input string.n"</span><span class="p">)</span><span class="w">
+</span><span class="n">s</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">strsplit</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">separator</span><span class="p">)</span><span class="w">
+</span><span class="n">s</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">s</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span><span class="w">
+</span><span class="n">paste</span><span class="p">(</span><span class="n">toupper</span><span class="p">(</span><span class="n">substring</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)),</span><span class="w"> </span><span class="n">substring</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1">#change variable to character, convert to camel case,</span><span class="w">
+</span><span class="c1">#remove dot and change variable back to factor</span><span class="w">
+</span><span class="n">m2</span><span class="o">$</span><span class="n">State</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">sapply</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">m2</span><span class="o">$</span><span class="n">State</span><span class="p">),</span><span class="n">camelCase</span><span class="p">)))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>A custom function is used to change the states into camel case. Multi-word states are split at the dot separator and each word is changed into camel case. Now we change other columns <code class="language-plaintext highlighter-rouge">Year</code> and <code class="language-plaintext highlighter-rouge">Week</code>into factors. We also need to convert the <code class="language-plaintext highlighter-rouge">Value</code> field from character to numeric and change the “-“ to <code class="language-plaintext highlighter-rouge">NA</code>. We could use <code class="language-plaintext highlighter-rouge">sub()</code> function to replace the “-“ with <code class="language-plaintext highlighter-rouge">NA</code>. But, an easier way to to just use <code class="language-plaintext highlighter-rouge">as.numeric()</code> which automatically converts non-numeric content into NAs.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#change variable types</span><span class="w">
+</span><span class="n">m2</span><span class="o">$</span><span class="n">Year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">m2</span><span class="o">$</span><span class="n">Year</span><span class="p">)</span><span class="w">
+</span><span class="n">m2</span><span class="o">$</span><span class="n">Week</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">m2</span><span class="o">$</span><span class="n">Week</span><span class="p">)</span><span class="w">
+</span><span class="c1">#also converts '-' to NA</span><span class="w">
+</span><span class="n">m2</span><span class="o">$</span><span class="n">Value</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">m2</span><span class="o">$</span><span class="n">Value</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now, I would like to plot the heatmap with the <code class="language-plaintext highlighter-rouge">Year</code> on the x-axis and <code class="language-plaintext highlighter-rouge">State</code> on the y axis, which means we have to deal with the <code class="language-plaintext highlighter-rouge">Week</code> variable in some way. We will sum all the incidences from all weeks for each year and discard the <code class="language-plaintext highlighter-rouge">Week</code> variable. The <code class="language-plaintext highlighter-rouge">ddply()</code> function from package <code class="language-plaintext highlighter-rouge">plyr</code> is suitable for this purpose. We need to use the <code class="language-plaintext highlighter-rouge">sum()</code> function inside <code class="language-plaintext highlighter-rouge">ddply()</code> to sum incidences over weeks. The way <code class="language-plaintext highlighter-rouge">sum()</code> handles <code class="language-plaintext highlighter-rouge">NA</code>s is a bit strange. By default, it returns <code class="language-plaintext highlighter-rouge">NA</code> if one or more elements in the input vector is <code class="language-plaintext highlighter-rouge">NA</code>. If we set argument <code class="language-plaintext highlighter-rouge">na.rm=TRUE</code>, then <code class="language-plaintext highlighter-rouge">NA</code>s are removed and the remaining numbers are summed. But if all the elements are <code class="language-plaintext highlighter-rouge">NA</code>, the sum is returned as zero. This is weird and undesirable in this situation. Therefore, I have a custom sum function to remove <code class="language-plaintext highlighter-rouge">NA</code>s and return the remaining sum or return <code class="language-plaintext highlighter-rouge">NA</code> if all elements are <code class="language-plaintext highlighter-rouge">NA</code>. We then use this custom function inside <code class="language-plaintext highlighter-rouge">ddply()</code> function to summarise the data by year and state while getting rid of week.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#custom sum function returns NA when all values in set are NA,</span><span class="w">
+</span><span class="c1">#in a set mixed with NAs, NAs are removed and remaining summed.</span><span class="w">
+</span><span class="n">naSum</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="nb">F</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nf">all</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="w">
+</span><span class="nf">return</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1">#sums incidences for all weeks into one year</span><span class="w">
+</span><span class="n">m3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ddply</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">,</span><span class="s2">"State"</span><span class="p">),</span><span class="n">Incidence</span><span class="o">=</span><span class="nf">round</span><span class="p">(</span><span class="n">naSum</span><span class="p">(</span><span class="n">Value</span><span class="p">),</span><span class="m">0</span><span class="p">),</span><span class="n">summarise</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#inspect data</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">m3</span><span class="p">)</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">m3</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972139435"><a href="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/plotting-data.png" title="Long format data ready for plotting in ggplot2">
+      <img src="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/plotting-data.png" alt="plotting-data" />
+    </a>
+    <figcaption>
+    Long format data ready for plotting in ggplot2
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972139435 a'});
+</script>
+
+<p>At this point, the data preparation is essentially over. The data is in ‘long’ format, the x, y and z variables for the plot are available and are of the correct type: factor, factor and numeric. If your data is already in this format, it is easy to jump straight into visualisation. But depending on what sort of data you start off with, the data preparation and reformatting can be complicated and tedious.</p>
+
+<h2 id="plotting-the-data">Plotting the data</h2>
+
+<p>I prefer to use the <code class="language-plaintext highlighter-rouge">ggplot2</code> plotting package to plot graphs in R due to its consistent code structure. I will focus mostly on <code class="language-plaintext highlighter-rouge">ggplot2</code> code here. But, just for the sake of completeness, I will also include some basic heatmap code using base graphics.</p>
+
+<h3 id="plotting-using-ggplot2">Plotting using ggplot2</h3>
+
+<p>Once the data is in the right format, plotting the data is rather simple code in ggplot2. The <a href="http://docs.ggplot2.org/current/geom_tile.html">ggplot2 index page</a> has the code syntax and arguments.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#basic ggplot</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Year</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">State</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">Incidence</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_tile</span><span class="p">()</span><span class="w">
+
+</span><span class="c1">#save plot to working directory</span><span class="w">
+</span><span class="n">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">"measles-basic.png"</span><span class="p">,</span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297236097"><a href="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-basic.png" title="The basic plot produced from ggplot2.">
+      <img src="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-basic.png" alt="basic-plot" />
+    </a>
+    <figcaption>
+    The basic plot produced from ggplot2.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297236097 a'});
+</script>
+
+<p>The default vanilla output from <code class="language-plaintext highlighter-rouge">ggplot2</code> is decent and quite frankly impressive. A hell of a lot better than the monstrosity produced from the base graphics function <code class="language-plaintext highlighter-rouge">heatmap()</code>. But of course, there are several aspects of the basic plot that can be modified and tweaked. To begin with, the years on the x-axis can be rotated 90° or 45° to make it more readable. The ggplot code is modified below.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#modified ggplot</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Year</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">State</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">Incidence</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="c1">#add border white colour of line thickness 0.25</span><span class="w">
+</span><span class="n">geom_tile</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">0.25</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="c1">#remove x and y axis labels</span><span class="w">
+</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="c1">#remove extra space</span><span class="w">
+</span><span class="n">scale_y_discrete</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="c1">#define new breaks on x-axis</span><span class="w">
+</span><span class="n">scale_x_discrete</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="w">
+</span><span class="n">breaks</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"1930"</span><span class="p">,</span><span class="s2">"1940"</span><span class="p">,</span><span class="s2">"1950"</span><span class="p">,</span><span class="s2">"1960"</span><span class="p">,</span><span class="s2">"1970"</span><span class="p">,</span><span class="s2">"1980"</span><span class="p">,</span><span class="s2">"1990"</span><span class="p">,</span><span class="s2">"2000"</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="c1">#one unit on x-axis is equal to one unit on y-axis.</span><span class="w">
+</span><span class="c1">#maintains aspect ratio.</span><span class="w">
+</span><span class="n">coord_fixed</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="c1">#set a base size for all fonts</span><span class="w">
+</span><span class="n">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">8</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="c1">#theme options</span><span class="w">
+</span><span class="n">theme</span><span class="p">(</span><span class="w">
+</span><span class="c1">#bold font for both axis text</span><span class="w">
+</span><span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+</span><span class="c1">#set thickness of axis ticks</span><span class="w">
+</span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.4</span><span class="p">),</span><span class="w">
+</span><span class="c1">#remove plot background</span><span class="w">
+</span><span class="n">plot.background</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+</span><span class="c1">#remove plot border</span><span class="w">
+</span><span class="n">panel.border</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="c1">#save with dpi 150 and cairo type</span><span class="w">
+</span><span class="n">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">"measles-mod1.png"</span><span class="p">,</span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="m">150</span><span class="p">,</span><span class="n">type</span><span class="o">=</span><span class="s2">"cairo"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972160148"><a href="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-mod1.png" title="ggplot2 heatmap after customisation.">
+      <img src="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-mod1.png" alt="mod-plot-1" />
+    </a>
+    <figcaption>
+    ggplot2 heatmap after customisation.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972160148 a'});
+</script>
+
+<p>White border lines are added to each cell, x-axis and y-axis titles are removed, size of y.axis text is decreased, breaks on x-axis is changed to show every 10 years and export options use 150 <code class="language-plaintext highlighter-rouge">dpi</code> and <code class="language-plaintext highlighter-rouge">type</code> is set to <code class="language-plaintext highlighter-rouge">cairo</code> which produces better quality graphics.</p>
+
+<p>I would prefer the y-axis labels (states) to be ordered ascending top-bottom. This means going back to our ‘long’ format data and refactoring the <code class="language-plaintext highlighter-rouge">State</code> variable in reverse. The fill variable here (Incidence) is a continuous variable and hence, ggplot by default uses the blue colour ramp. Here and in many cases, it might make better sense to bin the continuous data into levels and represent each level as a discrete colour. The <code class="language-plaintext highlighter-rouge">cut()</code> function in R allows to break and label a continuous variable. Perhaps, better colours can make the figure pop.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#reverse level order of state</span><span class="w">
+</span><span class="n">m3</span><span class="o">$</span><span class="n">State</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">State</span><span class="p">),</span><span class="n">levels</span><span class="o">=</span><span class="n">rev</span><span class="p">(</span><span class="n">levels</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">State</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1">#create a new variable from incidence</span><span class="w">
+</span><span class="n">m3</span><span class="o">$</span><span class="n">IncidenceFactor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cut</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">Incidence</span><span class="p">,</span><span class="w">
+</span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">10</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">500</span><span class="p">,</span><span class="m">1000</span><span class="p">,</span><span class="nf">max</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">Incidence</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">)),</span><span class="w">
+</span><span class="n">labels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"0"</span><span class="p">,</span><span class="s2">"0-1"</span><span class="p">,</span><span class="s2">"1-10"</span><span class="p">,</span><span class="s2">"10-100"</span><span class="p">,</span><span class="s2">"100-500"</span><span class="p">,</span><span class="s2">"500-1000"</span><span class="p">,</span><span class="s2">"&gt;1000"</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">#change level order</span><span class="w">
+</span><span class="n">m3</span><span class="o">$</span><span class="n">IncidenceFactor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">IncidenceFactor</span><span class="p">),</span><span class="w">
+</span><span class="n">levels</span><span class="o">=</span><span class="n">rev</span><span class="p">(</span><span class="n">levels</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">IncidenceFactor</span><span class="p">)))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">Incidence</code> variable is binned into 7 levels and saved as a new variable <code class="language-plaintext highlighter-rouge">IncidenceFactor</code>. The <code class="language-plaintext highlighter-rouge">NA</code>s remain as <code class="language-plaintext highlighter-rouge">NA</code>. Defining breaks in your variable depends on the type of data, the number of bins that make sense with the context or just trial and error. Too many bins are not good. Checking your variable using <code class="language-plaintext highlighter-rouge">summary(x)</code> or a <code class="language-plaintext highlighter-rouge">boxplot(x)</code> can reveal a lot about the data.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#define a colour for fonts</span><span class="w">
+</span><span class="n">textcol</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"grey40"</span><span class="w">
+
+</span><span class="c1">#modified ggplot</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Year</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">State</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">IncidenceFactor</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_tile</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="c1">#redrawing tiles to remove cross lines from legend</span><span class="w">
+</span><span class="n">geom_tile</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">show_guide</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="c1">#remove axis labels, add title</span><span class="w">
+</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Incidence of Measles in the US"</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="c1">#remove extra space</span><span class="w">
+</span><span class="n">scale_y_discrete</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="c1">#custom breaks on x-axis</span><span class="w">
+</span><span class="n">scale_x_discrete</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="w">
+</span><span class="n">breaks</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"1930"</span><span class="p">,</span><span class="s2">"1940"</span><span class="p">,</span><span class="s2">"1950"</span><span class="p">,</span><span class="s2">"1960"</span><span class="p">,</span><span class="s2">"1970"</span><span class="p">,</span><span class="s2">"1980"</span><span class="p">,</span><span class="s2">"1990"</span><span class="p">,</span><span class="s2">"2000"</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="c1">#custom colours for cut levels and na values</span><span class="w">
+</span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"#d53e4f"</span><span class="p">,</span><span class="s2">"#f46d43"</span><span class="p">,</span><span class="s2">"#fdae61"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"#fee08b"</span><span class="p">,</span><span class="s2">"#e6f598"</span><span class="p">,</span><span class="s2">"#abdda4"</span><span class="p">,</span><span class="s2">"#ddf1da"</span><span class="p">),</span><span class="n">na.value</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="c1">#mark year of vaccination</span><span class="w">
+</span><span class="n">geom_vline</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">36</span><span class="p">),</span><span class="n">size</span><span class="o">=</span><span class="m">3.4</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.24</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="c1">#equal aspect ratio x and y axis</span><span class="w">
+</span><span class="n">coord_fixed</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="c1">#set base size for all font elements</span><span class="w">
+</span><span class="n">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">10</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="c1">#theme options</span><span class="w">
+</span><span class="n">theme</span><span class="p">(</span><span class="w">
+</span><span class="c1">#remove legend title</span><span class="w">
+</span><span class="n">legend.title</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+</span><span class="c1">#remove legend margin</span><span class="w">
+</span><span class="n">legend.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="s2">"cm"</span><span class="p">),</span><span class="w">
+</span><span class="c1">#change legend text properties</span><span class="w">
+</span><span class="n">legend.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">,</span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+</span><span class="c1">#change legend key height</span><span class="w">
+</span><span class="n">legend.key.height</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">0.8</span><span class="p">,</span><span class="s2">"cm"</span><span class="p">),</span><span class="w">
+</span><span class="c1">#set a slim legend</span><span class="w">
+</span><span class="n">legend.key.width</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="s2">"cm"</span><span class="p">),</span><span class="w">
+</span><span class="c1">#set x axis text size and colour</span><span class="w">
+</span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">),</span><span class="w">
+</span><span class="c1">#set y axis text colour and adjust vertical justification</span><span class="w">
+</span><span class="n">axis.text.y</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">),</span><span class="w">
+</span><span class="c1">#change axis ticks thickness</span><span class="w">
+</span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.4</span><span class="p">),</span><span class="w">
+</span><span class="c1">#change title font, size, colour and justification</span><span class="w">
+</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">textcol</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">,</span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+</span><span class="c1">#remove plot background</span><span class="w">
+</span><span class="n">plot.background</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+</span><span class="c1">#remove plot border</span><span class="w">
+</span><span class="n">panel.border</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297251810"><a href="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-mod2.png" title="Further customisation of the ggplot2 heatmap.">
+      <img src="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-mod2.png" alt="mod-plot-2" />
+    </a>
+    <figcaption>
+    Further customisation of the ggplot2 heatmap.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297251810 a'});
+</script>
+
+<p>This is the final version of the figure. All font elements are coloured <code class="language-plaintext highlighter-rouge">grey40</code>.  Missing values (<code class="language-plaintext highlighter-rouge">NA</code>s) are coloured <code class="language-plaintext highlighter-rouge">grey90</code>. The year of the introduction of vaccination is indicated as a dark vertical stripe. If the y-axis labels are too many or too small, they can be dropped the same way as the x-axis. A custom colour palette was used from <a href="http://colorbrewer.org/">ColorBrewer</a> based on the Spectral palette. Using the R package <code class="language-plaintext highlighter-rouge">RColorBrewer()</code> or using ggplot2 function <code class="language-plaintext highlighter-rouge">scale_fill_brewer()</code> opens up all the colour palettes from the ColorBrewer website. Here is an example below:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">RColorBrewer</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#change the scale_fill_manual from previous code to below</span><span class="w">
+</span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">rev</span><span class="p">(</span><span class="n">brewer.pal</span><span class="p">(</span><span class="m">7</span><span class="p">,</span><span class="s2">"YlGnBu"</span><span class="p">)),</span><span class="n">na.value</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972141661"><a href="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-mod3.png" title="Heatmap with Colorbrewer colour palette.">
+      <img src="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-mod3.png" alt="mod-plot-3" />
+    </a>
+    <figcaption>
+    Heatmap with Colorbrewer colour palette.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972141661 a'});
+</script>
+
+<p>Most of the plot customisation happens in the <code class="language-plaintext highlighter-rouge">theme()</code> section of the code. Refer to the <a href="http://docs.ggplot2.org/current/theme.html">ggplot index</a> for all theme arguments. Based on where the figure will go next, the fonts may need to be changed. The <code class="language-plaintext highlighter-rouge">extrafont()</code> package comes handy. Another option is to export in vector format such as .svg or .pdf. Import into a vector editor such as Adobe Illustrator and add your own text. This will produce nice crisp results but does take some manual work. See the cover image of this post for example.</p>
+
+<h3 id="plotting-using-base-graphics">Plotting using base graphics</h3>
+
+<p>We will take a quick look at plotting using base graphics. The base function <code class="language-plaintext highlighter-rouge">heatmap()</code> and the enchanced <code class="language-plaintext highlighter-rouge">heatmap.2()</code> function from the <code class="language-plaintext highlighter-rouge">gplots</code> package uses a wide format data matrix as input. We start with the ‘long’ data that we prepared in section 1. We convert the data in ‘long’ format into ‘wide’ format using the <code class="language-plaintext highlighter-rouge">dcast()</code> function from package <code class="language-plaintext highlighter-rouge">reshape2</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#convert long format to wide format</span><span class="w">
+</span><span class="n">m4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dcast</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span><span class="n">Year</span><span class="o">~</span><span class="n">State</span><span class="p">,</span><span class="n">value.var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Incidence"</span><span class="p">)</span><span class="w">
+</span><span class="c1">#remove state names and create a matrix</span><span class="w">
+</span><span class="n">m5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">m4</span><span class="p">[,</span><span class="m">-1</span><span class="p">])</span><span class="w">
+</span><span class="c1">#assign state names as rownames of matrix</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">m5</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">m4</span><span class="o">$</span><span class="n">Year</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The wide data is converted to a matrix after removal of non-numeric columns. The state names are reassigned as rownames of the matrix to be used as y-axis text.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">png</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"measles-base.png"</span><span class="p">,</span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150</span><span class="p">,</span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">)</span><span class="w">
+</span><span class="n">heatmap</span><span class="p">(</span><span class="n">t</span><span class="p">(</span><span class="n">m5</span><span class="p">),</span><span class="n">Rowv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="n">Colv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">terrain.colors</span><span class="p">(</span><span class="m">10</span><span class="p">),</span><span class="w">
+    </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Incidence of Measles in the US"</span><span class="p">)</span><span class="w">
+</span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297210722"><a href="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-base.png" title="Heatmap using the base function `heatmap()`">
+      <img src="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-base.png" alt="plot-using-base" />
+    </a>
+    <figcaption>
+    Heatmap using the base function <code class="language-plaintext highlighter-rouge">heatmap()</code>
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297210722 a'});
+</script>
+
+<p>That’s pretty much what we can do with that. The enchanced <code class="language-plaintext highlighter-rouge">heatmap.2()</code> function from <code class="language-plaintext highlighter-rouge">gplots()</code> can do more. The legend for the colours is beyond terrible, so we will use the function <code class="language-plaintext highlighter-rouge">gradient.rect()</code> from <code class="language-plaintext highlighter-rouge">plotrix</code> package to create our own legend. And after fiddling around with numerous arguments and countless trial and errors later, we have as below.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">gplots</span><span class="p">)</span><span class="w"> </span><span class="c1">#heatmap.2</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">plotrix</span><span class="p">)</span><span class="w"> </span><span class="c1">#gradient.rect() for legend</span><span class="w">
+
+</span><span class="n">png</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"measles-gplot.png"</span><span class="p">,</span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">18</span><span class="p">,</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150</span><span class="p">,</span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">,</span><span class="n">type</span><span class="o">=</span><span class="s2">"cairo"</span><span class="p">)</span><span class="w">
+</span><span class="c1">#heatmap</span><span class="w">
+</span><span class="n">heatmap.2</span><span class="p">(</span><span class="n">t</span><span class="p">(</span><span class="n">m5</span><span class="p">),</span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="n">dendrogram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="n">Rowv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="n">Colv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Rowv"</span><span class="p">,</span><span class="w">
+</span><span class="n">trace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="n">offsetRow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">offsetCol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w">
+</span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">10</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">500</span><span class="p">,</span><span class="m">1000</span><span class="p">,</span><span class="nf">max</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">Incidence</span><span class="p">,</span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)),</span><span class="w">
+</span><span class="c1">#a separator line every 10 years</span><span class="w">
+</span><span class="n">colsep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">which</span><span class="p">(</span><span class="n">seq</span><span class="p">(</span><span class="m">1928</span><span class="p">,</span><span class="m">2003</span><span class="p">)</span><span class="w"> </span><span class="o">%%</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">8</span><span class="p">),</span><span class="w">
+</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rev</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"#d53e4f"</span><span class="p">,</span><span class="s2">"#f46d43"</span><span class="p">,</span><span class="s2">"#fdae61"</span><span class="p">,</span><span class="s2">"#fee08b"</span><span class="p">,</span><span class="s2">"#e6f598"</span><span class="p">,</span><span class="s2">"#abdda4"</span><span class="p">,</span><span class="s2">"#ddf1da"</span><span class="p">)),</span><span class="w">
+</span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">,</span><span class="n">lhei</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.1</span><span class="p">,</span><span class="m">0.9</span><span class="p">),</span><span class="n">lwid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="m">0.8</span><span class="p">))</span><span class="w">
+</span><span class="c1">#legend</span><span class="w">
+</span><span class="n">gradient.rect</span><span class="p">(</span><span class="m">0.125</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.135</span><span class="p">,</span><span class="m">0.75</span><span class="p">,</span><span class="n">nslices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="n">border</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">,</span><span class="n">gradient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"y"</span><span class="p">,</span><span class="w">
+</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rev</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"#d53e4f"</span><span class="p">,</span><span class="s2">"#f46d43"</span><span class="p">,</span><span class="s2">"#fdae61"</span><span class="p">,</span><span class="s2">"#fee08b"</span><span class="p">,</span><span class="s2">"#e6f598"</span><span class="p">,</span><span class="s2">"#abdda4"</span><span class="p">,</span><span class="s2">"#ddf1da"</span><span class="p">)))</span><span class="w">
+</span><span class="c1">#legend text</span><span class="w">
+</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">0.118</span><span class="p">,</span><span class="m">7</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">0.28</span><span class="p">,</span><span class="m">0.72</span><span class="p">,</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.07</span><span class="p">),</span><span class="n">adj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">,</span><span class="w">
+</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"0"</span><span class="p">,</span><span class="s2">"0-1"</span><span class="p">,</span><span class="s2">"1-10"</span><span class="p">,</span><span class="s2">"10-100"</span><span class="p">,</span><span class="s2">"100-500"</span><span class="p">,</span><span class="s2">"500-1000"</span><span class="p">,</span><span class="s2">"&gt;1000"</span><span class="p">))</span><span class="w">
+</span><span class="c1">#title</span><span class="w">
+</span><span class="n">title</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Incidence of Measles in the US"</span><span class="p">,</span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="n">oma</span><span class="o">=</span><span class="nb">T</span><span class="p">,</span><span class="n">adj</span><span class="o">=</span><span class="m">0.21</span><span class="p">)</span><span class="w">
+</span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-202201142336033303629726084"><a href="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-gplot.png" title="Heatmap created using gplots function `heatmap.2()`">
+      <img src="/assets/images/posts/2015/2015-11-01-a-guide-to-elegant-tiled-heatmaps-in-r/measles-gplot.png" alt="plot-using-base-2" />
+    </a>
+    <figcaption>
+    Heatmap created using gplots function <code class="language-plaintext highlighter-rouge">heatmap.2()</code>
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-202201142336033303629726084 a'});
+</script>
+
+<p>Ultimately, we get something useful. The white separator line is a neat feature. It can be used to group columns or rows as required. The while vertical lines above group decades. And below is the full undisrupted code.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 2015 | Roy Mathew Francis</span><span class="w">
+</span><span class="c1"># Heatmap R code</span><span class="w">
+
+</span><span class="c1">#install packages</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="n">pkgs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"ggplot2"</span><span class="p">,</span><span class="s2">"reshape2"</span><span class="p">,</span><span class="s2">"plyr"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Cairo"</span><span class="p">,</span><span class="s2">"gplots"</span><span class="p">,</span><span class="s2">"plotrix"</span><span class="p">),</span><span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#load packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w"> </span><span class="c1">#ggplot() for plotting</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">reshape2</span><span class="p">)</span><span class="w"> </span><span class="c1">#melt(), dcast() for data reformatting</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">plyr</span><span class="p">)</span><span class="w"> </span><span class="c1">#ddply() for data reformatting</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">Cairo</span><span class="p">)</span><span class="w"> </span><span class="c1">#better aliasing of output images</span><span class="w">
+
+</span><span class="c1">#----------------------------------------------------------------------------</span><span class="w">
+
+</span><span class="c1">#DATA PREPARATION</span><span class="w">
+
+</span><span class="c1">#read csv file</span><span class="w">
+</span><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"measles_lev1.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">,</span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#convert data to long format</span><span class="w">
+</span><span class="n">m2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">melt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">id.vars</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"YEAR"</span><span class="p">,</span><span class="w"> </span><span class="s2">"WEEK"</span><span class="p">))</span><span class="w">
+</span><span class="c1">#rename column names</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Week"</span><span class="p">,</span><span class="w"> </span><span class="s2">"State"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Value"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#custom function to convert to camel case</span><span class="w">
+</span><span class="n">camelCase</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="n">separator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\."</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="k">if</span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">string</span><span class="p">))</span><span class="w"> </span><span class="n">stop</span><span class="p">(</span><span class="s2">"No input string.n"</span><span class="p">)</span><span class="w">
+    </span><span class="n">s</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">strsplit</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">separator</span><span class="p">)</span><span class="w">
+    </span><span class="n">s</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">s</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span><span class="w">
+    </span><span class="n">paste</span><span class="p">(</span><span class="n">toupper</span><span class="p">(</span><span class="n">substring</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)),</span><span class="w"> </span><span class="n">substring</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1">#change variable to character, convert to camel case,</span><span class="w">
+</span><span class="c1">#remove dot and change variable back to factor</span><span class="w">
+</span><span class="n">m2</span><span class="o">$</span><span class="n">State</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">sapply</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">m2</span><span class="o">$</span><span class="n">State</span><span class="p">),</span><span class="n">camelCase</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1">#change variable types</span><span class="w">
+</span><span class="n">m2</span><span class="o">$</span><span class="n">Year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">m2</span><span class="o">$</span><span class="n">Year</span><span class="p">)</span><span class="w">
+</span><span class="n">m2</span><span class="o">$</span><span class="n">Week</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">m2</span><span class="o">$</span><span class="n">Week</span><span class="p">)</span><span class="w">
+</span><span class="c1">#also converts '-' to NA</span><span class="w">
+</span><span class="n">m2</span><span class="o">$</span><span class="n">Value</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">m2</span><span class="o">$</span><span class="n">Value</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#custom sum function returns NA when all values in set are NA,</span><span class="w">
+</span><span class="c1">#in a set mixed with NAs, NAs are removed and remaining summed.</span><span class="w">
+</span><span class="n">naSum</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="k">if</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">)</span><span class="w">
+    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nf">all</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)</span><span class="w">
+    </span><span class="nf">return</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1">#sums incidences for all weeks into one year</span><span class="w">
+</span><span class="n">m3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ddply</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">,</span><span class="s2">"State"</span><span class="p">),</span><span class="n">Incidence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">naSum</span><span class="p">(</span><span class="n">Value</span><span class="p">),</span><span class="m">0</span><span class="p">),</span><span class="n">summarise</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#----------------------------------------------------------------------------</span><span class="w">
+
+</span><span class="c1">#GGPLOT2</span><span class="w">
+
+</span><span class="c1">#basic ggplot</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Year</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">,</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Incidence</span><span class="p">))</span><span class="o">+</span><span class="w">
+        </span><span class="n">geom_tile</span><span class="p">()</span><span class="w">
+
+</span><span class="c1">#save plot to working directory</span><span class="w">
+</span><span class="n">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"measles-basic.png"</span><span class="p">,</span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#modified ggplot</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Year</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">,</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Incidence</span><span class="p">))</span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_tile</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="n">xlab</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="n">ylab</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_y_discrete</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">))</span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_x_discrete</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"1930"</span><span class="p">,</span><span class="s2">"1940"</span><span class="p">,</span><span class="s2">"1950"</span><span class="p">,</span><span class="s2">"1960"</span><span class="p">,</span><span class="s2">"1970"</span><span class="p">,</span><span class="s2">"1980"</span><span class="p">,</span><span class="s2">"1990"</span><span class="p">,</span><span class="s2">"2000"</span><span class="p">))</span><span class="o">+</span><span class="w">
+    </span><span class="n">coord_fixed</span><span class="p">()</span><span class="o">+</span><span class="w">
+    </span><span class="n">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="p">,</span><span class="w">
+        </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+        </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">),</span><span class="w">
+        </span><span class="n">plot.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">panel.border</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"measles-mod1.png"</span><span class="p">,</span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150</span><span class="p">,</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cairo"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#reverse level order of state</span><span class="w">
+</span><span class="n">m3</span><span class="o">$</span><span class="n">State</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">State</span><span class="p">),</span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rev</span><span class="p">(</span><span class="n">levels</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">State</span><span class="p">)))</span><span class="w">
+</span><span class="c1">#create a new variable from incidence</span><span class="w">
+</span><span class="n">m3</span><span class="o">$</span><span class="n">IncidenceFactor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cut</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">Incidence</span><span class="p">,</span><span class="w">
+                </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">10</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">500</span><span class="p">,</span><span class="m">1000</span><span class="p">,</span><span class="nf">max</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">Incidence</span><span class="p">,</span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)),</span><span class="w">
+                </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"0"</span><span class="p">,</span><span class="s2">"0-1"</span><span class="p">,</span><span class="s2">"1-10"</span><span class="p">,</span><span class="s2">"10-100"</span><span class="p">,</span><span class="s2">"100-500"</span><span class="p">,</span><span class="s2">"500-1000"</span><span class="p">,</span><span class="s2">"&gt;1000"</span><span class="p">))</span><span class="w">
+</span><span class="c1">#change level order</span><span class="w">
+</span><span class="n">m3</span><span class="o">$</span><span class="n">IncidenceFactor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">IncidenceFactor</span><span class="p">),</span><span class="w">
+</span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rev</span><span class="p">(</span><span class="n">levels</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">IncidenceFactor</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1">#assign text colour</span><span class="w">
+</span><span class="n">textcol</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"grey40"</span><span class="w">
+
+</span><span class="c1">#further modified ggplot</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Year</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">,</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IncidenceFactor</span><span class="p">))</span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_tile</span><span class="p">()</span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_tile</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">show_guide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Incidence of Measles in the US"</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_y_discrete</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">))</span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_x_discrete</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"1930"</span><span class="p">,</span><span class="s2">"1940"</span><span class="p">,</span><span class="s2">"1950"</span><span class="p">,</span><span class="s2">"1960"</span><span class="p">,</span><span class="s2">"1970"</span><span class="p">,</span><span class="s2">"1980"</span><span class="p">,</span><span class="s2">"1990"</span><span class="p">,</span><span class="s2">"2000"</span><span class="p">))</span><span class="o">+</span><span class="w">
+    </span><span class="c1">#library(RColorBrewer)</span><span class="w">
+    </span><span class="c1">#scale_fill_manual(values = rev(brewer.pal(7,"YlGnBu")),na.value = "grey90")+</span><span class="w">
+    </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#d53e4f"</span><span class="p">,</span><span class="s2">"#f46d43"</span><span class="p">,</span><span class="s2">"#fdae61"</span><span class="p">,</span><span class="s2">"#fee08b"</span><span class="p">,</span><span class="s2">"#e6f598"</span><span class="p">,</span><span class="s2">"#abdda4"</span><span class="p">,</span><span class="s2">"#ddf1da"</span><span class="p">),</span><span class="n">na.value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey90"</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="n">coord_fixed</span><span class="p">()</span><span class="o">+</span><span class="w">
+    </span><span class="n">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="p">,</span><span class="n">legend.direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vertical"</span><span class="p">,</span><span class="w">
+        </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">legend.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="s2">"cm"</span><span class="p">),</span><span class="w">
+        </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">textcol</span><span class="p">,</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+        </span><span class="n">legend.key.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">0.8</span><span class="p">,</span><span class="s2">"cm"</span><span class="p">),</span><span class="w">
+        </span><span class="n">legend.key.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="s2">"cm"</span><span class="p">),</span><span class="w">
+        </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">textcol</span><span class="p">),</span><span class="w">
+        </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="m">0.2</span><span class="p">,</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">textcol</span><span class="p">),</span><span class="w">
+        </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">),</span><span class="w">
+        </span><span class="n">plot.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">panel.border</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">textcol</span><span class="p">,</span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">#export figure</span><span class="w">
+</span><span class="n">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"measles-mod3.png"</span><span class="p">,</span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150</span><span class="p">,</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cairo"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#----------------------------------------------------------------------------</span><span class="w">
+
+</span><span class="c1">#BASE GRAPHICS</span><span class="w">
+
+</span><span class="c1">#load package</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">gplots</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">plotrix</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#convert from long format to wide format</span><span class="w">
+</span><span class="n">m4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dcast</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span><span class="n">Year</span><span class="o">~</span><span class="n">State</span><span class="p">,</span><span class="n">value.var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Incidence"</span><span class="p">)</span><span class="w">
+</span><span class="n">m5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">m4</span><span class="p">[,</span><span class="m">-1</span><span class="p">])</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">m5</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">m4</span><span class="o">$</span><span class="n">Year</span><span class="w">
+
+</span><span class="c1">#base heatmap</span><span class="w">
+</span><span class="n">png</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"measles-base.png"</span><span class="p">,</span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150</span><span class="p">,</span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">)</span><span class="w">
+</span><span class="n">heatmap</span><span class="p">(</span><span class="n">t</span><span class="p">(</span><span class="n">m5</span><span class="p">),</span><span class="n">Rowv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="n">Colv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">terrain.colors</span><span class="p">(</span><span class="m">100</span><span class="p">),</span><span class="w">
+        </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="s2">""</span><span class="p">,</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Incidence of Measles in the US"</span><span class="p">)</span><span class="w">
+</span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+
+</span><span class="c1">#gplots heatmap.2</span><span class="w">
+</span><span class="n">png</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"measles-gplot.png"</span><span class="p">,</span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">18</span><span class="p">,</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150</span><span class="p">,</span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">,</span><span class="n">type</span><span class="o">=</span><span class="s2">"cairo"</span><span class="p">)</span><span class="w">
+</span><span class="n">gplots</span><span class="o">::</span><span class="n">heatmap.2</span><span class="p">(</span><span class="n">t</span><span class="p">(</span><span class="n">m5</span><span class="p">),</span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="n">dendrogram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="n">Rowv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="n">Colv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Rowv"</span><span class="p">,</span><span class="n">trace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="n">offsetRow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">offsetCol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w">
+                    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">10</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">500</span><span class="p">,</span><span class="m">1000</span><span class="p">,</span><span class="nf">max</span><span class="p">(</span><span class="n">m3</span><span class="o">$</span><span class="n">Incidence</span><span class="p">,</span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)),</span><span class="n">colsep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">which</span><span class="p">(</span><span class="n">seq</span><span class="p">(</span><span class="m">1928</span><span class="p">,</span><span class="m">2003</span><span class="p">)</span><span class="w"> </span><span class="o">%%</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w">
+                    </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">8</span><span class="p">),</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rev</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"#d53e4f"</span><span class="p">,</span><span class="s2">"#f46d43"</span><span class="p">,</span><span class="s2">"#fdae61"</span><span class="p">,</span><span class="s2">"#fee08b"</span><span class="p">,</span><span class="s2">"#e6f598"</span><span class="p">,</span><span class="s2">"#abdda4"</span><span class="p">,</span><span class="s2">"#ddf1da"</span><span class="p">)),</span><span class="w">
+                    </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="s2">""</span><span class="p">,</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">,</span><span class="n">lhei</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.1</span><span class="p">,</span><span class="m">0.9</span><span class="p">),</span><span class="n">lwid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="m">0.8</span><span class="p">))</span><span class="w">
+</span><span class="n">gradient.rect</span><span class="p">(</span><span class="m">0.125</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.135</span><span class="p">,</span><span class="m">0.75</span><span class="p">,</span><span class="n">nslices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="n">border</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">,</span><span class="n">gradient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"y"</span><span class="p">,</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rev</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"#d53e4f"</span><span class="p">,</span><span class="s2">"#f46d43"</span><span class="p">,</span><span class="s2">"#fdae61"</span><span class="p">,</span><span class="s2">"#fee08b"</span><span class="p">,</span><span class="s2">"#e6f598"</span><span class="p">,</span><span class="s2">"#abdda4"</span><span class="p">,</span><span class="s2">"#ddf1da"</span><span class="p">)))</span><span class="w">
+</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">0.118</span><span class="p">,</span><span class="m">7</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">0.28</span><span class="p">,</span><span class="m">0.72</span><span class="p">,</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.07</span><span class="p">),</span><span class="n">adj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">,</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"0"</span><span class="p">,</span><span class="s2">"0-1"</span><span class="p">,</span><span class="s2">"1-10"</span><span class="p">,</span><span class="s2">"10-100"</span><span class="p">,</span><span class="s2">"100-500"</span><span class="p">,</span><span class="s2">"500-1000"</span><span class="p">,</span><span class="s2">"&gt;1000"</span><span class="p">))</span><span class="w">
+</span><span class="n">title</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Incidence of Measles in the US"</span><span class="p">,</span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="n">oma</span><span class="o">=</span><span class="nb">T</span><span class="p">,</span><span class="n">adj</span><span class="o">=</span><span class="m">0.21</span><span class="p">)</span><span class="w">
+</span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+
+</span><span class="c1">#-------------------------------------------------------------------------------</span><span class="w">
+</span><span class="c1">#End of script</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>We have covered data prep and plotting heatmaps in R using base graphics and ggplot2. <code class="language-plaintext highlighter-rouge">ggplot2</code> seems more consistent with code structure but the base graphics may be useful when combing multiple graphics in complicated ways. Hacking <code class="language-plaintext highlighter-rouge">ggplot2</code> can be harder than fiddling with base graphics. I have not covered heatmaps with dendrograms because they are only useful in specific situations. I refer you to other articles such as <a href="http://earlglynn.github.io/RNotes/package/gplots/heatmap2.html">this</a>, <a href="http://mannheimiagoesprogramming.blogspot.se/2012/06/drawing-heatmaps-in-r-with-heatmap2.html">this</a> and <a href="http://sebastianraschka.com/Articles/heatmaps_in_r.html">this</a> for more information.</p>
+
+            </div>
+          </div>
+          <div class="toc-content-child-right">
+            <nav class="toc">
+              <ul class="toc__menu"><li><a href="#data-preparation">Data preparation</a></li><li><a href="#plotting-the-data">Plotting the data</a><ul><li><a href="#plotting-using-ggplot2">Plotting using ggplot2</a></li><li><a href="#plotting-using-base-graphics">Plotting using base graphics</a></li></ul></li><li><a href="#conclusion">Conclusion</a></li></ul>
+
+            </nav>
+          </div>
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/elegant-scientific-graphs-learning-from-examples/" class="pagination--pager" title="Elegant scientific graphs: Learning from examples
+">Previous</a>
+    
+    
+      <a href="/meet-bjorn-the-cat/" class="pagination--pager" title="Björn the Norwegian forest cat
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+    <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+  <div class="page-related-mx">
+    <h2 class="page__related-title">You may also enjoy</h2>
+    <div class="grid__wrapper">
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-11-07-greece-thessaloniki/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-11-07T00:00:00+01:00">07 Nov 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/greece-thessaloniki/" rel="permalink">Exploring history and culture in Thessaloniki
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A short weekend away in Thessaloniki, Greece.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-09-17T00:00:00+02:00">17 Sep 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+        
+          <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/scatterplot-annotation/" rel="permalink">Scatterplot annotation
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-08-22T00:00:00+02:00">22 Aug 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/sweden-west-coast/" rel="permalink">Exploring the Swedish west coast
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A road trip exploring the west coast of Sweden.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-06-30-portugal/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-06-30T00:00:00+02:00">30 Jun 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/portugal/" rel="permalink">Road trip through Portugal
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A conference and road trip through Portugal.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://royfrancis.com/a-guide-to-elegant-tiled-heatmaps-in-r/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/a-guide-to-elegant-tiled-heatmaps-in-r"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://romf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

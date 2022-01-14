@@ -1,0 +1,2222 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Photo calender using R • rmf</title>
+<meta name="description" content="Create an elegant photo calendar completely using R.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+  <meta property="article:author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="Photo calender using R">
+<meta property="og:url" content="https://royfrancis.com/photo-calender-using-r/">
+
+
+  <meta property="og:description" content="Create an elegant photo calendar completely using R.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2017-12-04T02:25:14+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/photo-calender-using-r/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/posts/2017/2017-12-04-photo-calender-using-r/featured.jpg alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="Photo calender using R">
+    
+    <meta itemprop="description" content="Create an elegant photo calendar completely using R.">
+    
+    <meta itemprop="datePublished" content="2017-12-04T02:25:14+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/photo-calender-using-r/" class="u-url" itemprop="url">Photo calender using R
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published" datetime="2017-12-04T02:25:14+01:00">04 Dec 2017</time></span>
+
+  
+  <span class="separator">
+    •
+  </span>
+  
+  
+  
+
+
+  
+
+  <span>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords" class="category-keywords">
+    
+      <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+    
+      <a href="/categories/#craft" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Craft</a><span class="sep">, </span>
+    
+      <a href="/categories/#design" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Design</a><span class="sep">, </span>
+    
+      <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a>
+    
+    </span>
+  </span>
+
+
+</div>  
+  
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#calendar" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Calendar</a><span class="sep">, </span>
+    
+      <a href="/tags/#data-visualisation" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Data Visualisation</a><span class="sep">, </span>
+    
+      <a href="/tags/#design" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Design</a><span class="sep">, </span>
+    
+      <a href="/tags/#r" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</a>
+    
+    </span>
+  </p>
+
+
+</div>
+        </footer>
+
+        
+        <div class="article-content">
+          <p>I had this idea of using some of my travel photos to create a photo calendar. I would normally go about it using Adobe Photoshop or Adobe Illustrator. But, that would involve a lot of manual work placing dates and days for each month. I would also like to mark some public holidays and friend’s birthdays. So, I wondered if it might be possible to do it with R. After fiddling about with it over the weekend, I managed to make it work. It went better than I expected. And here I am recreating the calendar using some stock photos. All stock photos are royalty-free from <a href="https://www.pexels.com/royalty-free-images/">Pexels</a>. For the impatient ones, the whole code and images are available at <a href="https://github.com/royfrancis/r-calendar">this Github</a> repository. For detailed guide, keep reading.</p>
+
+<!-- more -->
+
+<!-- image gallery using freewall and lightbox -->
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<div class="pixture-parent">
+<div class="pixture-gallery">
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/01.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/01.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/02.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/02.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/03.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/03.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/04.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/04.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/05.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/05.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/06.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/06.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/07.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/07.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/08.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/08.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/09.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/09.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/10.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/10.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/11.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/11.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+      
+
+        
+        
+        
+        <div class="pixture-child" style="flex-basis:192px;" id="slb-20220114233603330362972161717"> 
+          <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/12.jpg">
+            <img class="pixture-img" style="height:192px;" src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/gallery/12.jpg" alt="" />
+          </a>
+        </div>
+        
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+</div>
+
+</div>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972161717 a'});
+</script>
+
+<p>The calendar is designed in A3 size format. Twelve photos are selected, labelled 1.jpg to 12.jpg. The photos are first sized to exactly A3 size using an image editing software and placed in a directory labelled ‘images’. A text file is prepared with important dates and description such as holidays, birthdays etc. Another text file is prepared with month and photo caption.</p>
+
+<p>The packages required are loaded.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load libraries</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w"> </span><span class="c1"># for plotting</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w"> </span><span class="c1"># for text processing</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">Cairo</span><span class="p">)</span><span class="w"> </span><span class="c1"># for graphics</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">extrafont</span><span class="p">)</span><span class="w"> </span><span class="c1"># for custom fonts</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">png</span><span class="p">)</span><span class="w"> </span><span class="c1"># read png</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">jpeg</span><span class="p">)</span><span class="w"> </span><span class="c1"># read jpeg</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I use the font <a href="https://gidole.github.io/">Gidole</a> for the calendar. This was installed on my system and imported using the package ‘extrafont’. I follow the workflow for Windows OS. Mac and linux users might need different commands for configuring font.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># prepare fonts</span><span class="w">
+</span><span class="n">font_import</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">,</span><span class="w"> </span><span class="n">prompt</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">loadfonts</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="s2">"win"</span><span class="p">)</span><span class="w">
+</span><span class="n">windowsFonts</span><span class="p">(</span><span class="n">sans</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Export image size is set as A3. An extra 6 mm bleed edges is added to aid in trimming the print.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img_bleed</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">6</span><span class="w">
+</span><span class="n">img_height</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">297</span><span class="o">+</span><span class="p">(</span><span class="n">img_bleed</span><span class="o">*</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="n">img_width</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">420</span><span class="o">+</span><span class="p">(</span><span class="n">img_bleed</span><span class="o">*</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="n">img_dpi</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">300</span><span class="w">
+</span><span class="n">img_units</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"mm"</span><span class="w">
+</span><span class="n">export</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"png"</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The raw calendar dates are prepared.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># PREPARE CALENDAR DATA.FRAME</span><span class="w">
+</span><span class="n">dates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2018-01-01"</span><span class="p">),</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2018-12-31"</span><span class="p">),</span><span class="w"> </span><span class="s2">"days"</span><span class="p">)</span><span class="w">
+</span><span class="n">df_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">fulldate</span><span class="o">=</span><span class="nf">as.character</span><span class="p">(</span><span class="n">dates</span><span class="p">),</span><span class="w"> 
+                  </span><span class="n">date</span><span class="o">=</span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">strftime</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="o">=</span><span class="s2">"%d"</span><span class="p">)),</span><span class="w"> 
+                  </span><span class="n">month</span><span class="o">=</span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">strftime</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="o">=</span><span class="s2">"%m"</span><span class="p">)),</span><span class="w"> 
+                  </span><span class="n">year</span><span class="o">=</span><span class="n">strftime</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="o">=</span><span class="s2">"%Y"</span><span class="p">),</span><span class="w"> 
+                  </span><span class="n">day</span><span class="o">=</span><span class="n">strftime</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="o">=</span><span class="s2">"%a"</span><span class="p">),</span><span class="w"> 
+                  </span><span class="n">week</span><span class="o">=</span><span class="n">strftime</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="o">=</span><span class="s2">"%W"</span><span class="p">),</span><span class="w">
+                  </span><span class="n">stringsAsFactors</span><span class="o">=</span><span class="nb">F</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Marked dates with description are read in.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># read marked dates and description</span><span class="w">
+</span><span class="n">marked</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.delim</span><span class="p">(</span><span class="s2">"marked.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="o">=</span><span class="nb">F</span><span class="p">)</span><span class="o">&lt;</span><span class="n">br</span><span class="o">&gt;</span><span class="w">
+
+
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">marked</span><span class="p">)</span><span class="w">
+    </span><span class="n">date</span><span class="w">                 </span><span class="n">description</span><span class="w">           </span><span class="n">type</span><span class="w">
+</span><span class="m">1</span><span class="w"> </span><span class="n">Jan</span><span class="w"> </span><span class="m">01</span><span class="w">              </span><span class="n">New</span><span class="w"> </span><span class="n">Year</span><span class="err">'</span><span class="n">s</span><span class="w"> </span><span class="n">Day</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">holiday</span><span class="w">
+</span><span class="m">2</span><span class="w"> </span><span class="n">Mar</span><span class="w"> </span><span class="m">20</span><span class="w">              </span><span class="n">Spring</span><span class="w"> </span><span class="n">Equinox</span><span class="w">           </span><span class="n">none</span><span class="w">
+</span><span class="m">3</span><span class="w"> </span><span class="n">Mar</span><span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="n">Daylight</span><span class="w"> </span><span class="n">Saving</span><span class="w"> </span><span class="n">Time</span><span class="w"> </span><span class="n">Starts</span><span class="w">           </span><span class="n">none</span><span class="w">
+</span><span class="m">4</span><span class="w"> </span><span class="n">Mar</span><span class="w"> </span><span class="m">30</span><span class="w">                 </span><span class="n">Good</span><span class="w"> </span><span class="n">Friday</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">holiday</span><span class="w">
+</span><span class="m">5</span><span class="w"> </span><span class="n">Mar</span><span class="w"> </span><span class="m">31</span><span class="w">               </span><span class="n">Holy</span><span class="w"> </span><span class="n">Saturday</span><span class="w">   </span><span class="n">half</span><span class="w"> </span><span class="n">holiday</span><span class="w">
+</span><span class="m">6</span><span class="w"> </span><span class="n">Apr</span><span class="w"> </span><span class="m">01</span><span class="w">                  </span><span class="n">Easter</span><span class="w"> </span><span class="n">Day</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">holiday</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Multi word descriptions are split to two lines. New line character ‘\n’ is added to the last space in the description. Character dates is converted to actual R dates.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># add newline to last space in the description</span><span class="w">
+</span><span class="n">marked</span><span class="o">$</span><span class="n">description</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">str_replace</span><span class="p">(</span><span class="n">marked</span><span class="o">$</span><span class="n">description</span><span class="p">,</span><span class="w"> </span><span class="s2">" [:alnum:]+$"</span><span class="p">,</span><span class="w"> </span><span class="n">str_replace</span><span class="p">(</span><span class="n">str_extract</span><span class="p">(</span><span class="n">marked</span><span class="o">$</span><span class="n">description</span><span class="p">,</span><span class="w"> </span><span class="s2">" [:alnum:]+$"</span><span class="p">),</span><span class="w"> </span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">))</span><span class="w">
+</span><span class="c1"># create R dates</span><span class="w">
+</span><span class="n">marked</span><span class="o">$</span><span class="n">fulldate</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">strftime</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="n">str_replace_all</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">marked</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="s2">" 2018"</span><span class="p">),</span><span class="w"> </span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="s2">"-"</span><span class="p">),</span><span class="w"> </span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%d-%Y"</span><span class="p">),</span><span class="w"> </span><span class="n">format</span><span class="o">=</span><span class="s2">"%Y-%m-%d"</span><span class="p">))</span><span class="w">
+</span><span class="c1"># identify duplicate dates if any</span><span class="w">
+</span><span class="n">marked</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">duplicated</span><span class="p">(</span><span class="n">marked</span><span class="o">$</span><span class="n">fulldate</span><span class="p">)),</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="c1"># remove character date</span><span class="w">
+</span><span class="n">marked</span><span class="o">$</span><span class="n">date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NULL</span><span class="w">
+
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">marked</span><span class="p">)</span><span class="w">
+                    </span><span class="n">description</span><span class="w">           </span><span class="n">type</span><span class="w">   </span><span class="n">fulldate</span><span class="w">
+</span><span class="m">1</span><span class="w">              </span><span class="n">New</span><span class="w"> </span><span class="n">Year</span><span class="err">'</span><span class="n">s</span><span class="err">\</span><span class="n">nDay</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">holiday</span><span class="w"> </span><span class="m">2018-01-01</span><span class="w">
+</span><span class="m">2</span><span class="w">              </span><span class="n">Spring</span><span class="err">\</span><span class="n">nEquinox</span><span class="w">           </span><span class="n">none</span><span class="w"> </span><span class="m">2018-03-20</span><span class="w">
+</span><span class="m">3</span><span class="w"> </span><span class="n">Daylight</span><span class="w"> </span><span class="n">Saving</span><span class="w"> </span><span class="n">Time</span><span class="err">\</span><span class="n">nStarts</span><span class="w">           </span><span class="n">none</span><span class="w"> </span><span class="m">2018-03-25</span><span class="w">
+</span><span class="m">4</span><span class="w">                 </span><span class="n">Good</span><span class="err">\</span><span class="n">nFriday</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">holiday</span><span class="w"> </span><span class="m">2018-03-30</span><span class="w">
+</span><span class="m">5</span><span class="w">               </span><span class="n">Holy</span><span class="err">\</span><span class="n">nSaturday</span><span class="w">   </span><span class="n">half</span><span class="w"> </span><span class="n">holiday</span><span class="w"> </span><span class="m">2018-03-31</span><span class="w">
+</span><span class="m">6</span><span class="w">                  </span><span class="n">Easter</span><span class="err">\</span><span class="n">nDay</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">holiday</span><span class="w"> </span><span class="m">2018-04-01</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Marked dates are merged with the calendar. Empty descriptions ‘NA’ are marked as ‘not important’. Weekends and public holidays are assigned the font colour red and birthdays are assigned the font colour blue. Start of week is marked. Based on the newline character added previously, descriptions are split into two for plotting on two lines.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># merge calendar and marked dates</span><span class="w">
+</span><span class="n">df_cal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge</span><span class="p">(</span><span class="n">df_raw</span><span class="p">,</span><span class="w"> </span><span class="n">marked</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"fulldate"</span><span class="p">,</span><span class="w"> </span><span class="n">all.x</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="w">
+</span><span class="c1"># mark NA descriptions as not important</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">type</span><span class="p">[</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df_cal</span><span class="o">$</span><span class="n">type</span><span class="p">)]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"not important"</span><span class="w">
+</span><span class="c1"># assign red colour to public holidays and weekends</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">holiday</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">df_cal</span><span class="o">$</span><span class="n">day</span><span class="o">==</span><span class="s2">"Sat"</span><span class="o">|</span><span class="n">df_cal</span><span class="o">$</span><span class="n">day</span><span class="o">==</span><span class="s2">"Sun"</span><span class="o">|</span><span class="n">df_cal</span><span class="o">$</span><span class="n">type</span><span class="o">==</span><span class="s2">"public holiday"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#e41a1c"</span><span class="p">,</span><span class="w"> </span><span class="s2">"grey20"</span><span class="p">)</span><span class="w">
+</span><span class="c1"># assign blue colour to birthdays</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">holiday</span><span class="p">[</span><span class="n">df_cal</span><span class="o">$</span><span class="n">type</span><span class="o">==</span><span class="s2">"birthday"</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"steelblue"</span><span class="w">
+</span><span class="c1"># mark start of week</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">week</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">df_cal</span><span class="o">$</span><span class="n">day</span><span class="o">==</span><span class="s2">"Mon"</span><span class="p">,</span><span class="w"> </span><span class="n">df_cal</span><span class="o">$</span><span class="n">week</span><span class="p">,</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w">
+</span><span class="c1"># alpha of background shape for week</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">weekbgalpha</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df_cal</span><span class="o">$</span><span class="n">week</span><span class="p">),</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="c1"># split description into two lines</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description</span><span class="p">,</span><span class="w"> </span><span class="s2">"\nx"</span><span class="p">)</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sapply</span><span class="p">(</span><span class="n">strsplit</span><span class="p">(</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description</span><span class="p">,</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">),</span><span class="w"> </span><span class="s2">"[["</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sapply</span><span class="p">(</span><span class="n">strsplit</span><span class="p">(</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description</span><span class="p">,</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">),</span><span class="w"> </span><span class="s2">"[["</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description1</span><span class="p">[</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description1</span><span class="o">==</span><span class="s2">"NA"</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NA</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description2</span><span class="p">[</span><span class="n">df_cal</span><span class="o">$</span><span class="n">description2</span><span class="o">==</span><span class="s2">"x"</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NA</span><span class="w">
+
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">df_cal</span><span class="p">)</span><span class="w">
+    </span><span class="n">fulldate</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="n">week</span><span class="w">        </span><span class="n">description</span><span class="w">           </span><span class="n">type</span><span class="w">
+</span><span class="m">1</span><span class="w"> </span><span class="m">2018-01-01</span><span class="w">    </span><span class="m">1</span><span class="w">     </span><span class="m">1</span><span class="w"> </span><span class="m">2018</span><span class="w"> </span><span class="n">Mon</span><span class="w">   </span><span class="m">01</span><span class="w"> </span><span class="n">New</span><span class="w"> </span><span class="n">Year</span><span class="s1">'s\nDay\nx public holiday
+2 2018-01-02    2     1 2018 Tue &lt;NA&gt;              NA\nx  not important
+3 2018-01-03    3     1 2018 Wed &lt;NA&gt;              NA\nx  not important
+4 2018-01-04    4     1 2018 Thu &lt;NA&gt;              NA\nx  not important
+5 2018-01-05    5     1 2018 Fri &lt;NA&gt;              NA\nx  not important
+6 2018-01-06    6     1 2018 Sat &lt;NA&gt;              NA\nx  not important
+  holiday weekbgalpha description1 description2
+1 #e41a1c           1   New Year'</span><span class="n">s</span><span class="w">          </span><span class="n">Day</span><span class="w">
+</span><span class="m">2</span><span class="w">  </span><span class="n">grey20</span><span class="w">           </span><span class="m">0</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">
+</span><span class="m">3</span><span class="w">  </span><span class="n">grey20</span><span class="w">           </span><span class="m">0</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">
+</span><span class="m">4</span><span class="w">  </span><span class="n">grey20</span><span class="w">           </span><span class="m">0</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">
+</span><span class="m">5</span><span class="w">  </span><span class="n">grey20</span><span class="w">           </span><span class="m">0</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">
+</span><span class="m">6</span><span class="w"> </span><span class="c1">#e41a1c           0         &lt;NA&gt;         &lt;NA&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Image captions and caption colour file is read in.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># prepare image captions</span><span class="w">
+</span><span class="n">cap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.delim</span><span class="p">(</span><span class="s2">"captions.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="o">=</span><span class="nb">F</span><span class="p">)</span><span class="w">
+
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">cap</span><span class="p">)</span><span class="w">
+  </span><span class="n">month</span><span class="w">               </span><span class="n">description</span><span class="w"> </span><span class="n">textcol</span><span class="w">
+</span><span class="m">1</span><span class="w">     </span><span class="m">1</span><span class="w">           </span><span class="n">Snowy</span><span class="w"> </span><span class="n">landscape</span><span class="w">  </span><span class="n">grey20</span><span class="w">
+</span><span class="m">2</span><span class="w">     </span><span class="m">2</span><span class="w">    </span><span class="n">Snowfall</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">leaves</span><span class="w">  </span><span class="n">grey20</span><span class="w">
+</span><span class="m">3</span><span class="w">     </span><span class="m">3</span><span class="w"> </span><span class="n">Blue</span><span class="w"> </span><span class="n">waters</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">mountains</span><span class="w">  </span><span class="n">grey20</span><span class="w">
+</span><span class="m">4</span><span class="w">     </span><span class="m">4</span><span class="w">              </span><span class="n">Flower</span><span class="w"> </span><span class="n">macro</span><span class="w">  </span><span class="n">grey20</span><span class="w">
+</span><span class="m">5</span><span class="w">     </span><span class="m">5</span><span class="w">         </span><span class="n">Lady</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">woods</span><span class="w">  </span><span class="n">grey20</span><span class="w">
+</span><span class="m">6</span><span class="w">     </span><span class="m">6</span><span class="w">           </span><span class="n">Field</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">barley</span><span class="w">  </span><span class="n">grey20</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Positions of the various text elements are defined bottom-up. ‘basepos’ is an arbitrary base line position which helps to move all text up or down. ‘markpos1’ defines second line of marked date description, ‘markpos2’ defines first line of marked date description. ‘datepos’ defines the row of date numbers. ‘daypos’ defines the row of day text. ‘weekpos’ defines the row of week numbers. ‘monthpos’ defines the position of the month.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># set text position variables</span><span class="w">
+</span><span class="n">basepos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.35</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">markpos1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">basepos</span><span class="m">+0.08</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">markpos2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_cal</span><span class="o">$</span><span class="n">markpos1</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="m">+0.12</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">datepos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_cal</span><span class="o">$</span><span class="n">markpos2</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="m">+0.20</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">daypos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_cal</span><span class="o">$</span><span class="n">datepos</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="m">+0.25</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">weekpos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_cal</span><span class="o">$</span><span class="n">daypos</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="m">+0.25</span><span class="w">
+</span><span class="n">df_cal</span><span class="o">$</span><span class="n">monthpos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_cal</span><span class="o">$</span><span class="n">weekpos</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="m">+0.26</span><span class="w">
+
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">df_cal</span><span class="p">)</span><span class="w">
+</span><span class="n">fulldate</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="n">week</span><span class="w">        </span><span class="n">description</span><span class="w">           </span><span class="n">type</span><span class="w">
+</span><span class="m">1</span><span class="w"> </span><span class="m">2018-01-01</span><span class="w">    </span><span class="m">1</span><span class="w">     </span><span class="m">1</span><span class="w"> </span><span class="m">2018</span><span class="w"> </span><span class="n">Mon</span><span class="w">   </span><span class="m">01</span><span class="w"> </span><span class="n">New</span><span class="w"> </span><span class="n">Year</span><span class="s1">'s\nDay\nx public holiday
+2 2018-01-02    2     1 2018 Tue &lt;NA&gt;              NA\nx  not important
+3 2018-01-03    3     1 2018 Wed &lt;NA&gt;              NA\nx  not important
+4 2018-01-04    4     1 2018 Thu &lt;NA&gt;              NA\nx  not important
+5 2018-01-05    5     1 2018 Fri &lt;NA&gt;              NA\nx  not important
+6 2018-01-06    6     1 2018 Sat &lt;NA&gt;              NA\nx  not important
+  holiday weekbgalpha description1 description2 markpos1 markpos2
+1 #e41a1c           1   New Year'</span><span class="n">s</span><span class="w">          </span><span class="n">Day</span><span class="w">     </span><span class="m">0.43</span><span class="w">     </span><span class="m">0.55</span><span class="w">
+</span><span class="m">2</span><span class="w">  </span><span class="n">grey20</span><span class="w">           </span><span class="m">0</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">     </span><span class="m">0.43</span><span class="w">     </span><span class="m">0.55</span><span class="w">
+</span><span class="m">3</span><span class="w">  </span><span class="n">grey20</span><span class="w">           </span><span class="m">0</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">     </span><span class="m">0.43</span><span class="w">     </span><span class="m">0.55</span><span class="w">
+</span><span class="m">4</span><span class="w">  </span><span class="n">grey20</span><span class="w">           </span><span class="m">0</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">     </span><span class="m">0.43</span><span class="w">     </span><span class="m">0.55</span><span class="w">
+</span><span class="m">5</span><span class="w">  </span><span class="n">grey20</span><span class="w">           </span><span class="m">0</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">         </span><span class="o">&lt;</span><span class="kc">NA</span><span class="o">&gt;</span><span class="w">     </span><span class="m">0.43</span><span class="w">     </span><span class="m">0.55</span><span class="w">
+</span><span class="m">6</span><span class="w"> </span><span class="c1">#e41a1c           0         &lt;NA&gt;         &lt;NA&gt;     0.43     0.55</span><span class="w">
+  </span><span class="n">datepos</span><span class="w"> </span><span class="n">daypos</span><span class="w"> </span><span class="n">weekpos</span><span class="w"> </span><span class="n">monthpos</span><span class="w">
+</span><span class="m">1</span><span class="w">    </span><span class="m">0.75</span><span class="w">      </span><span class="m">1</span><span class="w">    </span><span class="m">1.25</span><span class="w">     </span><span class="m">1.51</span><span class="w">
+</span><span class="m">2</span><span class="w">    </span><span class="m">0.75</span><span class="w">      </span><span class="m">1</span><span class="w">    </span><span class="m">1.25</span><span class="w">     </span><span class="m">1.51</span><span class="w">
+</span><span class="m">3</span><span class="w">    </span><span class="m">0.75</span><span class="w">      </span><span class="m">1</span><span class="w">    </span><span class="m">1.25</span><span class="w">     </span><span class="m">1.51</span><span class="w">
+</span><span class="m">4</span><span class="w">    </span><span class="m">0.75</span><span class="w">      </span><span class="m">1</span><span class="w">    </span><span class="m">1.25</span><span class="w">     </span><span class="m">1.51</span><span class="w">
+</span><span class="m">5</span><span class="w">    </span><span class="m">0.75</span><span class="w">      </span><span class="m">1</span><span class="w">    </span><span class="m">1.25</span><span class="w">     </span><span class="m">1.51</span><span class="w">
+</span><span class="m">6</span><span class="w">    </span><span class="m">0.75</span><span class="w">      </span><span class="m">1</span><span class="w">    </span><span class="m">1.25</span><span class="w">     </span><span class="m">1.51</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The loop reads the image for each month and converts to a grob. A ggplot object is created and the calendar along with the markings are printed. The ggplot object and the image grob are combined and exported.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># EXPORT LOOP</span><span class="w">
+</span><span class="c1"># loop to create and export monthwise</span><span class="w">
+</span><span class="n">levs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">levels</span><span class="p">(</span><span class="n">factor</span><span class="p">(</span><span class="n">df_cal</span><span class="o">$</span><span class="n">month</span><span class="p">))</span><span class="w">
+</span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">levs</span><span class="p">))</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="n">fullmonth</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nb">month.name</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w">
+  </span><span class="n">message</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Running "</span><span class="p">,</span><span class="w"> </span><span class="n">fullmonth</span><span class="p">,</span><span class="w"> </span><span class="s2">" ..."</span><span class="p">))</span><span class="w">
+
+  </span><span class="c1"># subset one month</span><span class="w">
+  </span><span class="n">single</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">df_cal</span><span class="p">,</span><span class="w"> </span><span class="n">df_cal</span><span class="o">$</span><span class="n">month</span><span class="o">==</span><span class="n">i</span><span class="p">)</span><span class="w">
+
+  </span><span class="c1"># read background image</span><span class="w">
+  </span><span class="c1">#pic &lt;- readPNG(paste0("./images/", i, ".png"))</span><span class="w">
+  </span><span class="n">pic</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readJPEG</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"./images/"</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s2">".jpg"</span><span class="p">))</span><span class="w">
+  </span><span class="n">pic1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">grid</span><span class="o">::</span><span class="n">rasterGrob</span><span class="p">(</span><span class="n">pic</span><span class="p">)</span><span class="w">
+  </span><span class="n">pic1</span><span class="o">$</span><span class="n">width</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"npc"</span><span class="p">)</span><span class="w">
+  </span><span class="n">pic1</span><span class="o">$</span><span class="n">height</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"npc"</span><span class="p">)</span><span class="w">
+
+  </span><span class="c1"># create final image</span><span class="w">
+  </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">single</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># background image</span><span class="w">
+    </span><span class="n">annotation_custom</span><span class="p">(</span><span class="n">pic1</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># background rectangle 1</span><span class="w">
+    </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"rect"</span><span class="p">,</span><span class="w"> </span><span class="n">xmin</span><span class="o">=-</span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">xmax</span><span class="o">=</span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">ymin</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">weekpos</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="s2">"white"</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># background rectangle 2</span><span class="w">
+    </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"rect"</span><span class="p">,</span><span class="w"> </span><span class="n">xmin</span><span class="o">=-</span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">xmax</span><span class="o">=</span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">ymin</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">weekpos</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">ymax</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">weekpos</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="m">+0.4</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="s2">"white"</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># month title text faded with year</span><span class="w">
+    </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">monthpos</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="n">fullmonth</span><span class="p">,</span><span class="w"> </span><span class="s2">" 2018"</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey40"</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># month title text</span><span class="w">
+    </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">monthpos</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">fullmonth</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey20"</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># image description text</span><span class="w">
+    </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">date</span><span class="p">[</span><span class="n">nrow</span><span class="p">(</span><span class="n">single</span><span class="p">)],</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">monthpos</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">cap</span><span class="o">$</span><span class="n">description</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="n">cap</span><span class="o">$</span><span class="n">textcol</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># week background circle</span><span class="w">
+    </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">weekpos</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"grey90"</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">weekbgalpha</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="o">=</span><span class="m">20</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># week text</span><span class="w">
+    </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">weekpos</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">week</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey20"</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># day text</span><span class="w">
+    </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">daypos</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">day</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">4.8</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">holiday</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># date text</span><span class="w">
+    </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">datepos</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">holiday</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># important information text line 1</span><span class="w">
+    </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">markpos1</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">description2</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2.8</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey20"</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># important information text line 2</span><span class="w">
+    </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">markpos2</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">single</span><span class="o">$</span><span class="n">description1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2.8</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"grey20"</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># limit scales</span><span class="w">
+    </span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">single</span><span class="o">$</span><span class="n">date</span><span class="p">)</span><span class="m">+1</span><span class="p">),</span><span class="w"> </span><span class="n">expand</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.6</span><span class="p">))</span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> </span><span class="n">expand</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="o">+</span><span class="w">
+    </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="kc">NULL</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_family</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">)</span><span class="o">+</span><span class="w">
+    </span><span class="c1"># remove graph elements</span><span class="w">
+    </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"transparent"</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="kc">NA</span><span class="p">),</span><span class="w"> 
+          </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)),</span><span class="w"> 
+          </span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">axis.ticks.length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">),</span><span class="w"> 
+          </span><span class="n">axis.line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">panel.border</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">panel.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"transparent"</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="kc">NA</span><span class="p">),</span><span class="w"> 
+          </span><span class="n">panel.ontop</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+  </span><span class="c1"># export image</span><span class="w">
+  </span><span class="k">if</span><span class="p">(</span><span class="n">export</span><span class="o">==</span><span class="s2">"png"</span><span class="p">)</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="n">png</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="n">single</span><span class="o">$</span><span class="n">month</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">".png"</span><span class="p">),</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="n">img_height</span><span class="p">,</span><span class="w"> 
+          </span><span class="n">width</span><span class="o">=</span><span class="n">img_width</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="n">img_dpi</span><span class="p">,</span><span class="w"> </span><span class="n">units</span><span class="o">=</span><span class="n">img_units</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">,</span><span class="w"> 
+          </span><span class="n">bg</span><span class="o">=</span><span class="s2">"transparent"</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"cairo"</span><span class="p">)</span><span class="w">
+    </span><span class="n">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w">
+    </span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+    </span><span class="n">message</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Exported "</span><span class="p">,</span><span class="w"> </span><span class="n">single</span><span class="o">$</span><span class="n">month</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">".png"</span><span class="p">))</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+
+  </span><span class="k">if</span><span class="p">(</span><span class="n">export</span><span class="o">==</span><span class="s2">"tiff"</span><span class="p">)</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="n">tiff</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="n">single</span><span class="o">$</span><span class="n">month</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">".tiff"</span><span class="p">),</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="n">img_height</span><span class="p">,</span><span class="w"> 
+              </span><span class="n">width</span><span class="o">=</span><span class="n">img_width</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="n">img_dpi</span><span class="p">,</span><span class="w"> </span><span class="n">units</span><span class="o">=</span><span class="n">img_units</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">,</span><span class="w"> 
+              </span><span class="n">compression</span><span class="o">=</span><span class="s2">"lzw"</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"cairo"</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="o">=</span><span class="s2">"transparent"</span><span class="p">)</span><span class="w">
+    </span><span class="n">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w">
+    </span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+    </span><span class="n">message</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Exported "</span><span class="p">,</span><span class="w"> </span><span class="n">single</span><span class="o">$</span><span class="n">month</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">".tiff"</span><span class="p">))</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+
+  </span><span class="k">if</span><span class="p">(</span><span class="n">export</span><span class="o">==</span><span class="s2">"pdf"</span><span class="p">)</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="n">pdf</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="n">single</span><span class="o">$</span><span class="n">month</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">".pdf"</span><span class="p">),</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="nf">round</span><span class="p">(</span><span class="n">img_height</span><span class="o">*</span><span class="m">0.039</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> 
+        </span><span class="n">width</span><span class="o">=</span><span class="nf">round</span><span class="p">(</span><span class="n">img_width</span><span class="o">*</span><span class="m">0.039</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">)</span><span class="w">
+    </span><span class="n">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w">
+    </span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+    </span><span class="n">message</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Exported "</span><span class="p">,</span><span class="w"> </span><span class="n">single</span><span class="o">$</span><span class="n">month</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">".pdf"</span><span class="p">))</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I created a cover page as well. If you are interested in the font, the script font is <a href="https://www.dafont.com/bira.font">Bira</a> and the slim sans-serif font is <a href="https://gidole.github.io/">Gidole</a>.</p>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972127018">
+    <a href="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/cover.jpg">
+      <img src="/assets/images/posts/2017/2017-12-04-photo-calender-using-r/cover.jpg" alt="cover" />
+    </a>
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972127018 a'});
+</script>
+
+<p>The images are exported in png format here. But for print, PNG is not an ideal format. Instead, JPEG or pdf might be better. I imported all the PNGs into Adobe Indesign and created a single print quality PDF. You can also set 6 mm of bleed edges in Indesign. I sent the PDF off to print and the results were glorious. Go forth and let your creativity flow. Make yourself a calendar for next year.</p>
+
+<p>The full code along with images are available at <a href="https://github.com/royfrancis/r-calendar">this Github</a> repository.</p>
+
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/scraping-instagram-choosing-hashtags/" class="pagination--pager" title="Scraping Instagram and choosing hashtags
+">Previous</a>
+    
+    
+      <a href="/snowy-landscapes/" class="pagination--pager" title="Snowy Landscapes
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+    <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+  <div class="page-related-mx">
+    <h2 class="page__related-title">You may also enjoy</h2>
+    <div class="grid__wrapper">
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-11-07-greece-thessaloniki/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-11-07T00:00:00+01:00">07 Nov 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/greece-thessaloniki/" rel="permalink">Exploring history and culture in Thessaloniki
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A short weekend away in Thessaloniki, Greece.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-09-17T00:00:00+02:00">17 Sep 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+        
+          <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/scatterplot-annotation/" rel="permalink">Scatterplot annotation
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-08-22T00:00:00+02:00">22 Aug 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/sweden-west-coast/" rel="permalink">Exploring the Swedish west coast
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A road trip exploring the west coast of Sweden.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-06-30-portugal/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-06-30T00:00:00+02:00">30 Jun 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/portugal/" rel="permalink">Road trip through Portugal
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A conference and road trip through Portugal.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://royfrancis.com/photo-calender-using-r/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/photo-calender-using-r"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://romf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

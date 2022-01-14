@@ -1,0 +1,1262 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Customising ggplot2 • rmf</title>
+<meta name="description" content="Customising a ggplot2 plot using the theme function. In this post, we are going to explore how to adjust various ggplot plot elements. What can be adjusted, what they are called and how they can be adjusted.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+  <meta property="article:author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="Customising ggplot2">
+<meta property="og:url" content="https://royfrancis.com/customising-ggplot2/">
+
+
+  <meta property="og:description" content="Customising a ggplot2 plot using the theme function. In this post, we are going to explore how to adjust various ggplot plot elements. What can be adjusted, what they are called and how they can be adjusted.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2018-05-10T12:29:38+02:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/customising-ggplot2/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/posts/2018/2018-05-10-customising-ggplot2/featured.jpg alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="Customising ggplot2">
+    
+    <meta itemprop="description" content="Customising a ggplot2 plot using the theme function. In this post, we are going to explore how to adjust various ggplot plot elements. What can be adjusted, what they are called and how they can be adjusted.">
+    
+    <meta itemprop="datePublished" content="2018-05-10T12:29:38+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/customising-ggplot2/" class="u-url" itemprop="url">Customising ggplot2
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published" datetime="2018-05-10T12:29:38+02:00">10 May 2018</time></span>
+
+  
+  <span class="separator">
+    •
+  </span>
+  
+  
+  
+
+
+  
+
+  <span>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords" class="category-keywords">
+    
+      <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+    
+      <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+    
+    </span>
+  </span>
+
+
+</div>  
+  
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#data-visualisation" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Data Visualisation</a><span class="sep">, </span>
+    
+      <a href="/tags/#ggplot2" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">ggplot2</a><span class="sep">, </span>
+    
+      <a href="/tags/#r" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</a>
+    
+    </span>
+  </p>
+
+
+</div>
+        </footer>
+
+        
+        <div class="toc-content">
+          <div class="toc-content-child-left">
+            <div class="article-content">
+              <p>Customising a ggplot2 plot using the theme function. In this post, we are going to explore how to adjust various ggplot plot elements. What can be adjusted, what they are called and how they can be adjusted.</p>
+
+<p>First, load the packages that will be used. The <code class="language-plaintext highlighter-rouge">extrafont</code> package is used to import custom fonts and is completely optional.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">RColorBrewer</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">Cairo</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggpubr</span><span class="p">)</span><span class="w">
+
+</span><span class="n">library</span><span class="p">(</span><span class="n">extrafont</span><span class="p">)</span><span class="w"> </span><span class="c1"># for custom font</span><span class="w">
+</span><span class="n">loadfonts</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="s2">"win"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="base-plot">Base plot</h2>
+
+<p>We create a basic sample plot to play around with.I am using the ‘diamonds’ datasets. The dataset is filtered to reduce the number of data points. Note that the pipe operator <code class="language-plaintext highlighter-rouge">%&gt;%</code> from the <code class="language-plaintext highlighter-rouge">magrittr</code> package is used to connect subsequent commands. The default theme is set to <code class="language-plaintext highlighter-rouge">theme_bw</code>. The <code class="language-plaintext highlighter-rouge">base_family="Gidole"</code> only need to be set if adjusting the default font.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">diamonds</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">cut</span><span class="o">==</span><span class="s2">"Fair"</span><span class="o">|</span><span class="n">cut</span><span class="o">==</span><span class="s2">"Good"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">==</span><span class="s2">"D"</span><span class="o">|</span><span class="n">color</span><span class="o">==</span><span class="s2">"E"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">droplevels</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">carat</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="o">=</span><span class="n">cut</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Title"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"subtitle"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_grid</span><span class="p">(</span><span class="n">cut</span><span class="o">~</span><span class="n">color</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_family</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">)</span><span class="w">
+</span><span class="n">p</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972158643"><a href="/assets/images/posts/2018/2018-05-10-customising-ggplot2/basic.png" title="Base ggplot2 plot">
+      <img src="/assets/images/posts/2018/2018-05-10-customising-ggplot2/basic.png" alt="basic" />
+    </a>
+    <figcaption>
+    Base ggplot2 plot
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972158643 a'});
+</script>
+
+<p>All non-data related plot elements are adjusted through the <code class="language-plaintext highlighter-rouge">theme()</code> function. All possible arguments to theme that can be adjusted can be inspected using <code class="language-plaintext highlighter-rouge">args(theme)</code>. Explanations for these arguments are available through <code class="language-plaintext highlighter-rouge">?theme</code>.</p>
+
+<h2 id="text-elements">Text elements</h2>
+
+<p>First, we explore the text elements in the plot that can be adjusted. All text elements are adjusted through the <code class="language-plaintext highlighter-rouge">element_text()</code> function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">args</span><span class="p">(</span><span class="n">element_text</span><span class="p">)</span><span class="w">
+</span><span class="k">function</span><span class="w"> </span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+          </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">lineheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+          </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">debug</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">inherit.blank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Here, I am setting each text element to a unique colour so that it can be identified on out sample plot.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># change colour of text elements</span><span class="w">
+</span><span class="n">cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">brewer.pal</span><span class="p">(</span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="s2">"Dark2"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Text"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Coloured text elements"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">2</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">3</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">4</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">5</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">6</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">strip.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">7</span><span class="p">]))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Here, I am creating a legend plot to be placed on the right side.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dfr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"axis.title"</span><span class="p">,</span><span class="w"> </span><span class="s2">"axis.text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"plot.title"</span><span class="p">,</span><span class="w"> </span><span class="s2">"plot.subtitle"</span><span class="p">,</span><span class="w"> </span><span class="s2">"legend.text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"legend.title"</span><span class="p">,</span><span class="w"> </span><span class="s2">"strip.text"</span><span class="p">),</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"axis.title"</span><span class="p">,</span><span class="w"> </span><span class="s2">"axis.text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"plot.title"</span><span class="p">,</span><span class="w"> </span><span class="s2">"plot.subtitle"</span><span class="p">,</span><span class="w"> </span><span class="s2">"legend.text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"legend.title"</span><span class="p">,</span><span class="w"> </span><span class="s2">"strip.text"</span><span class="p">)))</span><span class="w">
+
+</span><span class="n">q</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">dfr</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">label</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s2">"identity"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">base_family</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="w"> 
+    </span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+    </span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+    </span><span class="n">panel.grid</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="n">ggarrange</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">widths</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.7</span><span class="p">,</span><span class="w"> </span><span class="m">0.3</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-202201142336033303629724904"><a href="/assets/images/posts/2018/2018-05-10-customising-ggplot2/text.png" title="ggplot2 plot with customised text elements.">
+      <img src="/assets/images/posts/2018/2018-05-10-customising-ggplot2/text.png" alt="text" />
+    </a>
+    <figcaption>
+    ggplot2 plot with customised text elements.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-202201142336033303629724904 a'});
+</script>
+
+<h2 id="rectangular-elements">Rectangular elements</h2>
+
+<p>Now, we explore the rectangle elements. All rectangle elements are adjusted through the <code class="language-plaintext highlighter-rouge">element_rect()</code> function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">args</span><span class="p">(</span><span class="n">element_rect</span><span class="p">)</span><span class="w">
+</span><span class="k">function</span><span class="w"> </span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">inherit.blank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># change fill colour of rectangular elements</span><span class="w">
+</span><span class="n">cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">brewer.pal</span><span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="s2">"Pastel1"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Rect"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Fill coloured rect elements"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">panel.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">2</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">panel.border</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">3</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">4</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.box.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">5</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">strip.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">6</span><span class="p">]))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now the legend.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dfr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"plot.background"</span><span class="p">,</span><span class="w"> </span><span class="s2">"panel.background"</span><span class="p">,</span><span class="w"> </span><span class="s2">"panel.border"</span><span class="p">,</span><span class="w"> </span><span class="s2">"legend.background"</span><span class="p">,</span><span class="w"> </span><span class="s2">"legend.box.background"</span><span class="p">,</span><span class="w"> </span><span class="s2">"strip.background"</span><span class="p">),</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"plot.background"</span><span class="p">,</span><span class="w"> </span><span class="s2">"panel.background"</span><span class="p">,</span><span class="w"> </span><span class="s2">"panel.border"</span><span class="p">,</span><span class="w"> </span><span class="s2">"legend.background"</span><span class="p">,</span><span class="w"> </span><span class="s2">"legend.box.background"</span><span class="p">,</span><span class="w"> </span><span class="s2">"strip.background"</span><span class="p">)))</span><span class="w">
+
+</span><span class="n">q</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">dfr</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">label</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s2">"identity"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">base_family</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="w"> 
+    </span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+    </span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+    </span><span class="n">panel.grid</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="n">ggarrange</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">widths</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="m">0.4</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297228154"><a href="/assets/images/posts/2018/2018-05-10-customising-ggplot2/rect.png" title="ggplot2 plot with customised rectangular elements.">
+      <img src="/assets/images/posts/2018/2018-05-10-customising-ggplot2/rect.png" alt="rect" />
+    </a>
+    <figcaption>
+    ggplot2 plot with customised rectangular elements.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297228154 a'});
+</script>
+
+<h2 id="line-elements">Line elements</h2>
+
+<p>Here we have the line elements. All line elements are adjusted through the <code class="language-plaintext highlighter-rouge">element_line()</code> function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">args</span><span class="p">(</span><span class="n">element_line</span><span class="p">)</span><span class="w">
+</span><span class="k">function</span><span class="w"> </span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">lineend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">arrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">inherit.blank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># change line elements</span><span class="w">
+</span><span class="n">cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">brewer.pal</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="s2">"Set1"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Line"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Coloured line elements"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_line</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">axis.line</span><span class="o">=</span><span class="n">element_line</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">panel.grid.major</span><span class="o">=</span><span class="n">element_line</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">3</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">panel.grid.minor</span><span class="o">=</span><span class="n">element_line</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">4</span><span class="p">]))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now the legend.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dfr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"axis.ticks"</span><span class="p">,</span><span class="w"> </span><span class="s2">"axis.line"</span><span class="p">,</span><span class="w"> </span><span class="s2">"panel.grid.major"</span><span class="p">,</span><span class="w"> </span><span class="s2">"panel.grid.minor"</span><span class="p">),</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"axis.ticks"</span><span class="p">,</span><span class="w"> </span><span class="s2">"axis.line"</span><span class="p">,</span><span class="w"> </span><span class="s2">"panel.grid.major"</span><span class="p">,</span><span class="w"> </span><span class="s2">"panel.grid.minor"</span><span class="p">)))</span><span class="w">
+
+</span><span class="n">q</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">dfr</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">label</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s2">"identity"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">base_family</span><span class="o">=</span><span class="s2">"Gidole"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="w"> 
+    </span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+    </span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+    </span><span class="n">panel.grid</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="n">ggarrange</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">widths</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.65</span><span class="p">,</span><span class="w"> </span><span class="m">0.35</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972103205"><a href="/assets/images/posts/2018/2018-05-10-customising-ggplot2/line.png" title="ggplot2 plot with customised line elements.">
+      <img src="/assets/images/posts/2018/2018-05-10-customising-ggplot2/line.png" alt="line" />
+    </a>
+    <figcaption>
+    ggplot2 plot with customised line elements.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972103205 a'});
+</script>
+
+<h2 id="margins-and-spacings">Margins and spacings</h2>
+
+<p>Margins are set using <code class="language-plaintext highlighter-rouge">margin()</code> and spacing is set using <code class="language-plaintext highlighter-rouge">grid::unit()</code>.</p>
+
+<p>Below shows the effect of increasing margins on the left and right of <code class="language-plaintext highlighter-rouge">legend</code> (red), <code class="language-plaintext highlighter-rouge">legend.box</code> (blue) and <code class="language-plaintext highlighter-rouge">plot</code> (green).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">brewer.pal</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="s2">"Pastel1"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Margin"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Default"</span><span class="p">)</span><span class="w">
+</span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+  </span><span class="n">legend.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.box.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">2</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">plot.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">3</span><span class="p">]))</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Margin"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Default + Fill colour"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+  </span><span class="n">legend.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="m">20</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">legend.box.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="m">20</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">plot.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="m">20</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Margin"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Increased margin"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+  </span><span class="n">legend.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.box.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">2</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">plot.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">3</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="m">20</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">legend.box.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="m">20</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">plot.margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="m">20</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Margin"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Increased margin + Fill colour"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggarrange</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">,</span><span class="w"> </span><span class="n">p4</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972174856"><a href="/assets/images/posts/2018/2018-05-10-customising-ggplot2/margin.png" title="ggplot2 plot showing elements with customised margins">
+      <img src="/assets/images/posts/2018/2018-05-10-customising-ggplot2/margin.png" alt="margin" />
+    </a>
+    <figcaption>
+    ggplot2 plot showing elements with customised margins
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972174856 a'});
+</script>
+
+<p>Left and right both shows the same effect of adjusting margins. Right is coloured. Below we adjust spacing.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">brewer.pal</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="s2">"Pastel1"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Spacing"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Default"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+  </span><span class="n">legend.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.box.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">2</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">plot.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">3</span><span class="p">]))</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Spacing"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Default + Fill colour"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+  </span><span class="n">legend.spacing</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">legend.box.spacing</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">panel.spacing</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Spacing"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Increased spacing"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+  </span><span class="n">legend.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.box.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">2</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">plot.background</span><span class="o">=</span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="m">3</span><span class="p">]),</span><span class="w"> 
+  </span><span class="n">legend.spacing</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">legend.box.spacing</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">panel.spacing</span><span class="o">=</span><span class="n">grid</span><span class="o">::</span><span class="n">unit</span><span class="p">(</span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Spacing"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Increased spacing + Fill colour"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggarrange</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">,</span><span class="w"> </span><span class="n">p4</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297233317"><a href="/assets/images/posts/2018/2018-05-10-customising-ggplot2/spacing.png" title="ggplot2 plot showing customised spacing.">
+      <img src="/assets/images/posts/2018/2018-05-10-customising-ggplot2/spacing.png" alt="spacing" />
+    </a>
+    <figcaption>
+    ggplot2 plot showing customised spacing.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297233317 a'});
+</script>
+
+<h2 id="position">Position</h2>
+
+<p>Some of the plot elements can be moved around and repositioned. For example; <code class="language-plaintext highlighter-rouge">legend.position</code> moves the legend to the ‘left’, ‘right’, ‘top’,’bottom’ or ‘none’. <code class="language-plaintext highlighter-rouge">legend.justification</code> specifies how the legend is aligned horizontally, ie; ‘left’, ‘center’ etc. <code class="language-plaintext highlighter-rouge">legend.direction</code> specifies the layout of the legend, if it is ‘vertical’ or ‘horizontal’.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)</span><span class="o">+</span><span class="w">
+                </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Legend"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Right position"</span><span class="p">)</span><span class="w">
+</span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span><span class="w"> </span><span class="n">legend.direction</span><span class="o">=</span><span class="s2">"horizontal"</span><span class="p">)</span><span class="o">+</span><span class="w">
+                </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Legend"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Left position Horizontal direction"</span><span class="p">)</span><span class="w">
+</span><span class="n">p3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span><span class="w"> </span><span class="n">legend.justification</span><span class="o">=</span><span class="s2">"center"</span><span class="p">)</span><span class="o">+</span><span class="w">
+                </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Legend"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Top position Center justified"</span><span class="p">)</span><span class="w">
+</span><span class="n">p4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">,</span><span class="w"> </span><span class="n">legend.justification</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)</span><span class="o">+</span><span class="w">
+                </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Legend"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Bottom position Right justified"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggarrange</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">,</span><span class="w"> </span><span class="n">p4</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297294368"><a href="/assets/images/posts/2018/2018-05-10-customising-ggplot2/legend.png" title="ggplot2 plot with customised legend position. Top left shows default. Bottom left shows legend on the top. Top right shows legend on the left and horizontal. Bottom right shows legend on the bottom and right justified.">
+      <img src="/assets/images/posts/2018/2018-05-10-customising-ggplot2/legend.png" alt="legend" />
+    </a>
+    <figcaption>
+    ggplot2 plot with customised legend position. Top left shows default. Bottom left shows legend on the top. Top right shows legend on the left and horizontal. Bottom right shows legend on the bottom and right justified.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297294368 a'});
+</script>
+
+<h2 id="remove-elements">Remove elements</h2>
+
+<p>Any of the theme elements can be removed/not displayed by setting that argument to <code class="language-plaintext highlighter-rouge">element_blank()</code>. Here, I am creating a minimal looking plot by removing unnecessary elements.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Blank"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Removing theme elements"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.border</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">panel.grid.major.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">panel.grid.minor</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">strip.background</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="n">print</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297220130"><a href="/assets/images/posts/2018/2018-05-10-customising-ggplot2/blank.png" title="ggplot2 plot with removed plot elements.">
+      <img src="/assets/images/posts/2018/2018-05-10-customising-ggplot2/blank.png" alt="blank" />
+    </a>
+    <figcaption>
+    ggplot2 plot with removed plot elements.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297220130 a'});
+</script>
+
+<h2 id="saving-themes">Saving themes</h2>
+
+<p>Any changes made to the ggplot2 theme elements can be saved for future use. There are at least two ways to do this.</p>
+
+<p>One approach is simply to save it as a variable and apply it to a ggplot.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">custom</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.border</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">panel.grid.major.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">panel.grid.minor</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+  </span><span class="n">strip.background</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">custom</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Another approach is to create a new theme function either from scratch or by modifying an existing theme. And then apply it as a theme function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">theme_custom</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="p">(</span><span class="n">basesize</span><span class="o">=</span><span class="m">14</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="n">basesize</span><span class="p">)</span><span class="w"> </span><span class="o">%+replace%</span><span class="w">
+        </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.border</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">panel.grid.major.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">panel.grid.minor</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> 
+          </span><span class="n">strip.background</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_custom</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="session">Session</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">devtools</span><span class="o">::</span><span class="n">session_info</span><span class="p">()</span><span class="w">
+
+</span><span class="n">Below</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">session</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="n">showing</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">versions</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">loaded</span><span class="w"> </span><span class="n">packages.</span><span class="w">
+
+</span><span class="n">Session</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">---------------------------------------------------------------------</span><span class="w">
+  </span><span class="n">setting</span><span class="w">  </span><span class="n">value</span><span class="w">                       
+  </span><span class="n">version</span><span class="w">  </span><span class="n">R</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="m">3.4.3</span><span class="w"> </span><span class="p">(</span><span class="m">2017-11-30</span><span class="p">)</span><span class="w">
+  </span><span class="n">system</span><span class="w">   </span><span class="n">x86_64</span><span class="p">,</span><span class="w"> </span><span class="n">mingw32</span><span class="w">             
+  </span><span class="n">ui</span><span class="w">       </span><span class="n">RStudio</span><span class="w"> </span><span class="p">(</span><span class="m">1.1.442</span><span class="p">)</span><span class="w">           
+  </span><span class="n">language</span><span class="w"> </span><span class="p">(</span><span class="n">EN</span><span class="p">)</span><span class="w">                        
+  </span><span class="n">collate</span><span class="w">  </span><span class="n">English_United</span><span class="w"> </span><span class="n">Kingdom.1252</span><span class="w">
+  </span><span class="n">tz</span><span class="w">       </span><span class="n">Europe</span><span class="o">/</span><span class="n">Berlin</span><span class="w">               
+  </span><span class="n">date</span><span class="w">     </span><span class="m">2018-05-04</span><span class="w">                  
+
+</span><span class="n">Packages</span><span class="w"> </span><span class="o">-------------------------------------------------------------------------</span><span class="w">
+  </span><span class="n">package</span><span class="w">      </span><span class="o">*</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="n">date</span><span class="w">       </span><span class="n">source</span><span class="w">        
+  </span><span class="n">assertthat</span><span class="w">     </span><span class="m">0.2.0</span><span class="w">   </span><span class="m">2017-04-11</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">backports</span><span class="w">      </span><span class="m">1.1.2</span><span class="w">   </span><span class="m">2017-12-13</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">base</span><span class="w">         </span><span class="o">*</span><span class="w"> </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">bindr</span><span class="w">          </span><span class="m">0.1.1</span><span class="w">   </span><span class="m">2018-03-13</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">bindrcpp</span><span class="w">     </span><span class="o">*</span><span class="w"> </span><span class="m">0.2</span><span class="w">     </span><span class="m">2017-06-17</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">Cairo</span><span class="w">        </span><span class="o">*</span><span class="w"> </span><span class="m">1.5-9</span><span class="w">   </span><span class="m">2015-09-26</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.0</span><span class="p">)</span><span class="w">
+  </span><span class="n">cli</span><span class="w">            </span><span class="m">1.0.0</span><span class="w">   </span><span class="m">2017-11-05</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">colorspace</span><span class="w">     </span><span class="m">1.3-2</span><span class="w">   </span><span class="m">2016-12-14</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">compiler</span><span class="w">       </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">cowplot</span><span class="w">        </span><span class="m">0.9.2</span><span class="w">   </span><span class="m">2017-12-17</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">crayon</span><span class="w">         </span><span class="m">1.3.4</span><span class="w">   </span><span class="m">2017-09-16</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">datasets</span><span class="w">     </span><span class="o">*</span><span class="w"> </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">devtools</span><span class="w">       </span><span class="m">1.13.5</span><span class="w">  </span><span class="m">2018-02-18</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">digest</span><span class="w">         </span><span class="m">0.6.15</span><span class="w">  </span><span class="m">2018-01-28</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">dplyr</span><span class="w">        </span><span class="o">*</span><span class="w"> </span><span class="m">0.7.4</span><span class="w">   </span><span class="m">2017-09-28</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">evaluate</span><span class="w">       </span><span class="m">0.10.1</span><span class="w">  </span><span class="m">2017-06-24</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">extrafont</span><span class="w">    </span><span class="o">*</span><span class="w"> </span><span class="m">0.17</span><span class="w">    </span><span class="m">2014-12-08</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.0</span><span class="p">)</span><span class="w">
+  </span><span class="n">extrafontdb</span><span class="w">    </span><span class="m">1.0</span><span class="w">     </span><span class="m">2012-06-11</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.0</span><span class="p">)</span><span class="w">
+  </span><span class="n">gdtools</span><span class="w">      </span><span class="o">*</span><span class="w"> </span><span class="m">0.1.7</span><span class="w">   </span><span class="m">2018-02-27</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">ggplot2</span><span class="w">      </span><span class="o">*</span><span class="w"> </span><span class="m">2.2.1</span><span class="w">   </span><span class="m">2016-12-30</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">ggpubr</span><span class="w">       </span><span class="o">*</span><span class="w"> </span><span class="m">0.1.6</span><span class="w">   </span><span class="m">2017-11-14</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">glue</span><span class="w">           </span><span class="m">1.2.0</span><span class="w">   </span><span class="m">2017-10-29</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">graphics</span><span class="w">     </span><span class="o">*</span><span class="w"> </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">grDevices</span><span class="w">    </span><span class="o">*</span><span class="w"> </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">grid</span><span class="w">           </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">gridExtra</span><span class="w">    </span><span class="o">*</span><span class="w"> </span><span class="m">2.3</span><span class="w">     </span><span class="m">2017-09-09</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">gtable</span><span class="w">         </span><span class="m">0.2.0</span><span class="w">   </span><span class="m">2016-02-26</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">htmltools</span><span class="w">      </span><span class="m">0.3.6</span><span class="w">   </span><span class="m">2017-04-28</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">knitr</span><span class="w">          </span><span class="m">1.20</span><span class="w">    </span><span class="m">2018-02-20</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">labeling</span><span class="w">       </span><span class="m">0.3</span><span class="w">     </span><span class="m">2014-08-23</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.0</span><span class="p">)</span><span class="w">
+  </span><span class="n">lazyeval</span><span class="w">       </span><span class="m">0.2.1</span><span class="w">   </span><span class="m">2017-10-29</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">magrittr</span><span class="w">     </span><span class="o">*</span><span class="w"> </span><span class="m">1.5</span><span class="w">     </span><span class="m">2014-11-22</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">memoise</span><span class="w">        </span><span class="m">1.1.0</span><span class="w">   </span><span class="m">2017-04-21</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">methods</span><span class="w">      </span><span class="o">*</span><span class="w"> </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">munsell</span><span class="w">        </span><span class="m">0.4.3</span><span class="w">   </span><span class="m">2016-02-13</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">pillar</span><span class="w">         </span><span class="m">1.2.1</span><span class="w">   </span><span class="m">2018-02-27</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">pkgconfig</span><span class="w">      </span><span class="m">2.0.1</span><span class="w">   </span><span class="m">2017-03-21</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">plyr</span><span class="w">           </span><span class="m">1.8.4</span><span class="w">   </span><span class="m">2016-06-08</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">pophelper</span><span class="w">      </span><span class="m">2.2.6</span><span class="w">   </span><span class="m">2018-05-01</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">purrr</span><span class="w">          </span><span class="m">0.2.4</span><span class="w">   </span><span class="m">2017-10-18</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">R6</span><span class="w">             </span><span class="m">2.2.2</span><span class="w">   </span><span class="m">2017-06-17</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">RColorBrewer</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">1.1-2</span><span class="w">   </span><span class="m">2014-12-07</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.0</span><span class="p">)</span><span class="w">
+  </span><span class="n">Rcpp</span><span class="w">           </span><span class="m">0.12.16</span><span class="w"> </span><span class="m">2018-03-13</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">reshape2</span><span class="w">       </span><span class="m">1.4.3</span><span class="w">   </span><span class="m">2017-12-11</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">rlang</span><span class="w">          </span><span class="m">0.2.0</span><span class="w">   </span><span class="m">2018-02-20</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">rmarkdown</span><span class="w">      </span><span class="m">1.9</span><span class="w">     </span><span class="m">2018-03-01</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">rprojroot</span><span class="w">      </span><span class="m">1.3-2</span><span class="w">   </span><span class="m">2018-01-03</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">rsconnect</span><span class="w">      </span><span class="m">0.8.8</span><span class="w">   </span><span class="m">2018-03-09</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">rstudioapi</span><span class="w">     </span><span class="m">0.7</span><span class="w">     </span><span class="m">2017-09-07</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">Rttf2pt1</span><span class="w">       </span><span class="m">1.3.6</span><span class="w">   </span><span class="m">2018-02-22</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">scales</span><span class="w">         </span><span class="m">0.5.0</span><span class="w">   </span><span class="m">2017-08-24</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.1</span><span class="p">)</span><span class="w">
+  </span><span class="n">stats</span><span class="w">        </span><span class="o">*</span><span class="w"> </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">stringi</span><span class="w">        </span><span class="m">1.1.7</span><span class="w">   </span><span class="m">2018-03-12</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">stringr</span><span class="w">      </span><span class="o">*</span><span class="w"> </span><span class="m">1.3.0</span><span class="w">   </span><span class="m">2018-02-19</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">svglite</span><span class="w">        </span><span class="m">1.2.1</span><span class="w">   </span><span class="m">2017-09-11</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">tibble</span><span class="w">         </span><span class="m">1.4.2</span><span class="w">   </span><span class="m">2018-01-22</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">tidyr</span><span class="w">          </span><span class="m">0.8.0</span><span class="w">   </span><span class="m">2018-01-29</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">tools</span><span class="w">          </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">utf8</span><span class="w">           </span><span class="m">1.1.3</span><span class="w">   </span><span class="m">2018-01-03</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">utils</span><span class="w">        </span><span class="o">*</span><span class="w"> </span><span class="m">3.4.3</span><span class="w">   </span><span class="m">2017-12-06</span><span class="w"> </span><span class="n">local</span><span class="w">         
+  </span><span class="n">withr</span><span class="w">          </span><span class="m">2.1.1</span><span class="w">   </span><span class="m">2017-12-19</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+  </span><span class="n">yaml</span><span class="w">           </span><span class="m">2.1.18</span><span class="w">  </span><span class="m">2018-03-08</span><span class="w"> </span><span class="n">CRAN</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="m">3.4.3</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+            </div>
+          </div>
+          <div class="toc-content-child-right">
+            <nav class="toc">
+              <ul class="toc__menu"><li><a href="#base-plot">Base plot</a></li><li><a href="#text-elements">Text elements</a></li><li><a href="#rectangular-elements">Rectangular elements</a></li><li><a href="#line-elements">Line elements</a></li><li><a href="#margins-and-spacings">Margins and spacings</a></li><li><a href="#position">Position</a></li><li><a href="#remove-elements">Remove elements</a></li><li><a href="#saving-themes">Saving themes</a></li><li><a href="#session">Session</a></li></ul>
+
+            </nav>
+          </div>
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mini-terrariums/" class="pagination--pager" title="Mini terrariums
+">Previous</a>
+    
+    
+      <a href="/calendar-plot-with-ggplot2/" class="pagination--pager" title="Calendar plot with ggplot2
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+    <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+  <div class="page-related-mx">
+    <h2 class="page__related-title">You may also enjoy</h2>
+    <div class="grid__wrapper">
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-11-07-greece-thessaloniki/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-11-07T00:00:00+01:00">07 Nov 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/greece-thessaloniki/" rel="permalink">Exploring history and culture in Thessaloniki
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A short weekend away in Thessaloniki, Greece.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-09-17T00:00:00+02:00">17 Sep 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+        
+          <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/scatterplot-annotation/" rel="permalink">Scatterplot annotation
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-08-22T00:00:00+02:00">22 Aug 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/sweden-west-coast/" rel="permalink">Exploring the Swedish west coast
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A road trip exploring the west coast of Sweden.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-06-30-portugal/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-06-30T00:00:00+02:00">30 Jun 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/portugal/" rel="permalink">Road trip through Portugal
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A conference and road trip through Portugal.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://royfrancis.com/customising-ggplot2/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/customising-ggplot2"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://romf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

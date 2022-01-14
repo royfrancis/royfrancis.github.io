@@ -1,0 +1,878 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Scraping Instagram and choosing hashtags • rmf</title>
+<meta name="description" content="Scraping Instagram for basic public data using R to help us pick “optimal” hastags.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+  <meta property="article:author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="Scraping Instagram and choosing hashtags">
+<meta property="og:url" content="https://royfrancis.com/scraping-instagram-choosing-hashtags/">
+
+
+  <meta property="og:description" content="Scraping Instagram for basic public data using R to help us pick “optimal” hastags.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2017-09-17T13:54:24+02:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/scraping-instagram-choosing-hashtags/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/featured.jpg alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="Scraping Instagram and choosing hashtags">
+    
+    <meta itemprop="description" content="Scraping Instagram for basic public data using R to help us pick “optimal” hastags.">
+    
+    <meta itemprop="datePublished" content="2017-09-17T13:54:24+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/scraping-instagram-choosing-hashtags/" class="u-url" itemprop="url">Scraping Instagram and choosing hashtags
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published" datetime="2017-09-17T13:54:24+02:00">17 Sep 2017</time></span>
+
+  
+  <span class="separator">
+    •
+  </span>
+  
+  
+  
+
+
+  
+
+  <span>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords" class="category-keywords">
+    
+      <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+    
+      <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a><span class="sep">, </span>
+    
+      <a href="/categories/#web" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Web</a>
+    
+    </span>
+  </span>
+
+
+</div>  
+  
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#data-analysis" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Data Analysis</a><span class="sep">, </span>
+    
+      <a href="/tags/#instagram" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Instagram</a><span class="sep">, </span>
+    
+      <a href="/tags/#r" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">R</a><span class="sep">, </span>
+    
+      <a href="/tags/#scientific-graphs" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Scientific Graphs</a><span class="sep">, </span>
+    
+      <a href="/tags/#web-scraping" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">Web Scraping</a>
+    
+    </span>
+  </p>
+
+
+</div>
+        </footer>
+
+        
+        <div class="article-content">
+          <p>If you are an Instagram user, at some point, you care going to be interested in the various metrics such as followers, number of posts by a certain user etc. You might want to compare these metrics between different users or to find out the number of posts with a certain hashtag etc. The casual way to do it is to go the relevant Instagram page and look at the metric and write it down somewhere, and go to next and so on. Clearly this is not ideal strategy if you want to look at a few hundred pages. It would be neat to get this data in an automated manner.</p>
+
+<!-- more -->
+
+<p>The Instagram API exists to allow automated access to underlying data. The R package <a href="https://cran.r-project.org/web/packages/instaR/index.html">instaR</a> is based on this idea. You can go make a developer account and after all the hassle, what you get is only data from your own account. You do not really get information about any other internal metrics or publicly available information. Why publicly available info is not available through the API is perplexing. You can go these pages and write down this information, but it cannot be made available programmatically. One possible explanation is that Instagram has restricted this information because it wants users to buy this information or rely on 3rd party tools (who in turn pays Instagram). Income from ADs, and internal data is not good enough that they have to sell public data as well.</p>
+
+<p>So the only option we are left with is web scraping or crawling or whatever it is called. I used the <a href="https://cran.r-project.org/web/packages/httr/index.html">httr</a> package to get the webpage and then do some string matching using <code class="language-plaintext highlighter-rouge">grep</code> and <a href="https://cran.r-project.org/web/packages/stringr/index.html">stringr</a> to extract the information I am looking for. I packaged the code into a little R package <a href="https://github.com/royfrancis/iscrape">here</a>.</p>
+
+<p>In this example, I am exploring which hashtags to use for my aerial/drone photographs and how to pick them in a non-random informed manner. I have picked some usernames/accounts in the aerial/drone category with curated user content to collect some data. I have picked usernames that use the same hashtag.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># a vector of valid username/hashtags</span><span class="w">
+</span><span class="n">names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"abstractaerialart"</span><span class="p">,</span><span class="w"> </span><span class="s2">"aerial_aesthetics"</span><span class="p">,</span><span class="w"> </span><span class="s2">"all_things_drone"</span><span class="p">,</span><span class="w"> 
+</span><span class="s2">"aworldfromabove"</span><span class="p">,</span><span class="w"> </span><span class="s2">"discovererdrone"</span><span class="p">,</span><span class="w"> </span><span class="s2">"drnland"</span><span class="p">,</span><span class="w"> </span><span class="s2">"drohnengeek"</span><span class="p">,</span><span class="w"> </span><span class="s2">"drone_feed"</span><span class="p">,</span><span class="w"> 
+</span><span class="s2">"dronedesire"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dronefluence"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dronefly"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dronelads"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dronenature"</span><span class="p">,</span><span class="w"> 
+</span><span class="s2">"droneofficials"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dronepals"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dronephotooftheday"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dronephotosdaily"</span><span class="p">,</span><span class="w"> 
+</span><span class="s2">"dronewise"</span><span class="p">,</span><span class="w"> </span><span class="s2">"flyresponsibly"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fromwhereidrone"</span><span class="p">,</span><span class="w"> </span><span class="s2">"gameofdronez"</span><span class="p">,</span><span class="w"> 
+</span><span class="s2">"guidetodrone"</span><span class="p">,</span><span class="w"> </span><span class="s2">"hypepools"</span><span class="p">,</span><span class="w"> </span><span class="s2">"igdroneshots"</span><span class="p">,</span><span class="w"> </span><span class="s2">"instadroned"</span><span class="p">,</span><span class="w"> </span><span class="s2">"mavicimages"</span><span class="p">,</span><span class="w"> 
+</span><span class="s2">"nordicsfromabove"</span><span class="p">,</span><span class="w"> </span><span class="s2">"top_drones"</span><span class="p">,</span><span class="w"> </span><span class="s2">"topdroneshots"</span><span class="p">,</span><span class="w"> </span><span class="s2">"twenty4sevendrones"</span><span class="p">,</span><span class="w"> 
+</span><span class="s2">"worlddroneshots"</span><span class="p">,</span><span class="w"> </span><span class="s2">"amzdronepics"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>And then I run the loop below with functions from <code class="language-plaintext highlighter-rouge">iscrape</code> to collect the data.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">iscrape</span><span class="p">)</span><span class="w">
+
+</span><span class="n">len</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">names</span><span class="p">)</span><span class="w">
+</span><span class="n">klist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vector</span><span class="p">(</span><span class="s2">"list"</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="o">=</span><span class="n">len</span><span class="p">)</span><span class="w">
+</span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">len</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="n">cat</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"\nRunning "</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s2">" of "</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="s2">"; "</span><span class="p">,</span><span class="w"> </span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="s2">"; "</span><span class="p">))</span><span class="w">
+  </span><span class="n">pu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_page_user</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+  </span><span class="n">pcount</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_count_post</span><span class="p">(</span><span class="n">pu</span><span class="p">)</span><span class="w">
+  </span><span class="n">cat</span><span class="p">(</span><span class="n">pcount</span><span class="p">,</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w">
+  </span><span class="n">fcount</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_count_follower</span><span class="p">(</span><span class="n">pu</span><span class="p">)</span><span class="w">
+  </span><span class="n">cat</span><span class="p">(</span><span class="n">fcount</span><span class="p">,</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w">
+  </span><span class="n">focount</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_count_following</span><span class="p">(</span><span class="n">pu</span><span class="p">)</span><span class="w">
+  </span><span class="n">cat</span><span class="p">(</span><span class="n">focount</span><span class="p">,</span><span class="w"> </span><span class="s2">"; "</span><span class="p">)</span><span class="w">
+
+  </span><span class="n">ph</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_page_hashtag</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+  </span><span class="n">hcount</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_count_hashtag</span><span class="p">(</span><span class="n">ph</span><span class="p">)</span><span class="w">
+  </span><span class="n">cat</span><span class="p">(</span><span class="n">hcount</span><span class="p">,</span><span class="w"> </span><span class="s2">";"</span><span class="p">)</span><span class="w">
+
+  </span><span class="n">klist</span><span class="p">[[</span><span class="n">i</span><span class="p">]]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">posts</span><span class="o">=</span><span class="n">pcount</span><span class="p">,</span><span class="w"> </span><span class="n">followers</span><span class="o">=</span><span class="n">fcount</span><span class="p">,</span><span class="w"> </span><span class="n">following</span><span class="o">=</span><span class="n">focount</span><span class="p">,</span><span class="n">hashtagcounts</span><span class="o">=</span><span class="n">hcount</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="o">=</span><span class="nb">F</span><span class="p">)</span><span class="w">
+
+  </span><span class="c1"># variation in timing page request</span><span class="w">
+  </span><span class="n">Sys.sleep</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="nb">T</span><span class="p">))</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">dfr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="n">bind_rows</span><span class="p">(</span><span class="n">klist</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now, we have a data frame with user names, post count, follower count, following count and hashtag counts.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">dfr</span><span class="p">)</span><span class="w">
+                </span><span class="n">name</span><span class="w"> </span><span class="n">posts</span><span class="w"> </span><span class="n">followers</span><span class="w"> </span><span class="n">following</span><span class="w"> </span><span class="n">hashtagcounts</span><span class="w">
+</span><span class="m">1</span><span class="w"> </span><span class="n">abstractaerialart</span><span class="w">   </span><span class="m">179</span><span class="w">      </span><span class="m">3955</span><span class="w">       </span><span class="m">978</span><span class="w">          </span><span class="m">1366</span><span class="w">
+</span><span class="m">2</span><span class="w"> </span><span class="n">aerial_aesthetics</span><span class="w">   </span><span class="m">749</span><span class="w">     </span><span class="m">47300</span><span class="w">      </span><span class="m">5910</span><span class="w">         </span><span class="m">12700</span><span class="w">
+</span><span class="m">3</span><span class="w">  </span><span class="n">all_things_drone</span><span class="w">   </span><span class="m">642</span><span class="w">     </span><span class="m">24500</span><span class="w">      </span><span class="m">1943</span><span class="w">           </span><span class="m">597</span><span class="w">
+</span><span class="m">4</span><span class="w">   </span><span class="n">aworldfromabove</span><span class="w">   </span><span class="m">172</span><span class="w">      </span><span class="m">4155</span><span class="w">        </span><span class="m">36</span><span class="w">           </span><span class="m">495</span><span class="w">
+</span><span class="m">5</span><span class="w">   </span><span class="n">discovererdrone</span><span class="w">   </span><span class="m">170</span><span class="w">     </span><span class="m">59400</span><span class="w">      </span><span class="m">1852</span><span class="w">          </span><span class="m">7997</span><span class="w">
+</span><span class="m">6</span><span class="w">           </span><span class="n">drnland</span><span class="w">   </span><span class="m">386</span><span class="w">     </span><span class="m">18800</span><span class="w">      </span><span class="m">1242</span><span class="w">         </span><span class="m">11900</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The data is plotted out as interactive scatterplot using R package <a href="https://github.com/jbkunst/highcharter">highcharter</a>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">highcharter</span><span class="p">)</span><span class="w">
+
+</span><span class="n">hchart</span><span class="p">(</span><span class="n">dfr</span><span class="p">,</span><span class="w"> </span><span class="s2">"bubble"</span><span class="p">,</span><span class="w"> </span><span class="n">hcaes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">followers</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">hashtagcounts</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">posts</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">hc_xAxis</span><span class="p">(</span><span class="n">type</span><span class="o">=</span><span class="s2">"logarithmic"</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">"Subscribers"</span><span class="p">),</span><span class="w"> </span><span class="n">crosshair</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">hc_yAxis</span><span class="p">(</span><span class="n">type</span><span class="o">=</span><span class="s2">"logarithmic"</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">"Hastag Count"</span><span class="p">),</span><span class="w"> </span><span class="n">crosshair</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">hc_chart</span><span class="p">(</span><span class="n">zoomType</span><span class="o">=</span><span class="s2">"xy"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">hc_tooltip</span><span class="p">(</span><span class="n">useHTML</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">positioner</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">0</span><span class="p">)),</span><span class="w"> 
+              </span><span class="n">formatter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JS</span><span class="p">(</span><span class="s2">"function(){
+                            return('&lt;br&gt;&lt;b&gt;Hashtag: &lt;/b&gt;'+this.point.name+
+                            '&lt;br&gt;&lt;b&gt;Subscribers: &lt;/b&gt;'+this.x+
+                            '&lt;br&gt;&lt;b&gt;Hashtag Count: &lt;/b&gt;'+this.y)}"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972146877"><a href="/assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/instagram-scraping-scatterplot.png" title="Scatterplot of followers vs hashtag counts for account names. Size denotes number of posts.">
+      <img src="/assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/instagram-scraping-scatterplot.png" alt="instagram-scraping-scatterplot" />
+    </a>
+    <figcaption>
+    Scatterplot of followers vs hashtag counts for account names. Size denotes number of posts.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972146877 a'});
+</script>
+
+<p>In this case, the interactive plot may be better because it is for interactive use and you don’t have to worry about overplotting. Here, I have plotted the number of followers for an account vs the number of public posts with this username. There is not much data points here (n=32), but we can see some trend showing that accounts with more followers are also hashtagged more. As an account becomes more popular with more followers, people tend to use that account name as hashtag more and more. We can also roughly see that accounts with more followers and more hashtag counts have more posts. This data fits our expectations. My guess for cases where data points deviate from this expectation is due to account holder deleting poorly performing posts.</p>
+
+<p>This plot may help us in picking suitable hashtags. Hashtags with hundreds of thousands of posts can give your post more exposure but quickly gets displaced by incoming posts. Hashtags with few hundred posts may only cater to a niche handful of subscribers, but your post will stay around on the top for days or even weeks. I suppose the reasonable approach is to pick hashtags from across the board to maximise exposure for your content.</p>
+
+<p>One can go further with this idea and gather more data (get more account names from diverse niches) and also categorise accounts into various groups, give them arbitrary rating etc and plot them out.</p>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297282639"><a href="/assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/scraping-categories.png" title="Scatterplot of followers vs hashtag counts. Colours denote categories. Size denotes an arbitrary rating. Red line is a reference line for 50,000 posts.">
+      <img src="/assets/images/posts/2017/2017-09-17-scraping-instagram-choosing-hashtags/scraping-categories.png" alt="scraping-categories.png" />
+    </a>
+    <figcaption>
+    Scatterplot of followers vs hashtag counts. Colours denote categories. Size denotes an arbitrary rating. Red line is a reference line for 50,000 posts.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297282639 a'});
+</script>
+
+<p>Here, there are lot more accounts and it becomes easier to visualise the linear relationship. I have coloured accounts into categories and the size of points denote my personal rating. Now I can also choose hashtags from category other than aerial that may be relevant to my content.</p>
+
+<p>Of course, this is too simplistic and I don’t even know if this works, it’s just theory. There are numerous other factors which influences the organic reach of a post. I’ve even read that repeatedly using the same hashtags or using too many or too few hashtags are frowned upon by Instagram.</p>
+
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/texas/" class="pagination--pager" title="Road trip through Texas, USA
+">Previous</a>
+    
+    
+      <a href="/photo-calender-using-r/" class="pagination--pager" title="Photo calender using R
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+    <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+  <div class="page-related-mx">
+    <h2 class="page__related-title">You may also enjoy</h2>
+    <div class="grid__wrapper">
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-11-07-greece-thessaloniki/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-11-07T00:00:00+01:00">07 Nov 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/greece-thessaloniki/" rel="permalink">Exploring history and culture in Thessaloniki
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A short weekend away in Thessaloniki, Greece.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-09-17T00:00:00+02:00">17 Sep 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+        
+          <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/scatterplot-annotation/" rel="permalink">Scatterplot annotation
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-08-22T00:00:00+02:00">22 Aug 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/sweden-west-coast/" rel="permalink">Exploring the Swedish west coast
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A road trip exploring the west coast of Sweden.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-06-30-portugal/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-06-30T00:00:00+02:00">30 Jun 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/portugal/" rel="permalink">Road trip through Portugal
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A conference and road trip through Portugal.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://royfrancis.com/scraping-instagram-choosing-hashtags/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/scraping-instagram-choosing-hashtags"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://romf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

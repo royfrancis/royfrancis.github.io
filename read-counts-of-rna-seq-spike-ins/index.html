@@ -1,0 +1,1036 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Read counts of RNA-Seq Spike-ins using STAR and QoRTs • rmf</title>
+<meta name="description" content="A short tutorial on quantifying spike-ins used in an RNA-Seq experiment.">
+
+
+  <meta name="author" content="Roy Francis">
+  
+  <meta property="article:author" content="Roy Francis">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="rmf">
+<meta property="og:title" content="Read counts of RNA-Seq Spike-ins using STAR and QoRTs">
+<meta property="og:url" content="https://royfrancis.com/read-counts-of-rna-seq-spike-ins/">
+
+
+  <meta property="og:description" content="A short tutorial on quantifying spike-ins used in an RNA-Seq experiment.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2016-09-01T21:04:50+02:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://royfrancis.com/read-counts-of-rna-seq-spike-ins/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Roy Francis",
+      "url": "https://royfrancis.com/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="google-site-verification=gVz_q-4FyIIzjgUOs8-zItaFtLDCqCLhiHAAfkGb808" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="rmf Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+
+
+
+    <link rel="apple-touch-icon"  type="image/png"   sizes="180x180"   href="/assets/images/apple-touch-icon.png">
+
+    <link rel="icon"  type="image/png"   sizes="48x48"   href="/assets/images/favicon-48x48.png">
+
+    <link rel="icon"  type="image/png"   sizes="32x32"   href="/assets/images/favicon-32x32.png">
+
+    <link rel="icon"  type="image/png"   sizes="16x16"   href="/assets/images/favicon-16x16.png">
+
+    <link rel="shortcut icon"   sizes="2"   href="/assets/images/favicon.ico">
+
+    <link rel="manifest"   sizes="2"   href="/assets/images/site.webmanifest">
+
+    <link rel="mask-icon"   sizes="3"   color="#5bbad5"  href="/assets/images/safari-pinned-tab.svg">
+
+
+
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,700|Source+Sans+Pro:400,400i,600|Ubuntu+Mono&display=swap&subset=latin-ext" rel="stylesheet" type="text/css">
+
+<!-- end custom head snippets -->
+
+
+
+
+    <script src="/assets/js/simplelightbox.js"></script>
+
+    <script src="/assets/js/code-copy.js"></script>
+
+
+
+    <link href="/assets/css/simplelightbox.css" rel="stylesheet">
+
+  </head>
+
+  <body class="layout--single-mx">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/android-chrome-192x192.png" alt="rmf"></a>
+        
+        <a class="site-title" href="/">
+          rmf
+          <span class="site-subtitle">Code, Photography, Design</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="parent-container">
+      <div class="initial-content">
+        
+
+
+
+<div class="featured">
+  <img src=/assets/images/posts/2016/2016-09-01-read-counts-of-rna-seq-spike-ins/featured.png alt="featured-image" class="featured-image">
+</div>
+
+
+
+<div id="main-mx" role="main">
+  
+
+
+  <article class="page-mx h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <meta itemprop="headline" content="Read counts of RNA-Seq Spike-ins using STAR and QoRTs">
+    
+    <meta itemprop="description" content="A short tutorial on quantifying spike-ins used in an RNA-Seq experiment.">
+    
+    <meta itemprop="datePublished" content="2016-09-01T21:04:50+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+      <header>
+        <h1 id="page-title" class="page__title p-name" itemprop="headline">
+          <a href="https://royfrancis.com/read-counts-of-rna-seq-spike-ins/" class="u-url" itemprop="url">Read counts of RNA-Seq Spike-ins using STAR and QoRTs
+</a>
+        </h1>
+        
+
+
+      </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+
+        <footer class="page__meta">
+          
+          <div class="meta-content">
+  <div class="meta-content-sub">
+  
+
+  <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published" datetime="2016-09-01T21:04:50+02:00">01 Sep 2016</time></span>
+
+  
+  <span class="separator">
+    •
+  </span>
+  
+  
+  
+
+
+  
+
+  <span>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords" class="category-keywords">
+    
+      <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+    
+      <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+    
+    </span>
+  </span>
+
+
+</div>  
+  
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i>  </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#ngs" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">NGS</a><span class="sep">, </span>
+    
+      <a href="/tags/#rna-seq" class="page__taxonomy-item p-category taxonomy-tag" rel="tag">RNA-Seq</a>
+    
+    </span>
+  </p>
+
+
+</div>
+        </footer>
+
+        
+        <div class="toc-content">
+          <div class="toc-content-child-left">
+            <div class="article-content">
+              <p>In RNA-Seq analyses, adding pre-determined quantity of synthetic RNA sequences (spike-ins) to samples is a popular way to verify the experimental pipeline, determine quantification accuracy and for normalisation of differential expression. The most commonly used spike-ins are the ERCC spike-ins.</p>
+
+<p>This post will cover the bioinformatic steps involved in obtaining read counts of spike-ins from a FASTQ file sequenced with spike-ins. The steps are namely creating a custom FASTA genome build incorporating the spike-in sequences, custom GTF file creation, mapping the reads to the custom genome, read counting and visualisation. This post will not be covering the wet lab part of adding spike-ins. I have a FASTQ data file (sample01.fq.gz) from single cell 50bp single-end Illumina reads with spike-ins that I am using for this workflow.</p>
+
+<p>Go to the manufacturer’s website and obtain the Spike-in sequences. Mine was obtained from <a href="https://www.thermofisher.com/order/catalog/product/4456740">Thermofisher</a>. Download the <a href="https://tools.thermofisher.com/content/sfs/manuals/cms_095047.txt">sequence file</a>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget "https://tools.thermofisher.com/content/sfs/manuals/cms_095047.txt"
+</code></pre></div></div>
+
+<p>We can take a look at the file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>column <span class="nt">-s</span>, <span class="nt">-t</span> &lt; cms_095047.txt | less -#2 <span class="nt">-N</span> <span class="nt">-S</span>
+1 ERCC_ID GenBank 5prime_assay 3prime_assay Sequence
+2 ERCC-00002 DQ459430 Ac03459872_a1 Ac03459968_a1 TCCAGATTACTTCCATTTCCGCCCAAGCTGCTCACAGTATACGGGCGTC
+3 ERCC-00003 DQ516784 Ac03459873_a1 Ac03459969_a1 CAGCAGCGATTAAGGCAGAGGCGTTTGTATCTGCCATTATAAAGAAGTT
+4 ERCC-00004 DQ516752 Ac03459874_a1 Ac03459970_a1 TCTTGCTTCAACAATAACGTCTCTTTCAGAAGGCATTGGTATCTTTTCC
+5 ERCC-00009 DQ668364 Ac03459876_a1 Ac03459972_a1 CAATGATAGGCTAGTCTCGCGCAGTACATGGTAGTTCAGCCAATAGATG
+6 ERCC-00012 DQ883670 Ac03459877_a1 Ac03459973_a1 CGAGAGATGTTTGTAGGTGCGGAATGTGTGCGGTCTACCTTAGCTGTAG
+7 ERCC-00013 EF011062 Ac03459878_a1 Ac03459974_a1 ACCGAGCTCAGATGTGAAGGATCTTCTTGGAGGATTAAAAAAATGATTA
+8 ERCC-00014 DQ875385 Ac03459879_a1 Ac03459975_a1 AAAAGAAGAAGGAAAGTAGAGGAGATCAAGATGTCAAACGAAACAATTA
+9 ERCC-00016 DQ883664 Ac03459880_a1 Ac03459976_a1 GTTGTAACGAATGTTAATTTAGGAGGCAAGAGTTTGTGGGCGCGGACTT
+10 ERCC-00017 DQ459420 Ac03459881_a1 Ac03459977_a1 GAGAACTGAAAGTGAGTCCCAACGAGAGAGGTGCATCTGTCCAGTGAGA
+11 ERCC-00019 DQ883651 Ac03459883_a1 Ac03459979_a1 CTTTAATGGTTGTACATACTTGACGGATTGCAGTGAGTGTATTCCCGTC
+12 ERCC-00022 DQ855004 Ac03459884_a1 Ac03459980_a1 CCCGGGCCAATTGCCTCTATAACTAGAGCTGAGCCCACCATTAAAGCGA
+13 ERCC-00024 DQ854993 Ac03459886_a1 Ac03459982_a1 ACGGAGGAGCTTTGGCATACTAGGCTAGCGAATCTGCAACTAACGCAAG
+14 ERCC-00025 DQ883689 Ac03459887_a1 Ac03459983_a1 GGGGTCCATTATAGTGCAGGCGTGGTAAAGTAGCATTAGAACCCTACTA
+15 ERCC-00028 DQ459419 Ac03459888_a1 Ac03459984_a1 AAGAAAGTATTCCATTCCGGCTCATGGTCCCGGCTAGACCTGCAAGATC
+16 ERCC-00031 DQ459431 Ac03459889_a1 Ac03459985_a1 GGGAGAAAAGCTTCTTGCCTAGTTACAGCACGAAGATTGGGACCCATCG
+</code></pre></div></div>
+
+<p>It is a tabular format with two columns that we need: ERCC ID and Sequence.</p>
+
+<h2 id="genome-file">Genome file</h2>
+
+<p>The first step is to convert this tabular file into FASTA format and then append that to our genome FASTA file. We convert this table into a FASTA format file named <code class="language-plaintext highlighter-rouge">ercc.fa</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>cms_095047.txt | <span class="nb">awk</span> <span class="nt">-F</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s2">""</span> <span class="s1">'NR&gt;1{print "&gt;",$1," ",$2," ",$3," ",$4,"\n",$5}'</span> <span class="o">&gt;</span> ercc.fa
+</code></pre></div></div>
+
+<p>I am working with (Zebrafish) Danio rerio GRCz10. Let’s take a look at the Zebrafish FASTA genome file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tail</span> <span class="nt">-n</span> 20 Danio_rerio.GRCz10.dna.toplevel.fa
+<span class="o">&gt;</span>CACACACACACACACACACACACACACACACACACATACACACTCACACAACGCAAACGG
+ACATACAGTACACAAACACACTCAAGACACCACAGACCAAACACACACACACTCCAAACA
+CAATAGACAATATTGACTATAATAGCCAATAATCTGTCCCACAATCCCAAACACCGACAG
+CACTGCTGGATTACAGCCAATAATGCAACAACTCTGGAAGGAAAAGCCTGCAGGTCAGAG
+GCCTTTAATAATGTAGATCACACTTAACCCGGTTAGAGAGGCTAATGGGGTCAAACAGGC
+CTGTGTGGCATTTTACATCACCAGGAAACCACTGGAGAACATTTAACACACACACACACA
+CACACACACACACAAGCAGATGTGCACATATACACATACATACATTATATATGTATACAT
+ACATACAT
+<span class="o">&gt;</span>KN150525.1 dna:scaffold scaffold:GRCz10:KN150525.1:1:650:1 REF
+GTGTATTATAAAACATACGAGACTTAAAGTATAATCTATCCAGCACCTATAGAGCCACTC
+GCGTTGCTTACGAAATTAGTATTTAGAAAGACCCACCACAAAGAAAAGAGATGTGTCTGT
+ATGTATAAAAAATATATGAGACAGGGTTATAACCACCCGACGCGCTTTGTCTAAATAGAA
+GTCGAGCACACACACACACACACACACACACACACACACACACACACACGGGTCAGCCAG
+AGGACAGCTAACCTGCACACACCAGTCAAACCATGAACGGCAGAGAAACACCTCCATAAT
+CCACACTCACCCCTGACGAGCACACACACACACACACACATATACACACACACACACACA
+CTATAGTAAACTGGGTGTGCGTGGATGTGTGTATGTGTGTGATGGACTAGGATGTGTGTG
+TGTGTGTGTGTGTGTGTGTGTGTGTGTGTGTGAGCTCACGTTCACTGAAGACGAAGTCTG
+CGTTGATGTCGAAGGGCTGGATCTGGATGTCGTAGATCGACACGGTGACGCCTTTCTGAT
+GGTCGCTGGAGATTAGAGTCAGCGTCTGCTGCGCCGCACACACATAGGAGCGCCCGGCCG
+GAGTCACCAGCGCCGAGAGACGGTGTGTGCTGGCAGTGTGTTTCCCCGCT
+</code></pre></div></div>
+
+<p>We make a copy of the genome.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp </span>Danio_rerio.GRCz10.dna.toplevel.fa Danio_rerio.GRCz10.dna.toplevel.ercc.fa
+</code></pre></div></div>
+
+<p>And add the contents of <code class="language-plaintext highlighter-rouge">ercc.fa</code> file to the bottom of the copied Zebrafish genome file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>ercc.fa <span class="o">&gt;&gt;</span> Danio_rerio.GRCz10.dna.toplevel.ercc.fa
+</code></pre></div></div>
+
+<p>Now, our new genome FASTA file looks like so</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tail</span> <span class="nt">-n</span> 5 Danio_rerio.GRCz10.dna.toplevel.ercc.fa
+<span class="o">&gt;</span>ERCC-00170 DQ516773 Ac03459966_a1 Ac03460062_a1
+TATTGGTGGAGGGGCACAAGTTGCTGAAGTTGCGAGAGGGGCGATAAGTGAGGCAGACAG
+GCATAATATAAGAGGGGAGAGAATTAGCGTAGATACTCTTCCAATAGTTGGTGAAGAAAA
+TTTATATGAGGCTGTTAAAGCTGTAGCAACTCTTCCACGAGTAGGAATTTTAGTTTTAGC
+TGGCTCTTTAATGGGAGGGAAGATAACTGAAGCAGTTAAAGAATTAAAGGAAAAGACTGG
+CATTCCCGTGATAAGCTTAAAGATGTTTGGCTCTGTTCCTAAGGTTGCTGATTTGGTTGT
+TGGAGACCCATTGCAGGCAGGGGTTTTAGCTGTTATGGCTATTGCTGAAACAGCAAAATT
+TGATATAAATAAGGTTAAAGGTAGGGTGCTATAAAGATAATTTAATAATTTTTGATGAAA
+CCGAAGCGTTAGCTTTGGGTTATGAAACTCCATGATTTTCATTTAATTTTTTCCTATTAA
+TTTTCTCCTAAAAAGTTTCTTTAACATAAATAAGGTTAAAGGGAGAGCTCTATGATTGTC
+TTCAAAAATACAAAGATTATTGATGTATATACTGGAGAGGTTGTTAAAGGAAATGTTGCA
+GTTGAGAGGGATAAAATATCCTTTGTGGATTTAAATGATGAAATTGATAAGATAATTGAA
+AAAATAAAGGAGGATGTTAAAGTTATTGACTTAAAAGGAAAATATTTATCTCCAACATTT
+ATAGATGGGCATATACATATAGAATCTTCCCATCTCATCCCATCAGAGTTTGAGAAATTT
+GTATTAAAAAGCGGAGTTAGCAAAGTAGTTATAGACCCGCATGAAATAGCAAATATTGCT
+GGAAAAGAAGGAATTTTGTTTATGTTGAATGATGCCAAAATTTTAGATGTCTATGTTATG
+CTTCCTTCCTGTGTTCCAGCTACAAACTTAGAAACAAGTGGAGCTGAGATTACAGCAGAG
+AATATTGAAGAACTCATTCTTTAGATAATGTCTTAGGTTAAAAAAAAAAAAAAAAAAAAA
+AAA
+<span class="o">&gt;</span>ERCC-00171 DQ854994 Ac03459967_a1 Ac03460063_a1
+CTGGAGATTGTCTCGTACGGTTAAGAGCCTCCGCCCGTCTCTGGGACTATGGACGGGCAC
+GCTCATATCAGGCTATATTTGGTCCGGGTTATTATCGTCGCGGTTACCGTAATACTTCAG
+ATCAGTTAAGTAGGGCCATATGCCTCGGGAATAAGCTGACGGTGACAAGGTTTCCCCCTA
+ATCGAGACGCTGCAATAACACAGGGGCATACAGTAACCAGGCAAGAGTTCAATCGCTTAG
+TTTCGTGGCGGGATTTGAGGAAAACTGCGACTGTTCTTTAACCAAACATCCGTGCGATTC
+GTGCCACTCGTAGACGGCATCTCACAGTCACTGAAGGCTATTAAAGAGTTAGCACCCACC
+ATTGGATGAAGCCCAGGATAAGTGACCCCCCCGGACCTTGGAGTTTCATGCTAATCAAAG
+AAGAGCTAATCCGACGTAAAGTTGCGGCGTTGATTACGCAGGATTGCGACCAAAGAACGA
+GAAAAAAAAAAAAAAAAAAAAAAAA
+</code></pre></div></div>
+
+<h2 id="annotation-file">Annotation file</h2>
+
+<p>Now we define the annotation file. Our original Ensembl GTF file looks like this</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tail</span> <span class="nt">-n</span> 5 Danio_rerio.GRCz10.84.gtf
+<span class="o">&gt;</span>KN150216.1 ensembl exon 353 443 <span class="nb">.</span> - <span class="nb">.</span> gene_id <span class="s2">"ENSDARG00000099551"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> transcript_id <span class="s2">"ENSDART00000165750"</span><span class="p">;</span> transcript_version <span class="s2">"1"</span><span class="p">;</span> exon_number <span class="s2">"3"</span><span class="p">;</span> gene_name <span class="s2">"tgds"</span><span class="p">;</span> gene_source <span class="s2">"ensembl"</span><span class="p">;</span> gene_biotype <span class="s2">"protein_coding"</span><span class="p">;</span> transcript_name <span class="s2">"tgds-201"</span><span class="p">;</span> transcript_source <span class="s2">"ensembl"</span><span class="p">;</span> transcript_biotype <span class="s2">"protein_coding"</span><span class="p">;</span> exon_id <span class="s2">"ENSDARE00001154426"</span><span class="p">;</span> exon_version <span class="s2">"1"</span><span class="p">;</span>
+KN150216.1 ensembl CDS 353 443 <span class="nb">.</span> - 0 gene_id <span class="s2">"ENSDARG00000099551"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> transcript_id <span class="s2">"ENSDART00000165750"</span><span class="p">;</span> transcript_version <span class="s2">"1"</span><span class="p">;</span> exon_number <span class="s2">"3"</span><span class="p">;</span> gene_name <span class="s2">"tgds"</span><span class="p">;</span> gene_source <span class="s2">"ensembl"</span><span class="p">;</span> gene_biotype <span class="s2">"protein_coding"</span><span class="p">;</span> transcript_name <span class="s2">"tgds-201"</span><span class="p">;</span> transcript_source <span class="s2">"ensembl"</span><span class="p">;</span> transcript_biotype <span class="s2">"protein_coding"</span><span class="p">;</span> protein_id <span class="s2">"ENSDARP00000138327"</span><span class="p">;</span> protein_version <span class="s2">"1"</span><span class="p">;</span>
+KN150216.1 ensembl exon 267 280 <span class="nb">.</span> - <span class="nb">.</span> gene_id <span class="s2">"ENSDARG00000099551"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> transcript_id <span class="s2">"ENSDART00000165750"</span><span class="p">;</span> transcript_version <span class="s2">"1"</span><span class="p">;</span> exon_number <span class="s2">"4"</span><span class="p">;</span> gene_name <span class="s2">"tgds"</span><span class="p">;</span> gene_source <span class="s2">"ensembl"</span><span class="p">;</span> gene_biotype <span class="s2">"protein_coding"</span><span class="p">;</span> transcript_name <span class="s2">"tgds-201"</span><span class="p">;</span> transcript_source <span class="s2">"ensembl"</span><span class="p">;</span> transcript_biotype <span class="s2">"protein_coding"</span><span class="p">;</span> exon_id <span class="s2">"ENSDARE00001169286"</span><span class="p">;</span> exon_version <span class="s2">"1"</span><span class="p">;</span>
+KN150216.1 ensembl CDS 267 280 <span class="nb">.</span> - 2 gene_id <span class="s2">"ENSDARG00000099551"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> transcript_id <span class="s2">"ENSDART00000165750"</span><span class="p">;</span> transcript_version <span class="s2">"1"</span><span class="p">;</span> exon_number <span class="s2">"4"</span><span class="p">;</span> gene_name <span class="s2">"tgds"</span><span class="p">;</span> gene_source <span class="s2">"ensembl"</span><span class="p">;</span> gene_biotype <span class="s2">"protein_coding"</span><span class="p">;</span> transcript_name <span class="s2">"tgds-201"</span><span class="p">;</span> transcript_source <span class="s2">"ensembl"</span><span class="p">;</span> transcript_biotype <span class="s2">"protein_coding"</span><span class="p">;</span> protein_id <span class="s2">"ENSDARP00000138327"</span><span class="p">;</span> protein_version <span class="s2">"1"</span><span class="p">;</span>
+KN150216.1 ensembl five_prime_utr 938 942 <span class="nb">.</span> - <span class="nb">.</span> gene_id <span class="s2">"ENSDARG00000099551"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> transcript_id <span class="s2">"ENSDART00000165750"</span><span class="p">;</span> transcript_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"tgds"</span><span class="p">;</span> gene_source <span class="s2">"ensembl"</span><span class="p">;</span> gene_biotype <span class="s2">"protein_coding"</span><span class="p">;</span> transcript_name <span class="s2">"tgds-201"</span><span class="p">;</span> transcript_source <span class="s2">"ensembl"</span><span class="p">;</span> transcript_biotype <span class="s2">"protein_coding"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>We will make a copy of the GTF file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp </span>Danio_rerio.GRCz10.84.gtf Danio_rerio.GRCz10.84.ercc.gtf
+</code></pre></div></div>
+
+<p>We will create similar GTF file from the ERCC tabular file. Each ERCC sequence is defined as a new chromosome. First we define them as genes with gene_id staring with G followed by the ERCC ID and biotype ‘ercc’. This is written to a file <code class="language-plaintext highlighter-rouge">ercc.gtf</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>cms_095047.txt | <span class="nb">awk</span> <span class="nt">-F</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s2">""</span> <span class="s1">'NR&gt;1{print $1,"\t","ercc","\t","gene","\t","1","\t",length($5),"\t",".","\t","+","\t",".","\t","gene_id \"G",$1,"\"; ","gene_version \"1\"; ", "gene_name \"",$1,"\"; ","gene_source \"ercc\"; ","gene_biotype \"ercc\";"}'</span> <span class="o">&gt;</span> ercc.gtf
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">ercc.gtf</code> now looks like this:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">head </span>ercc.gtf
+<span class="o">&gt;</span>ERCC-00002 ercc gene 1 1062 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00002"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00002"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+ERCC-00003 ercc gene 1 1024 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00003"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00003"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+ERCC-00004 ercc gene 1 524 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00004"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00004"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+ERCC-00009 ercc gene 1 985 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00009"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00009"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+ERCC-00012 ercc gene 1 995 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00012"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00012"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+ERCC-00013 ercc gene 1 809 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00013"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00013"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+ERCC-00014 ercc gene 1 1958 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00014"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00014"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+ERCC-00016 ercc gene 1 845 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00016"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00016"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+ERCC-00017 ercc gene 1 1137 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00017"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00017"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+ERCC-00019 ercc gene 1 645 <span class="nb">.</span> + <span class="nb">.</span> gene_id <span class="s2">"ERCC-00019"</span><span class="p">;</span> gene_version <span class="s2">"1"</span><span class="p">;</span> gene_name <span class="s2">"ERCC-00019"</span><span class="p">;</span> gene_source <span class="s2">"ercc"</span><span class="p">;</span> gene_biotype <span class="s2">"ercc"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">ercc.gtf</code> is appended to the bottom of the copied Zebrafish GTF file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>ercc.gtf <span class="o">&gt;&gt;</span> Danio_rerio.GRCz10.84.ercc.gtf
+</code></pre></div></div>
+
+<h2 id="mapping">Mapping</h2>
+
+<p>We create a genome index as normal. I am using STAR aligner.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>star <span class="se">\</span>
+  <span class="nt">--runMode</span> genomeGenerate <span class="se">\</span>
+  <span class="nt">--runThreadN</span> 8 <span class="se">\</span>
+  <span class="nt">--genomeFastaFiles</span> /home/ngs/raw/Danio_rerio.GRCz10.dna.toplevel.ercc.fa <span class="se">\</span>
+  <span class="nt">--genomeDir</span> /home/ngs/index/starindex-ercc/
+</code></pre></div></div>
+
+<p>And then we map our single-end or paired-end FASTQ files using the new ERCC genome index and ERCC GTF file. Here I have a single-end read gzipped FASTQ file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>star <span class="se">\</span>
+  <span class="nt">--genomeDir</span> <span class="s2">"/home/ngs/index/starindex-ercc/"</span> <span class="se">\</span>
+  <span class="nt">--runThreadN</span> 12 <span class="se">\</span>
+  <span class="nt">--readFilesCommand</span> zcat <span class="se">\</span>
+  <span class="nt">--readFilesIn</span> <span class="s2">"sample01.fq.gz"</span> <span class="se">\</span>
+  <span class="nt">--outSAMtype</span> BAM SortedByCoordinate <span class="se">\</span>
+  <span class="nt">--outFileNamePrefix</span> <span class="s2">"sample01-"</span> <span class="se">\</span>
+  <span class="nt">--sjdbGTFfile</span> <span class="s2">"/home/ngs/raw/Danio_rerio.GRCz10.84.ercc.gtf"</span>
+</code></pre></div></div>
+
+<p>This should produce a BAM file that can be used in the next step.</p>
+
+<h2 id="quantification">Quantification</h2>
+
+<p>The reads can be quantified (read counts) using any of the standard workflows. Reads can be quantified from the BAM files using <a href="http://www-huber.embl.de/users/anders/HTSeq/doc/count.html">HTSeq count</a>, <a href="http://bioinf.wehi.edu.au/featureCounts/">featureCounts</a> etc. or the FASTQ files can be used directly with <a href="https://pachterlab.github.io/kallisto/">KALLISTO</a>. Here I use <a href="http://hartleys.github.io/QoRTs/">QoRTs</a>. QoRTs is a versatile tool for gene and transcript quantification as well as RNA-Seq QC. Chromosome-level counts, gene-level counts, transcript counts, biotype counts and numerous other results can be obtained.</p>
+
+<p>QoRTs can be run as below for single-end reads. Note that <code class="language-plaintext highlighter-rouge">--maxReadLength</code> must be specified for single-end reads. I had to specify <code class="language-plaintext highlighter-rouge">--maxPhredScore</code> because my phred scores exceed the value of 41. <code class="language-plaintext highlighter-rouge">--minMAPQ</code> is used to specify that only uniquely mapped reads must be counted. Max mapping quality (unique mapping) for STAR is the value 200.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-Xmx20G</span> <span class="nt">-jar</span> /home/programs/qorts/qorts-1.1.2.jar QC <span class="se">\</span>
+  <span class="nt">--singleEnded</span> <span class="se">\</span>
+  <span class="nt">--generatePlots</span> <span class="se">\</span>
+  <span class="nt">--generateMultiPlot</span> <span class="se">\</span>
+  <span class="nt">--noGzipOutput</span> <span class="se">\</span>
+  <span class="nt">--verbose</span> <span class="se">\</span>
+  <span class="nt">--maxReadLength</span> 43 <span class="se">\</span>
+  <span class="nt">--minMAPQ</span> 60 <span class="se">\</span>
+  <span class="nt">--maxPhredScore</span> 100 <span class="se">\</span>
+  <span class="s2">"sample01.bam"</span> <span class="se">\</span>
+  <span class="s2">"/home/raw/Danio_rerio.GRCz10.84.ercc.gtf"</span> <span class="se">\</span>
+  <span class="s2">"sample01-qorts"</span>
+</code></pre></div></div>
+
+<p>I have also run featureCounts for comparison.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>subread-1.5.0-p2-Linux-x86_64/bin/featureCounts <span class="se">\</span>
+  <span class="nt">-a</span> <span class="s2">"/home/raw/Danio_rerio.GRCz10.84.ercc.gtf"</span> <span class="se">\</span>
+  <span class="nt">-o</span> <span class="s2">"sample01-featurecounts-gene.txt"</span> <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"GTF"</span> <span class="se">\</span>
+  <span class="nt">-t</span> <span class="s2">"exon"</span> <span class="se">\</span>
+  <span class="nt">-g</span> <span class="s2">"gene_id"</span> <span class="se">\</span>
+  <span class="nt">-M</span> <span class="se">\</span>
+  <span class="nt">-p</span> <span class="se">\</span>
+  <span class="nt">-C</span> <span class="se">\</span>
+  <span class="nt">-B</span> <span class="se">\</span>
+  <span class="nt">-S</span> rf <span class="se">\</span>
+  <span class="nt">-T</span> 6 <span class="se">\</span>
+  <span class="s2">"sample01.bam"</span>
+</code></pre></div></div>
+
+<p>Here are some of gene counts (QC.geneCounts.txt) for Spike-ins from the QoRTs results. The second column contains the counts we are looking for.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GENEID COUNT COUNT_CDS COUNT_UTR COUNT_AMBIG_GENE
+GERCC-00002 2062 0 2062 0
+GERCC-00003 24 0 24 0
+GERCC-00004 411 0 411 0
+GERCC-00009 0 0 0 0
+GERCC-00012 0 0 0 0
+GERCC-00013 0 0 0 0
+GERCC-00014 0 0 0 0
+GERCC-00016 0 0 0 0
+</code></pre></div></div>
+
+<p>And here are some of the gene counts from featureCounts. The last column contains the counts we need.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Geneid Chr Start End Strand Length sample01.bam
+GERCC-00002 ERCC-00002 1 1062 + 1062 2062
+GERCC-00003 ERCC-00003 1 1024 + 1024 24
+GERCC-00004 ERCC-00004 1 524 + 524 413
+GERCC-00009 ERCC-00009 1 985 + 985 0
+GERCC-00012 ERCC-00012 1 995 + 995 0
+GERCC-00013 ERCC-00013 1 809 + 809 0
+GERCC-00014 ERCC-00014 1 1958 + 1958 0
+GERCC-00016 ERCC-00016 1 845 + 845 0
+</code></pre></div></div>
+
+<h2 id="visualisation">Visualisation</h2>
+
+<p>We can confirm that everything has worked and the ERCC sequences are mapping to the custom genome build by inspecting the resulting BAM file. The BAM file can be visualised in a genome browser such as <a href="https://www.broadinstitute.org/igv/">IGV</a>. I am using <a href="http://www.bioinformatics.babraham.ac.uk/projects/seqmonk/">SeqMonk</a>. I created a new genome in SeqMonk using the customised ERCC FASTA genome file and the custom ERCC GTF file. I then imported my BAM file. Below is a preview from SeqMonk.</p>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-20220114233603330362972113063"><a href="/assets/images/posts/2016/2016-09-01-read-counts-of-rna-seq-spike-ins/ercc-overview.png" title="Reads aligned to ERCC 'genes' visualised in SeqMonk. Red bars at top denote ERCC ID. Mapped reads are seen stacked underneath.">
+      <img src="/assets/images/posts/2016/2016-09-01-read-counts-of-rna-seq-spike-ins/ercc-overview.png" alt="ercc-overview" />
+    </a>
+    <figcaption>
+    Reads aligned to ERCC ‘genes’ visualised in SeqMonk. Red bars at top denote ERCC ID. Mapped reads are seen stacked underneath.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-20220114233603330362972113063 a'});
+</script>
+
+<!-- https://stackoverflow.com/questions/7488393/jekyll-liquid-random-numbers -->
+
+<figure class="fig" id="slb-2022011423360333036297298026"><a href="/assets/images/posts/2016/2016-09-01-read-counts-of-rna-seq-spike-ins/ercc-zoom.png" title="Zoomed-in view of the ERCC ID 'ERCC-00003' and the 24 reads mapping to this location.">
+      <img src="/assets/images/posts/2016/2016-09-01-read-counts-of-rna-seq-spike-ins/ercc-zoom.png" alt="ercc-zoom" />
+    </a>
+    <figcaption>
+    Zoomed-in view of the ERCC ID ‘ERCC-00003’ and the 24 reads mapping to this location.
+
+    </figcaption>
+
+  
+
+</figure>
+
+<script type="text/javascript">
+  new SimpleLightbox({elements: '#slb-2022011423360333036297298026 a'});
+</script>
+
+<p>The SeqMonk visualisation adds up well with the read counts from QoRTs and featureCounts. For example, the 24 reads mapping to ERCC-00003. The read counts are now ready to be used in downstream analyses such as differential gene expression using DESeq2, EdgeR or Limma. The ERCC ID counts will be considered just like any other gene.</p>
+
+            </div>
+          </div>
+          <div class="toc-content-child-right">
+            <nav class="toc">
+              <ul class="toc__menu"><li><a href="#genome-file">Genome file</a></li><li><a href="#annotation-file">Annotation file</a></li><li><a href="#mapping">Mapping</a></li><li><a href="#quantification">Quantification</a></li><li><a href="#visualisation">Visualisation</a></li></ul>
+
+            </nav>
+          </div>
+        </div>
+        
+
+        <div>
+          <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+        </div>
+        
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/scotland/" class="pagination--pager" title="Wild road trip through Scotland
+">Previous</a>
+    
+    
+      <a href="/autumn-in-fulufjallet/" class="pagination--pager" title="Autumn in Fulufjället
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+    <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+  <div class="page-related-mx">
+    <h2 class="page__related-title">You may also enjoy</h2>
+    <div class="grid__wrapper">
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-11-07-greece-thessaloniki/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-11-07T00:00:00+01:00">07 Nov 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/greece-thessaloniki/" rel="permalink">Exploring history and culture in Thessaloniki
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A short weekend away in Thessaloniki, Greece.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-09-17-scatterplot-annotation/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-09-17T00:00:00+02:00">17 Sep 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#code" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Code</a><span class="sep">, </span>
+        
+          <a href="/categories/#research" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Research</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/scatterplot-annotation/" rel="permalink">Scatterplot annotation
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">Annotating scatterplots in R. Drawing polygons around point clusters using base functions and R packages ggplot, ggalt and ggforce.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-08-22-sweden-west-coast/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-08-22T00:00:00+02:00">22 Aug 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/sweden-west-coast/" rel="permalink">Exploring the Swedish west coast
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A road trip exploring the west coast of Sweden.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+      
+
+
+
+
+
+<div class="grid__item feed-item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    
+      <div class="archive-featured-small feed-image">
+        <img src=/assets/images/posts/2019/2019-06-30-portugal/featured.jpg alt="featured-image-small" class="archive-featured-image">
+      </div>
+
+      <div class="archive-text">
+        <div class="archive-meta-content">
+  <div class="archive-meta-content-sub">
+    
+    <!-- date -->
+    
+    
+      <span class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> </strong> <time class="dt-published feed-date" datetime="2019-06-30T00:00:00+02:00">30 Jun 2019</time></span>
+    
+
+    <!-- separator-->
+    
+    <span class="separator">
+      •
+    </span>
+    
+
+    <!-- categories -->
+      
+      
+      
+    
+    
+      
+    
+      <span>
+        <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>  </strong>
+        <span itemprop="keywords" class="category-keywords feed-category">
+        
+          <a href="/categories/#photography" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Photography</a><span class="sep">, </span>
+        
+          <a href="/categories/#travel" class="page__taxonomy-item p-category taxonomy-category" rel="tag">Travel</a>
+        
+        </span>
+      </span>
+    
+
+
+      
+      
+  </div>
+</div>
+        <h2 class="archive__item-title no_toc feed-title" itemprop="headline">
+        
+          <a href="/portugal/" rel="permalink">Road trip through Portugal
+</a>
+        
+        </h2>
+        
+
+
+        <p class="archive__item-excerpt feed-excerpt" itemprop="description">A conference and road trip through Portugal.
+</p>
+      </div>
+  </article>
+</div>
+
+      
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<script>
+  document
+    .querySelector('.article-content')
+    .querySelectorAll('pre.highlight')
+    .forEach(function(pre) {
+      var button = document.createElement('button');
+      var copyText = 'Copy';
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.ariaLabel = 'Copy code to clipboard';
+      button.innerText = copyText;
+      button.addEventListener('click', function() {
+        var code = pre.querySelector('code').innerText.trim();
+        navigator.clipboard.writeText(code);
+        button.innerText = 'Copied';
+        setTimeout(function() {
+          button.innerText = copyText;
+        }, 4000);
+      });
+      //pre.appendChild(button);
+      pre.insertBefore(button, pre.firstChild);
+    });
+</script>
+      </div>
+    </div>
+
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015 - 2022 Roy Francis. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66208341-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66208341-1', { 'anonymize_ip': true});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://royfrancis.com/read-counts-of-rna-seq-spike-ins/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/read-counts-of-rna-seq-spike-ins"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://romf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>
