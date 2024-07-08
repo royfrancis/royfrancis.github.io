@@ -8,10 +8,10 @@ on:
 
 jobs:
   github-pages:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-23.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: helaili/jekyll-action@v2
+      - uses: actions/checkout@v4
+      - uses: jeffreytse/jekyll-deploy-action@v0.6.0
         with:
           token: ${{ secrets.TOKEN }}
-          target_branch: 'gh-pages'
+          branch: 'gh-pages'
